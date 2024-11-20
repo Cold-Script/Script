@@ -150,7 +150,47 @@ else
 workspace.FallenPartsDestroyHeight = -50000
 end
 end})
-
+local Alert = Tab.Main:AddLeftGroupbox("Alert")
+local entitynames = {"SeekNewCloneMoving","SeekMoving","DreadMoving","BackdoorLookman","BackdoorRush","GloomPile","Eyes","JeffTheKiller","RushMoving","AmbushMoving","Snare","A60","A120"}
+Alert:AddToggle("MyToggle",{
+Text = "Alert Entity",
+Default = false,
+Callback = function(v)
+if v then
+addconnect = workspace.ChildAdded:Connect(function(v)
+if table.find(entitynames,v.Name) then
+repeat task.wait() until game.Players.LocalPlayer:DistanceFromCharacter(v:GetPivot().Position) < 1000 or not v:IsDescendantOf(workspace)
+if v:IsDescendantOf(workspace) then
+if v.Name == "RushMoving" then
+Alert("Entity 'Rush' has spawn,\nhide in closets now!")
+elseif v.Name == "AmbushMoving" then
+Alert("Entity 'Ambush' has spawn,\nhide in closets now!")
+elseif v.Name == "A60" then
+Alert("Entity 'A60' has spawn,\nhide in a locker!")
+elseif v.Name == "A120" then
+Alert("Entity 'A120' has spawn,\nhide in a locker!")
+elseif v.Name == "JeffTheKiller" then
+Alert("Entity 'JeffTheKiller' has spawn,\ncareful with it!")
+elseif v.Name == "Eyes" then
+Alert("Entity 'Eyes' has spawn,\ndont look at it!")
+elseif v.Name == "GloomPile" then
+Alert("Entity 'GloomPile' has spawn,\noff light to survival!")
+elseif v.Name == "BackdoorRush" then
+Alert("Entity 'Blitz' has spawn,\nhide in closets now!")
+elseif v.Name == "BackdoorLookman" then
+Alert("Entity 'Lookman' has spawn,\nlook under side!")
+elseif v.Name == "SeekMoving" then
+Alert("Seek Chase,\ngoodluck for you in chase!")
+elseif v.Name == "SeekNewCloneMoving" then
+Alert("Seek Chase,\ngoodluck for you in chase!")
+end
+end
+end
+end)
+else
+addconnect:Disconnect()
+end
+end})
 
 
 
