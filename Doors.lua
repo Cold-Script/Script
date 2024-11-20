@@ -12,7 +12,7 @@ local Window = Library:CreateWindow({
 	Resizable = true,
 	ShowCustomCursor = true,
 	TabPadding = 8,
-  NotifySide = "Right",
+        NotifySide = "Right",
 	MenuFadeTime = 0.2
 })
 local Tab = {
@@ -35,18 +35,44 @@ end
 --// Script \\
 local GamePlay = Tab.Main:AddLeftGroupbox("Game-Play")
 GamePlay:AddToggle("MyToggle",{
-Text = "Revive On Death",
+Text = "Auto Revive",
 Default = false,
+Tooltip = "When you die you will revive but its not free\nbut Super then its free.",
 Callback = function(v)
-_G.ReviveOnDeath = v
+_G.AutoRevive = v
 game:GetService("RunService").RenderStepped:Connect(function()
-if game.Players.LocalPlayer.Character.Humanoid.Health == 0 and _G.ReviveOnDeath then
+if game.Players.LocalPlayer.Character.Humanoid.Health == 0 and _G.AutoRevive then
 EntityFolder.Revive:FireServer()
+Alert("Loading,\nAuto Revive")							
 end
 end)
 end})
-
-
+GamePlay:AddToggle("MyToggle",{
+Text = "Auto Lobby",
+Default = false,
+Tooltip = "When you die you will have to return to the Lobby",
+Callback = function(v)
+_G.AutoLobby = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if game.Players.LocalPlayer.Character.Humanoid.Health == 0 and _G.AutoLobby then
+EntityFolder.Revive:FireServer()
+Alert("Loading,\nAuto Lobby")							
+end
+end)
+end})
+GamePlay:AddToggle("MyToggle",{
+Text = "Auto Shutdown",
+Default = false,
+Tooltip = "When you die you will have to shutdown out game",
+Callback = function(v)
+_G.AutoShutdown = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if game.Players.LocalPlayer.Character.Humanoid.Health == 0 and _G.AutoShutdown then
+game:Shutdown()
+Alert("Loading,\nAuto Shutdown")							
+end
+end)
+end})
 
 
 
