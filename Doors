@@ -141,6 +141,16 @@ Default = false,
 Callback = function(v)
 _G.FastCloset = v
 end})
+Miscellaneous:AddToggle("MyToggle",{
+Text = "Disabled Void ROBLOX",
+Default = false,
+Callback = function(v)
+if v then
+workspace.FallenPartsDestroyHeight = 0 / 0
+else
+workspace.FallenPartsDestroyHeight = OldVoid
+end
+end})
 
 
 
