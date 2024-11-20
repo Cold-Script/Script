@@ -27,7 +27,6 @@ local EntityFolder = if not game:GetService("ReplicatedStorage"):WaitForChild("G
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local Character = LocalPlayer.Character
-local Collision = LocalPlayer.Collision
 --// Function \\
 function Alert(text)
 Library:Notify("[ Alert ] : " .. text)
@@ -55,7 +54,7 @@ Callback = function(v)
 _G.AutoLobby = v
 game:GetService("RunService").RenderStepped:Connect(function()
 if game.Players.LocalPlayer.Character.Humanoid.Health == 0 and _G.AutoLobby then
-EntityFolder.Revive:FireServer()
+EntityFolder.Lobby:FireServer()
 Alert("Loading,\nAuto Lobby")							
 end
 end)
