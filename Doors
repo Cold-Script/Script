@@ -73,8 +73,7 @@ game:Shutdown()
 end
 end)
 end})
-GamePlay:AddLabel("")
-local Self = Tabs.Main:AddRightGroupbox("Self")
+local Self = Tab.Main:AddRightGroupbox("Self")
 game:GetService("RunService").RenderStepped:Connect(function()
 pcall(function()
 if _G.OpenDoorFar then game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Door").ClientOpen:FireServer()
@@ -129,7 +128,7 @@ DoubleClick = true,
 Func = function(v)
 game:Shutdown()
 end})
-local Miscellaneous = Tabs.Main:AddLeftGroupbox("Miscellaneous")
+local Miscellaneous = Tab.Main:AddLeftGroupbox("Miscellaneous")
 game.Players.LocalPlayer.Character.Humanoid:GetPropertyChangedSignal("MoveDirection"):Connect(function()
 if _G.FastCloset and game.Players.LocalPlayer.Character:GetAttribute("Hiding")==true then 
 game:GetService("ReplicatedStorage").EntityInfo.CamLock:FireServer()
@@ -148,7 +147,7 @@ Callback = function(v)
 if v then
 workspace.FallenPartsDestroyHeight = 0 / 0
 else
-workspace.FallenPartsDestroyHeight = OldVoid
+workspace.FallenPartsDestroyHeight = -50000
 end
 end})
 
