@@ -67,13 +67,80 @@ Callback = function(v)
 _G.AutoShutdown = v
 game:GetService("RunService").RenderStepped:Connect(function()
 if game.Players.LocalPlayer.Character.Humanoid.Health == 0 and _G.AutoShutdown then
-game:Shutdown()
-Alert("Loading,\nAuto Shutdown")							
+Alert("Loading,\nAuto Shutdown")
+wait(1.5)
+game:Shutdown()							
 end
 end)
 end})
-
-
+GamePlay:AddLabel("")
+local Self = Tabs.Main:AddRightGroupbox("Self")
+game:GetService("RunService").RenderStepped:Connect(function()
+pcall(function()
+if _G.OpenDoorFar then game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Door").ClientOpen:FireServer()
+end 
+end)
+end)
+Self:AddToggle("MyToggle",{
+Text = "Door Reach",
+Default = false,
+Callback = function(v)
+_G.OpenDoorFar = v
+end})
+game:GetService("RunService").RenderStepped:Connect(function()
+pcall(function()
+if _G.FastOpenDoor then game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Door"):SetAttribute("FastOpen", true)
+end 
+end)
+end)
+Self:AddToggle("MyToggle",{
+Text = "Fast Door",
+Default = false,
+Callback = function(v)
+_G.FastOpenDoor = v
+end})
+Self:AddButton({
+Text = "Revive",
+DoubleClick = true,
+Func = function(v)
+EntityFolder.Revive:FireServer()
+end})
+Self:AddButton({
+Text = "Return",
+DoubleClick = true,
+Func = function(v)
+EntityFolder.PlayAgain:FireServer()
+end})
+Self:AddButton({
+Text = "Lobby",
+DoubleClick = true,
+Func = function(v)
+EntityFolder.Lobby:FireServer()
+end})
+Self:AddButton({
+Text = "Died",
+DoubleClick = true,
+Func = function(v)
+game.Players.LocalPlayer.Character.Humanoid.Health = 0
+end})
+Self:AddButton({
+Text = "Shutdown",
+DoubleClick = true,
+Func = function(v)
+game:Shutdown()
+end})
+local Miscellaneous = Tabs.Main:AddLeftGroupbox("Miscellaneous")
+game.Players.LocalPlayer.Character.Humanoid:GetPropertyChangedSignal("MoveDirection"):Connect(function()
+if _G.FastCloset and game.Players.LocalPlayer.Character:GetAttribute("Hiding")==true then 
+game:GetService("ReplicatedStorage").EntityInfo.CamLock:FireServer()
+end 
+end)
+Miscellaneous:AddToggle("MyToggle",{
+Text = "Closet Exit Fix",
+Default = false,
+Callback = function(v)
+_G.FastCloset = v
+end})
 
 
 
