@@ -159,14 +159,15 @@ workspace.FallenPartsDestroyHeight = -50000
 end
 end})
 local Alert = Tab.Main:AddLeftGroupbox("Alert")
-local entitynames = {"SeekNewCloneMoving","SeekMoving","DreadMoving","BackdoorLookman","BackdoorRush","GloomPile","Eyes","JeffTheKiller","RushMoving","AmbushMoving","Snare","A60","A120"}
+local Entity = {"SeekNewCloneMoving","SeekMoving","DreadMoving","BackdoorLookman","BackdoorRush","GloomPile","Eyes","JeffTheKiller","RushMoving","AmbushMoving","Snare","A60","A120"}
 Alert:AddToggle("MyToggle",{
 Text = "Alert Entity",
 Default = false,
 Callback = function(v)
-if v then
+_G.AlertEntity = v
+if _G.AlertEntity then
 addconnect = workspace.ChildAdded:Connect(function(v)
-if table.find(entitynames,v.Name) then
+if table.find(Entity,v.Name) then
 repeat task.wait() until game.Players.LocalPlayer:DistanceFromCharacter(v:GetPivot().Position) < 1000 or not v:IsDescendantOf(workspace)
 if v:IsDescendantOf(workspace) then
 if v.Name == "RushMoving" then
