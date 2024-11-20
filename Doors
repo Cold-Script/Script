@@ -30,6 +30,14 @@ local Character = LocalPlayer.Character
 --// Function \\
 function Alert(text)
 Library:Notify("[ Alert ] : " .. text)
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = 5
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
 end
 --// Script \\
 local GamePlay = Tab.Main:AddLeftGroupbox("Game-Play")
@@ -191,7 +199,13 @@ else
 addconnect:Disconnect()
 end
 end})
-
+Alert:AddToggle("MyToggle",{
+Text = "Sound Alert",
+Default = false,
+Tooltip = "Enabled 'Sound' from Alert",
+Callback = function(v)
+_G.SoundAlert = v
+end})
 
 
 
