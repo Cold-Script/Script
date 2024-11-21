@@ -344,7 +344,6 @@ Callback = function(v)
 game:GetService("RunService").RenderStepped:Connect(function()
 EntityFolder.EBF:FireServer()
 end)
-end
 end})
 Alert:AddToggle("MyToggle",{
 Text = "Complete Padlock Unlock",
