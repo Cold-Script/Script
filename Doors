@@ -383,7 +383,7 @@ Placeholder = 'Select type chat',
 Numeric = false,
 Finished = false,
 Callback = function(v)
-_G.Chat = v
+_G.Chat = v or "!"
 end})
 local Automation = Tab.Main:AddRightGroupbox("Automation")
 Automation:AddToggle("MyToggle",{
