@@ -206,14 +206,6 @@ if _G.AlertInChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Ambush" .. _G.Chat)
 end
 elseif v.Name == "A60" then
-if _G.SoundAlert then
-local Sound = Instance.new("Sound")
-Sound.Parent = game.SoundService
-Sound.SoundId = "rbxassetid://4590657391"
-Sound.Volume = _G.AlertVolume
-Sound.PlayOnRemove = true
-Sound:Destroy()
-end
 Library:Notify("[ Alert ] : Entity 'A60' has spawn,\nhide in a locker!")
 if _G.SoundAlert then
 local Sound = Instance.new("Sound")
