@@ -6,7 +6,7 @@ local Options = getgenv().Linoria.Options
 local Toggles = getgenv().Linoria.Toggles
 
 local Window = Library:CreateWindow({
-	Title = '🎃 YOUHUB - Halloween | Doors Version : 5',
+	Title = '🎃 YOUHUB - Halloween | Doors Version : 5.0.2',
 	Center = true,
 	AutoShow = true,
 	Resizable = true,
@@ -34,7 +34,7 @@ if _G.SoundAlert then
 local Sound = Instance.new("Sound")
 Sound.Parent = game.SoundService
 Sound.SoundId = "rbxassetid://4590657391"
-Sound.Volume = 5
+Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
 end
@@ -91,6 +91,7 @@ end)
 Self:AddToggle("MyToggle",{
 Text = "Door Reach",
 Default = false,
+Tooltip = "Open doors it 'Far' on gameplay"
 Callback = function(v)
 _G.OpenDoorFar = v
 end})
@@ -103,36 +104,42 @@ end)
 Self:AddToggle("MyToggle",{
 Text = "Fast Door",
 Default = false,
+Tooltip = "Open doors it 'Fastter' on gameplay",
 Callback = function(v)
 _G.FastOpenDoor = v
 end})
 Self:AddButton({
 Text = "Revive",
 DoubleClick = true,
+Tooltip = "Press to 'Revive' you (not free),\n--Its free in Super Hard Mode",
 Func = function(v)
 EntityFolder.Revive:FireServer()
 end})
 Self:AddButton({
 Text = "Return",
 DoubleClick = true,
+Tooltip = "Press to 'Next Play' game",
 Func = function(v)
 EntityFolder.PlayAgain:FireServer()
 end})
 Self:AddButton({
 Text = "Lobby",
 DoubleClick = true,
+Tooltip = "Press to return to 'Lobby' of game",
 Func = function(v)
 EntityFolder.Lobby:FireServer()
 end})
 Self:AddButton({
 Text = "Died",
 DoubleClick = true,
+Tooltip = "Press to 'Died' in game",
 Func = function(v)
 game.Players.LocalPlayer.Character.Humanoid.Health = 0
 end})
 Self:AddButton({
 Text = "Shutdown",
 DoubleClick = true,
+Tooltip = "Press to 'Shutdown' game",
 Func = function(v)
 game:Shutdown()
 end})
@@ -145,12 +152,14 @@ end)
 Miscellaneous:AddToggle("MyToggle",{
 Text = "Closet Exit Fix",
 Default = false,
+Tooltip = "Its fixed 'Closets' error",
 Callback = function(v)
 _G.FastCloset = v
 end})
 Miscellaneous:AddToggle("MyToggle",{
 Text = "Disabled Void ROBLOX",
 Default = false,
+Tooltip = "Disabled 'Void' from ROBLOX",
 Callback = function(v)
 if v then
 workspace.FallenPartsDestroyHeight = 0 / 0
@@ -159,38 +168,39 @@ workspace.FallenPartsDestroyHeight = -50000
 end
 end})
 local Alert = Tab.Main:AddLeftGroupbox("Alert")
-local Entity = {"SeekNewCloneMoving","SeekMoving","DreadMoving","BackdoorLookman","BackdoorRush","GloomPile","Eyes","JeffTheKiller","RushMoving","AmbushMoving","Snare","A60","A120"}
 Alert:AddToggle("MyToggle",{
 Text = "Alert Entity",
 Default = false,
+Tooltip = "Alert 'Entity' when it spawn",
 Callback = function(v)
 if v then
+local Entity = {"SeekNewCloneMoving","SeekMoving","BackdoorLookman","BackdoorRush","GloomPile","Eyes","JeffTheKiller","RushMoving","AmbushMoving","Snare","A60","A120"}
 addconnect = workspace.ChildAdded:Connect(function(v)
 if table.find(Entity,v.Name) then
 repeat task.wait() until game.Players.LocalPlayer:DistanceFromCharacter(v:GetPivot().Position) < 1000 or not v:IsDescendantOf(workspace)
 if v:IsDescendantOf(workspace) then
 if v.Name == "RushMoving" then
-Alert("Rush has spawn, hide!")
+Alert("Entity 'Rush' has spawn,\nhide in closets now!")
 elseif v.Name == "AmbushMoving" then
-Alert("Ambush has spawn, hide!")
+Alert("Entity 'Ambush' has spawn,\nhide in closets now!")
 elseif v.Name == "A60" then
-Alert("A60 has spawn, hide!")
+Alert("Entity 'A60' has spawn,\nhide in a locker!")
 elseif v.Name == "A120" then
-Alert("A120 has spawn, hide!")
+Alert("Entity 'A120' has spawn,\nhide in a locker!")
 elseif v.Name == "JeffTheKiller" then
-Alert("Jeff The Killer has spawn, careful!")
+Alert("Entity 'JeffTheKiller' has spawn,\ncareful with it!")
 elseif v.Name == "Eyes" then
-Alert("Eyes has spawn, dont look at it!")
+Alert("Entity 'Eyes' has spawn,\ndont look at it!")
 elseif v.Name == "GloomPile" then
-Alert("GloomPile has spawn, off light!")
+Alert("Entity 'GloomPile' has spawn,\noff light to survival!")
 elseif v.Name == "BackdoorRush" then
-Alert("Blitz has spawn, hide!")
+Alert("Entity 'Blitz' has spawn,\nhide in closets now!")
 elseif v.Name == "BackdoorLookman" then
-Alert("Lookman has spawn, look under side!")
+Alert("Entity 'Lookman' has spawn,\nlook under side!")
 elseif v.Name == "SeekMoving" then
-Alert("Seek Chase, goodluck!")
+Alert("Seek Chase,\ngoodluck for you in chase!")
 elseif v.Name == "SeekNewCloneMoving" then
-Alert("Seek Chase, goodluck!")
+Alert("Seek Chase,\ngoodluck for you in chase!")
 end
 end
 end
@@ -198,6 +208,15 @@ end)
 else
 addconnect:Disconnect()
 end
+end})
+Alert:AddSlider("MyToggle",{
+Text = "Alert Volume",
+Default = 5,
+Min = 1,
+Max = 5,
+Tooltip = "Select 'Volume' from Alert",
+Callback = function(v)
+_G.AlertVolume = v
 end})
 Alert:AddToggle("MyToggle",{
 Text = "Sound Alert",
