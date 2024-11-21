@@ -28,6 +28,7 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local Character = LocalPlayer.Character
 --// Function \\
+_G.AlertVolume = 5
 local function Alert(text)
 Library:Notify("[ Alert ] : " .. text, _G.AlertTime or 3)
 if _G.SoundAlert then
@@ -188,8 +189,7 @@ Sound.SoundId = "rbxassetid://4590657391"
 Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
-end
-if _G.AlertInChat then
+elseif _G.AlertInChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Rush" .. _G.Chat)
 end
 elseif v.Name == "AmbushMoving" then
@@ -201,8 +201,7 @@ Sound.SoundId = "rbxassetid://4590657391"
 Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
-end
-if _G.AlertInChat then
+elseif _G.AlertInChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Ambush" .. _G.Chat)
 end
 elseif v.Name == "A60" then
@@ -214,8 +213,7 @@ Sound.SoundId = "rbxassetid://4590657391"
 Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
-end
-if _G.AlertInChat then
+elseif _G.AlertInChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("A60" .. _G.Chat)
 end
 elseif v.Name == "A120" then
@@ -227,8 +225,7 @@ Sound.SoundId = "rbxassetid://4590657391"
 Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
-end
-if _G.AlertInChat then
+elseif _G.AlertInChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("A120" .. _G.Chat)
 end
 elseif v.Name == "JeffTheKiller" then
@@ -240,8 +237,7 @@ Sound.SoundId = "rbxassetid://4590657391"
 Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
-end
-if _G.AlertInChat then
+elseif _G.AlertInChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Jeff" .. _G.Chat)
 end
 elseif v.Name == "Eyes" then
@@ -253,8 +249,7 @@ Sound.SoundId = "rbxassetid://4590657391"
 Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
-end
-if _G.AlertInChat then
+elseif _G.AlertInChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Eyes" .. _G.Chat)
 end
 elseif v.Name == "GloomPile" then
@@ -266,8 +261,7 @@ Sound.SoundId = "rbxassetid://4590657391"
 Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
-end
-if _G.AlertInChat then
+elseif _G.AlertInChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("GloomPile" .. _G.Chat)
 end
 elseif v.Name == "BackdoorRush" then
@@ -279,8 +273,7 @@ Sound.SoundId = "rbxassetid://4590657391"
 Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
-end
-if _G.AlertInChat then
+elseif _G.AlertInChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Blitz" .. _G.Chat)
 end
 elseif v.Name == "BackdoorLookman" then
@@ -292,8 +285,7 @@ Sound.SoundId = "rbxassetid://4590657391"
 Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
-end
-if _G.AlertInChat then
+elseif _G.AlertInChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Lookman" .. _G.Chat)
 end
 elseif v.Name == "SeekMoving" then
@@ -305,8 +297,7 @@ Sound.SoundId = "rbxassetid://4590657391"
 Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
-end
-if _G.AlertInChat then
+elseif _G.AlertInChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Seek chase" .. _G.Chat)
 end
 elseif v.Name == "SeekNewCloneMoving" then
@@ -318,8 +309,7 @@ Sound.SoundId = "rbxassetid://4590657391"
 Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
-end
-if _G.AlertInChat then
+elseif _G.AlertInChat then
 game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Seek chase" .. _G.Chat)
 end
 end
@@ -347,7 +337,7 @@ Tooltip = "Select 'Volume' from Alert",
 Compact = true,
 Rounding = 1,
 Callback = function(v)
-_G.AlertVolume = v or 5
+_G.AlertVolume = v
 end})
 Alert:AddSlider("MyToggle",{
 Text = "Alert Time",
@@ -455,8 +445,204 @@ end
 end
 end
 end})
-
-
+Automation:AddDivider()
+Automation:AddToggle("MyToggle",{
+Text = "Auto Interact",
+Default = false,
+Tooltip = "Auto 'Interact'",
+Callback = function(v)
+_G.AutoLoot = v
+if v then
+local function setup(room)
+local function check(v)
+if v:IsA("Model") then
+if v.Name == "DrawerContainer" then
+local knob = v:WaitForChild("Knobs")
+if knob then
+local prompt = knob:WaitForChild("ActivateEventPrompt")
+local interactions = prompt:GetAttribute("Interactions")
+if not interactions then
+task.spawn(function()
+repeat task.wait(0.2)
+if game.Players.LocalPlayer:DistanceFromCharacter(knob.Position) <= 12 then
+fireproximityprompt(prompt)
+end
+until prompt:GetAttribute("Interactions") or not _G.AutoLoot
+end)
+end
+end
+elseif v.Name == "GoldPile" then
+local prompt = v:WaitForChild("LootPrompt")
+local interactions = prompt:GetAttribute("Interactions")
+if not interactions then
+task.spawn(function()
+repeat task.wait(0.2)
+if game.Players.LocalPlayer:DistanceFromCharacter(v.PrimaryPart.Position) <= 12 then
+fireproximityprompt(prompt) 
+end
+until prompt:GetAttribute("Interactions") or not _G.AutoLoot
+end)
+end
+elseif v.Name == "Door" then
+local prompt = v:WaitForChild("Lock"):WaitForChild("UnlockPrompt")
+local interactions = prompt:GetAttribute("Interactions")
+if not interactions then
+task.spawn(function()
+repeat task.wait(0.2)
+if game.Players.LocalPlayer:DistanceFromCharacter(v.PrimaryPart.Position) <= 12 then
+fireproximityprompt(prompt) 
+end
+until prompt:GetAttribute("Interactions") or not _G.AutoLoot
+end)
+end
+elseif v.Name == "Candy" then
+local prompt = v:WaitForChild("ModulePrompt")
+local interactions = prompt:GetAttribute("Interactions")
+if not interactions then
+task.spawn(function()
+repeat task.wait(0.2)
+if game.Players.LocalPlayer:DistanceFromCharacter(v.PrimaryPart.Position) <= 12 then
+fireproximityprompt(prompt) 
+end
+until prompt:GetAttribute("Interactions") or not _G.AutoLoot
+end)
+end
+elseif v.Name == "Bandage" then
+local prompt = v:WaitForChild("ModulePrompt")
+local interactions = prompt:GetAttribute("Interactions")
+if not interactions then
+task.spawn(function()
+repeat task.wait(0.2)
+if game.Players.LocalPlayer:DistanceFromCharacter(v.PrimaryPart.Position) <= 12 then
+fireproximityprompt(prompt) 
+end
+until prompt:GetAttribute("Interactions") or not _G.AutoLoot
+end)
+end
+elseif v.Name == "KeyObtain" then
+local prompt = v:WaitForChild("ModulePrompt")
+local interactions = prompt:GetAttribute("Interactions")
+if not interactions then
+task.spawn(function()
+repeat task.wait(0.2)
+if game.Players.LocalPlayer:DistanceFromCharacter(v.PrimaryPart.Position) <= 12 then
+fireproximityprompt(prompt) 
+end
+until prompt:GetAttribute("Interactions") or not _G.AutoLoot
+end)
+end
+elseif v.Name == "LiveHintBook" then
+local prompt = v:WaitForChild("ModulePrompt")
+local interactions = prompt:GetAttribute("Interactions")
+if not interactions then
+task.spawn(function()
+repeat task.wait(0.2)
+if game.Players.LocalPlayer:DistanceFromCharacter(v.PrimaryPart.Position) <= 12 then
+fireproximityprompt(prompt) 
+end
+until prompt:GetAttribute("Interactions") or not _G.AutoLoot
+end)
+end
+elseif v.Name == "LiveBreakerPolePickup" then
+local prompt = v:WaitForChild("ModulePrompt")
+local interactions = prompt:GetAttribute("Interactions")
+if not interactions then
+task.spawn(function()
+repeat task.wait(0.2)
+if game.Players.LocalPlayer:DistanceFromCharacter(v.PrimaryPart.Position) <= 12 then
+fireproximityprompt(prompt) 
+end
+until prompt:GetAttribute("Interactions") or not _G.AutoLoot
+end)
+end
+elseif v.Name == "FuseObtain" then
+local prompt = v:WaitForChild("Fuse"):WaitForChild("ModulePrompt")
+local interactions = prompt:GetAttribute("Interactions")
+if not interactions then
+task.spawn(function()
+repeat task.wait(0.2)
+if game.Players.LocalPlayer:DistanceFromCharacter(v.PrimaryPart.Position) <= 12 then
+fireproximityprompt(prompt) 
+end
+until prompt:GetAttribute("Interactions") or not _G.AutoLoot
+end)
+end
+elseif v.Name == "MinesGateButton" then
+local prompt = v:WaitForChild("Button"):WaitForChild("ModulePrompt")
+local interactions = prompt:GetAttribute("Interactions")
+if not interactions then
+task.spawn(function()
+repeat task.wait(0.2)
+if game.Players.LocalPlayer:DistanceFromCharacter(v.PrimaryPart.Position) <= 12 then
+fireproximityprompt(prompt) 
+end
+until prompt:GetAttribute("Interactions") or not _G.AutoLoot
+end)
+end
+elseif v.Name == "Locker_Small" then
+local prompt = v:WaitForChild("Door"):WaitForChild("ActivateEventPrompt")
+local interactions = prompt:GetAttribute("Interactions")
+if not interactions then
+task.spawn(function()
+repeat task.wait(0.2)
+if game.Players.LocalPlayer:DistanceFromCharacter(v.PrimaryPart.Position) <= 12 then
+fireproximityprompt(prompt) 
+end
+until prompt:GetAttribute("Interactions") or not _G.AutoLoot
+end)
+end
+elseif v.Name:sub(1,8) == "ChestBox" then
+local prompt = v:WaitForChild("ActivateEventPrompt")
+local interactions = prompt:GetAttribute("Interactions")
+if not interactions then
+task.spawn(function()
+repeat task.wait(0.2)
+if game.Players.LocalPlayer:DistanceFromCharacter(v.PrimaryPart.Position) <= 12 then
+fireproximityprompt(prompt)
+end
+until prompt:GetAttribute("Interactions") or not _G.AutoLoot
+end)
+end
+elseif v.Name == "RolltopContainer" then
+local prompt = v:WaitForChild("ActivateEventPrompt")
+local interactions = prompt:GetAttribute("Interactions")                       
+if not interactions then
+task.spawn(function()
+repeat task.wait(0.1)
+if game.Players.LocalPlayer:DistanceFromCharacter(v.PrimaryPart.Position) <= 12 then
+fireproximityprompt(prompt)
+end
+until prompt:GetAttribute("Interactions") or not _G.AutoLoot
+end)
+end
+end 
+end
+end
+local subaddcon
+subaddcon = room.DescendantAdded:Connect(function(v)
+check(v) 
+end)            
+for i,v in pairs(room:GetDescendants()) do
+check(v)
+end            
+task.spawn(function()
+repeat task.wait() until not _G.AutoLoot
+subaddcon:Disconnect() 
+end)
+end        
+local addconnect
+addconnect = workspace.CurrentRooms.ChildAdded:Connect(function(room)
+setup(room)
+end)        
+for i,room in pairs(workspace.CurrentRooms:GetChildren()) do
+if room:FindFirstChild("Assets") then
+setup(room) 
+end
+end        
+repeat task.wait() until not _G.AutoLoot
+addconnect:Disconnect()
+end
+end})
 
 
 
