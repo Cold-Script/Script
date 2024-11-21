@@ -23,7 +23,7 @@ local Tab = {
   Configs = Window:AddTab("Configs")
 }
 --// Local Service \\
-local EntityFolder = if not game:GetService("ReplicatedStorage"):WaitForChild("GameData"):WaitForChild("Floor").Value == "Fools" then game:GetService("ReplicatedStorage"):WaitForChild("RemotesFolder") else game:GetService("ReplicatedStorage"):WaitForChild("EntityInfo")
+local EntityFolder = game:GetService("ReplicatedStorage"):WaitForChild("RemotesFolder")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local Character = LocalPlayer.Character
@@ -189,6 +189,9 @@ Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
 end
+if _G.AlertInChat then
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Rush" .. _G.Chat)
+end
 elseif v.Name == "AmbushMoving" then
 Library:Notify("[ Alert ] : Entity 'Ambush' has spawn,\nhide in closets now!")
 if _G.SoundAlert then
@@ -198,6 +201,9 @@ Sound.SoundId = "rbxassetid://4590657391"
 Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
+end
+if _G.AlertInChat then
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Ambush" .. _G.Chat)
 end
 elseif v.Name == "A60" then
 if _G.SoundAlert then
@@ -217,6 +223,9 @@ Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
 end
+if _G.AlertInChat then
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("A60" .. _G.Chat)
+end
 elseif v.Name == "A120" then
 Library:Notify("[ Alert ] : Entity 'A120' has spawn,\nhide in a locker!")
 if _G.SoundAlert then
@@ -226,6 +235,9 @@ Sound.SoundId = "rbxassetid://4590657391"
 Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
+end
+if _G.AlertInChat then
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("A120" .. _G.Chat)
 end
 elseif v.Name == "JeffTheKiller" then
 Library:Notify("[ Alert ] : Entity 'JeffTheKiller' has spawn,\ncareful with it!")
@@ -237,6 +249,9 @@ Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
 end
+if _G.AlertInChat then
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Jeff" .. _G.Chat)
+end
 elseif v.Name == "Eyes" then
 Library:Notify("[ Alert ] : Entity 'Eyes' has spawn,\ndont look at it!")
 if _G.SoundAlert then
@@ -246,6 +261,9 @@ Sound.SoundId = "rbxassetid://4590657391"
 Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
+end
+if _G.AlertInChat then
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Eyes", .. _G.Chat)
 end
 elseif v.Name == "GloomPile" then
 Library:Notify("[ Alert ] : Entity 'GloomPile' has spawn,\noff light to survival!")
@@ -257,6 +275,9 @@ Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
 end
+if _G.AlertInChat then
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("GloomPile" .. _G.Chat)
+end
 elseif v.Name == "BackdoorRush" then
 Library:Notify("[ Alert ] : Entity 'Blitz' has spawn,\nhide in closets now!")
 if _G.SoundAlert then
@@ -266,6 +287,9 @@ Sound.SoundId = "rbxassetid://4590657391"
 Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
+end
+if _G.AlertInChat then
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Blitz" .. _G.Chat)
 end
 elseif v.Name == "BackdoorLookman" then
 Library:Notify("[ Alert ] : Entity 'Lookman' has spawn,\nlook under side!")
@@ -277,6 +301,9 @@ Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
 end
+if _G.AlertInChat then
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Lookman" .. _G.Chat)
+end
 elseif v.Name == "SeekMoving" then
 Library:Notify("[ Alert ] : Seek Chase,\ngoodluck for you in chase!")
 if _G.SoundAlert then
@@ -287,6 +314,9 @@ Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
 end
+if _G.AlertInChat then
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Seek chase" .. _G.Chat)
+end
 elseif v.Name == "SeekNewCloneMoving" then
 Library:Notify("[ Alert ] : Seek Chase,\ngoodluck for you in chase!")
 if _G.SoundAlert then
@@ -296,6 +326,9 @@ Sound.SoundId = "rbxassetid://4590657391"
 Sound.Volume = _G.AlertVolume
 Sound.PlayOnRemove = true
 Sound:Destroy()
+end
+if _G.AlertInChat then
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Seek chase" .. _G.Chat)
 end
 end
 end
@@ -334,6 +367,23 @@ Compact = true,
 Rounding = 1,
 Callback = function(v)
 _G.AlertTime = v
+end})
+Alert:AddDivider()
+Alert:AddToggle("MyToggle",{
+Text = "Alert in chat",
+Default = false,
+Tooltip = "Alert 'entity' from chat",
+Callback = function(v)
+_G.AlertInChat = v
+end})
+Alert:AddInput("MyInput",{
+Text = "Type chat",
+Default = "!",
+Placeholder = 'Select type chat',
+Numeric = false,
+Finished = false,
+Callback = function(v)
+_G.Chat = v
 end})
 local Automation = Tab.Main:AddRightGroupbox("Automation")
 Automation:AddToggle("MyToggle",{
