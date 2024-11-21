@@ -354,7 +354,7 @@ Callback = function(v)
 local Floor = game:GetService("ReplicatedStorage").GameData.Floor
 local Paper = workspace:FindFirstChild("LibraryHintPaper",true) or workspace:FindFirstChild("LibraryHintPaperHard",true) or Players:FindFirstChild("LibraryHintPaper",true) or Players:FindFirstChild("LibraryHintPaperHard",true)
 if not Paper then
-Library:Notify("Someone needs to have the Hint Paper to use this.")
+Library:Notify("[ Alarm ] : Someone needs to have the Hint Paper to use this.")
 return
 end
 local HintsNeeded = Floor.Value == "Fools" and 8 or 3
@@ -389,31 +389,31 @@ end
 end
 table.insert(t,Number)
 end
-        for one=0,t[1]==-1 and 9 or 0 do
-            for two=0,t[2]==-1 and 9 or 0 do
-                for three=0,t[3]==-1 and 9 or 0 do
-                    for four=0,t[4]==-1 and 9 or 0 do
-                        for five=0,t[5]==-1 and 9 or 0 do
-                            if Floor.Value == "Fools" then
-                                for six=0,t[6]==-1 and 9 or 0 do
-                                    for seven=0,t[7]==-1 and 9 or 0 do
-                                        for eight=0,t[8]==-1 and 9 or 0 do
-                                            for nine=0,t[9]==-1 and 9 or 0 do
-                                                for ten=0,t[10]==-1 and 9 or 0 do
-                                                    EntityFolder.PL:FireServer((t[1]==-1 and one or t[1])..(t[2]==-1 and two or t[2])..(t[3]==-1 and three or t[3])..(t[4]==-1 and four or t[4])..(t[5]==-1 and five or t[5])..(t[6]==-1 and six or t[6])..(t[7]==-1 and seven or t[7])..(t[8]==-1 and eight or t[8])..(t[9]==-1 and nine or t[9])..(t[10]==-1 and ten or t[10]))
-                                                end
-                                            end
-                                        end
-                                    end
-                                end
-                            else
-                                EntityFolder.PL:FireServer((t[1]==-1 and one or t[1])..(t[2]==-1 and two or t[2])..(t[3]==-1 and three or t[3])..(t[4]==-1 and four or t[4])..(t[5]==-1 and five or t[5]))
-                            end
-                        end
-                    end
-                end
-           end
-      end
+for one=0,t[1]==-1 and 9 or 0 do
+for two=0,t[2]==-1 and 9 or 0 do
+for three=0,t[3]==-1 and 9 or 0 do
+for four=0,t[4]==-1 and 9 or 0 do
+for five=0,t[5]==-1 and 9 or 0 do
+if Floor.Value == "Fools" then
+for six=0,t[6]==-1 and 9 or 0 do
+for seven=0,t[7]==-1 and 9 or 0 do
+for eight=0,t[8]==-1 and 9 or 0 do
+for nine=0,t[9]==-1 and 9 or 0 do
+for ten=0,t[10]==-1 and 9 or 0 do
+EntityFolder.PL:FireServer((t[1]==-1 and one or t[1])..(t[2]==-1 and two or t[2])..(t[3]==-1 and three or t[3])..(t[4]==-1 and four or t[4])..(t[5]==-1 and five or t[5])..(t[6]==-1 and six or t[6])..(t[7]==-1 and seven or t[7])..(t[8]==-1 and eight or t[8])..(t[9]==-1 and nine or t[9])..(t[10]==-1 and ten or t[10]))
+end
+end
+end
+end
+end
+else
+EntityFolder.PL:FireServer((t[1]==-1 and one or t[1])..(t[2]==-1 and two or t[2])..(t[3]==-1 and three or t[3])..(t[4]==-1 and four or t[4])..(t[5]==-1 and five or t[5]))
+end
+end
+end
+end
+end
+end
 end})
 
 
