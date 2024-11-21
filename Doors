@@ -28,8 +28,8 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local Character = LocalPlayer.Character
 --// Function \\
-function Alert(text)
-Library:Notify("[ Alert ] : " .. text)
+local function Alert(text)
+Library:Notify("[ Alert ] : " .. text, _G.AlertTime or 3)
 if _G.SoundAlert then
 local Sound = Instance.new("Sound")
 Sound.Parent = game.SoundService
@@ -164,34 +164,33 @@ Alert:AddToggle("MyToggle",{
 Text = "Alert Entity",
 Default = false,
 Callback = function(v)
-_G.AlertEntity = v
-if _G.AlertEntity then
+if v then
 addconnect = workspace.ChildAdded:Connect(function(v)
 if table.find(Entity,v.Name) then
 repeat task.wait() until game.Players.LocalPlayer:DistanceFromCharacter(v:GetPivot().Position) < 1000 or not v:IsDescendantOf(workspace)
 if v:IsDescendantOf(workspace) then
 if v.Name == "RushMoving" then
-Alert("Entity Rush has spawn,\nhide in closets now!")
+Alert("Rush has spawn, hide!")
 elseif v.Name == "AmbushMoving" then
-Alert("Entity Ambush has spawn,\nhide in closets now!")
+Alert("Ambush has spawn, hide!")
 elseif v.Name == "A60" then
-Alert("Entity A60 has spawn,\nhide in a locker!")
+Alert("A60 has spawn, hide!")
 elseif v.Name == "A120" then
-Alert("Entity A120 has spawn,\nhide in a locker!")
+Alert("A120 has spawn, hide!")
 elseif v.Name == "JeffTheKiller" then
-Alert("Entity JeffTheKiller has spawn,\ncareful with it!")
+Alert("Jeff The Killer has spawn, careful!")
 elseif v.Name == "Eyes" then
-Alert("Entity Eyes has spawn,\ndont look at it!")
+Alert("Eyes has spawn, dont look at it!")
 elseif v.Name == "GloomPile" then
-Alert("Entity GloomPile has spawn,\noff light to survival!")
+Alert("GloomPile has spawn, off light!")
 elseif v.Name == "BackdoorRush" then
-Alert("Entity Blitz has spawn,\nhide in closets now!")
+Alert("Blitz has spawn, hide!")
 elseif v.Name == "BackdoorLookman" then
-Alert("Entity Lookman has spawn,\nlook under side!")
+Alert("Lookman has spawn, look under side!")
 elseif v.Name == "SeekMoving" then
-Alert("Seek Chase,\ngoodluck for you in chase!")
+Alert("Seek Chase, goodluck!")
 elseif v.Name == "SeekNewCloneMoving" then
-Alert("Seek Chase,\ngoodluck for you in chase!")
+Alert("Seek Chase, goodluck!")
 end
 end
 end
@@ -209,10 +208,12 @@ _G.SoundAlert = v
 end})
 Alert:AddSlider("MyToggle",{
 Text = "Alert Time",
-Default = false,
+Default = 3,
+Min = 3,
+Max = 5,
 Tooltip = "Select 'time' from Alert",
 Callback = function(v)
-_G.SoundAlert = v
+_G.AlertTime = v
 end})
 
 
