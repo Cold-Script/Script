@@ -91,7 +91,7 @@ end)
 Self:AddToggle("MyToggle",{
 Text = "Door Reach",
 Default = false,
-Tooltip = "Open doors it 'Far' on gameplay"
+Tooltip = "Open doors it 'Far' on gameplay",
 Callback = function(v)
 _G.OpenDoorFar = v
 end})
@@ -180,27 +180,123 @@ if table.find(Entity,v.Name) then
 repeat task.wait() until game.Players.LocalPlayer:DistanceFromCharacter(v:GetPivot().Position) < 1000 or not v:IsDescendantOf(workspace)
 if v:IsDescendantOf(workspace) then
 if v.Name == "RushMoving" then
-Alert("Entity 'Rush' has spawn,\nhide in closets now!")
+Library:Notify("[ Alert ] : Entity 'Rush' has spawn,\nhide in closets now!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
 elseif v.Name == "AmbushMoving" then
-Alert("Entity 'Ambush' has spawn,\nhide in closets now!")
+Library:Notify("[ Alert ] : Entity 'Ambush' has spawn,\nhide in closets now!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
 elseif v.Name == "A60" then
-Alert("Entity 'A60' has spawn,\nhide in a locker!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+Library:Notify("[ Alert ] : Entity 'A60' has spawn,\nhide in a locker!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
 elseif v.Name == "A120" then
-Alert("Entity 'A120' has spawn,\nhide in a locker!")
+Library:Notify("[ Alert ] : Entity 'A120' has spawn,\nhide in a locker!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
 elseif v.Name == "JeffTheKiller" then
-Alert("Entity 'JeffTheKiller' has spawn,\ncareful with it!")
+Library:Notify("[ Alert ] : Entity 'JeffTheKiller' has spawn,\ncareful with it!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
 elseif v.Name == "Eyes" then
-Alert("Entity 'Eyes' has spawn,\ndont look at it!")
+Library:Notify("[ Alert ] : Entity 'Eyes' has spawn,\ndont look at it!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
 elseif v.Name == "GloomPile" then
-Alert("Entity 'GloomPile' has spawn,\noff light to survival!")
+Library:Notify("[ Alert ] : Entity 'GloomPile' has spawn,\noff light to survival!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
 elseif v.Name == "BackdoorRush" then
-Alert("Entity 'Blitz' has spawn,\nhide in closets now!")
+Library:Notify("[ Alert ] : Entity 'Blitz' has spawn,\nhide in closets now!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
 elseif v.Name == "BackdoorLookman" then
-Alert("Entity 'Lookman' has spawn,\nlook under side!")
+Library:Notify("[ Alert ] : Entity 'Lookman' has spawn,\nlook under side!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
 elseif v.Name == "SeekMoving" then
-Alert("Seek Chase,\ngoodluck for you in chase!")
+Library:Notify("[ Alert ] : Seek Chase,\ngoodluck for you in chase!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
 elseif v.Name == "SeekNewCloneMoving" then
-Alert("Seek Chase,\ngoodluck for you in chase!")
+Library:Notify("[ Alert ] : Seek Chase,\ngoodluck for you in chase!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
 end
 end
 end
@@ -209,15 +305,6 @@ else
 addconnect:Disconnect()
 end
 end})
-Alert:AddSlider("MyToggle",{
-Text = "Alert Volume",
-Default = 5,
-Min = 1,
-Max = 5,
-Tooltip = "Select 'Volume' from Alert",
-Callback = function(v)
-_G.AlertVolume = v
-end})
 Alert:AddToggle("MyToggle",{
 Text = "Sound Alert",
 Default = false,
@@ -225,12 +312,26 @@ Tooltip = "Enabled 'Sound' from Alert",
 Callback = function(v)
 _G.SoundAlert = v
 end})
+Alert:AddDivider()
+Alert:AddSlider("MyToggle",{
+Text = "Alert Volume",
+Default = 5,
+Min = 1,
+Max = 5,
+Tooltip = "Select 'Volume' from Alert",
+Compact = true,
+Rounding = 1,
+Callback = function(v)
+_G.AlertVolume = v
+end})
 Alert:AddSlider("MyToggle",{
 Text = "Alert Time",
 Default = 3,
 Min = 3,
 Max = 5,
 Tooltip = "Select 'time' from Alert",
+Compact = true,
+Rounding = 1,
 Callback = function(v)
 _G.AlertTime = v
 end})
