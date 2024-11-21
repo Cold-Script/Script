@@ -255,7 +255,7 @@ Sound.PlayOnRemove = true
 Sound:Destroy()
 end
 if _G.AlertInChat then
-game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Eyes", .. _G.Chat)
+game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("Eyes" .. _G.Chat)
 end
 elseif v.Name == "GloomPile" then
 Library:Notify("[ Alert ] : Entity 'GloomPile' has spawn,\noff light to survival!")
@@ -366,7 +366,7 @@ Text = "Alert in chat",
 Default = false,
 Tooltip = "Alert 'entity' from chat",
 Callback = function(v)
-_G.AlertInChat = v
+_G.AlertInChat = v or false
 end})
 Alert:AddInput("MyInput",{
 Text = "Type chat",
