@@ -799,11 +799,14 @@ Text = "Removal-Halt",
 Default = false,
 Tooltip = "Remove 'Halt'",
 Callback = function(v)
-if v then
+_G.AntiHalt = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.AntiHalt then
 game:GetService("ReplicatedStorage").ClientModules.EntityModules.Shade.Parent = game.Workspace
 else
 game.Workspace.Shade.Parent = game:GetService("ReplicatedStorage").ClientModules.EntityModules
 end
+end)
 end})
 game:GetService("RunService").RenderStepped:Connect(function()
 if _G.SeekChase then
@@ -837,4 +840,22 @@ Default = false,
 Tooltip = "Remove 'Scene Minecart'",
 Callback = function(v)
 _G.RemovalMinecart = v
+end})
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.RemovalHangingHalloweenDecor then
+if game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets"):FindFirstChild("HangingHalloweenDecor") then
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets"):GetDescendants()) do 
+if v:IsA("Model") and v.Name == "HangingHalloweenDecor" then 
+v:Destroy()
+end 
+end 
+end 
+end 
+end)
+RemoveEntity:AddToggle("MyToggle",{
+Text = "Removal-Bat Hang",
+Default = false,
+Tooltip = "Remove 'Bat Hang'",
+Callback = function(v)
+_G.RemovalHangingHalloweenDecor = v
 end})
