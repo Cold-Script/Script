@@ -918,3 +918,27 @@ else
 _G.BypassTime = 2
 end
 end})
+Bypass:AddDivider()
+Bypass:AddSlider("MyToggle",{
+Text = "Max Greed Bypass",
+Default = 0,
+Min = 0,
+Max = 5,
+Tooltip = "Select 'Get Gold' from Greed",
+Compact = true,
+Rounding = 1,
+Callback = function(v)
+_G.MaxGreedCore = v
+end})
+RemoveEntity:AddToggle("MyToggle",{
+Text = "Greed bypass",
+Default = false,
+Tooltip = "Enabled 'GreedBypass'",
+Callback = function(v)
+_G.MaxGreed = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.MaxGreed then
+game.Players.LocalPlayer:SetAttribute("Greed", _G.MaxGreedCore)
+end
+end)
+end})
