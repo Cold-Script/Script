@@ -843,8 +843,8 @@ _G.RemovalMinecart = v
 end})
 game:GetService("RunService").RenderStepped:Connect(function()
 if _G.RemovalHangingHalloweenDecor then
-if game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets"):FindFirstChild("HangingHalloweenDecor") then
-for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets"):GetDescendants()) do 
+if game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:FindFirstChild("HangingHalloweenDecor") then
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do 
 if v:IsA("Model") and v.Name == "HangingHalloweenDecor" then 
 v:Destroy()
 end 
