@@ -27,6 +27,7 @@ local EntityFolder = game:GetService("ReplicatedStorage"):WaitForChild("RemotesF
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local Character = LocalPlayer.Character
+local Humanoid = Character.Humanoid
 --// Function \\
 _G.AlertVolume = 5
 local function Alert(text)
@@ -841,21 +842,79 @@ Tooltip = "Remove 'Scene Minecart'",
 Callback = function(v)
 _G.RemovalMinecart = v
 end})
-game:GetService("RunService").RenderStepped:Connect(function()
-if _G.RemovalHangingHalloweenDecor then
-if game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:FindFirstChild("HangingHalloweenDecor") then
-for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do 
-if v:IsA("Model") and v.Name == "HangingHalloweenDecor" then 
-v:Destroy()
-end 
-end 
-end 
-end 
-end)
 RemoveEntity:AddToggle("MyToggle",{
 Text = "Removal-Bat Hang",
 Default = false,
 Tooltip = "Remove 'Bat Hang'",
 Callback = function(v)
-_G.RemovalHangingHalloweenDecor = v
+if v then
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
+if v:IsA("Model") and v.Name == "HangingHalloweenDecor" then
+v:Destroy()
+end
+end
+NoBat = workspace.ChildAdded:Connect(function(v)
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
+if v:IsA("Model") and v.Name == "HangingHalloweenDecor" then
+v:Destroy()
+end
+end
+end)
+else
+NoBat:Disconnect()
+end
+end})
+local Bypass = Tab.Exploit:AddRightGroupbox("Bypass")
+local speedBoost, speedBoostFinished, speed = 30, false, false
+if bypass then
+if collisionClone then collisionClone:Destroy() end
+speed = true       
+local originalSpeed = SpeedBypass
+repeat task.wait()
+if not SpeedBypass then
+SpeedBypass:SetValue(true)
+end
+until speedBoostFinished
+SpeedBypass:SetValue(originalSpeed)
+else
+if not collisionClone then
+collisionClone = Character.Collision:Clone() do
+collisionClone.CanCollide = false
+collisionClone.Massless = true
+collisionClone.Name = "CollisionClone"
+if collisionClone:FindFirstChild("CollisionCrouch") then
+collisionClone.CollisionCrouch:Destroy()
+end   
+collisionClone.Parent = Character    
+end
+end
+task.spawn(function()  
+while not speedBoostFinished do
+collisionClone.Massless = not collisionClone.Massless
+task.wait(_G.BypassTime or 2)
+end           
+collisionClone.Massless = true                  
+end)
+end
+Bypass:AddSlider("MyToggle",{
+Text = "Repeat time bypass",
+Default = 0.25,
+Min = 0.2,
+Max = 0.25,
+Tooltip = "Select 'time' from Speed Bypass",
+Compact = true,
+Rounding = 1,
+Callback = function(v)
+_G.BypassTimeCore = v
+end})
+Bypass:AddToggle("MyToggle",{
+Text = "Speed Bypass",
+Default = false,
+Tooltip = "Enabled 'Speed Bypass'",
+Callback = function(v)
+if v then
+_G.BypassTime = _G.BypassTimeCore or 0.25
+else
+_G.BypassTime = 2
+end
 end})
