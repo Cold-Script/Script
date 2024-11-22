@@ -811,6 +811,7 @@ end)
 end})
 game:GetService("RunService").RenderStepped:Connect(function()
 if _G.SeekChase then
+wait(1)
 for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
 if v.Name == "TriggerEventCollision" then
 Alert("Seek Trigger Delete, The Chase is Easy")
@@ -828,6 +829,7 @@ _G.SeekChase = v
 end})
 game:GetService("RunService").RenderStepped:Connect(function()
 if _G.RemovalMinecart then
+wait(1)
 for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
 if v.Name == "MinecartCollision" then
 v:Destroy()
@@ -930,7 +932,7 @@ Rounding = 1,
 Callback = function(v)
 _G.MaxGreedCore = v
 end})
-RemoveEntity:AddToggle("MyToggle",{
+Bypass:AddToggle("MyToggle",{
 Text = "Greed bypass",
 Default = false,
 Tooltip = "Enabled 'GreedBypass'",
