@@ -608,27 +608,23 @@ end})
 --// Tab Exploit \\
 local TabboxExploit = Tab.Exploit:AddLeftTabbox()
 local AntiEntity = TabboxExploit:AddTab("Anti-Entity")
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.AntiSnare then
+if game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets"):FindFirstChild("Snare") then
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets"):GetChildren()) do 
+if v.Name == "Snare" then 
+v.Hitbox.CanTouch = false
+end 
+end 
+end 
+end 
+end)
 AntiEntity:AddToggle("MyToggle",{
 Text = "Anti-Snare",
 Default = false,
 Tooltip = "Blocked 'Snare' Damage",
 Callback = function(v)
-if v then
-for _,v in pairs(workspace:GetDescendants()) do
-if v.Name == "Snare" then
-v.Hitbox.CanTouch = false
-end
-end
-AntiSnare = workspace.ChildAdded:Connect(function(child)                       
-for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
-if v.Name == "Snare" then
-v.Hitbox.CanTouch = false
-end
-end                        
-end)
-else
-AntiSnare:Disconnect()
-end
+_G.AntiSnare = v
 end})
 game:GetService("RunService").RenderStepped:Connect(function()
 if _G.AntiChandelier then 
@@ -665,4 +661,180 @@ Default = false,
 Tooltip = "Blocked 'Seek Arms' Damage",
 Callback = function(v)
 _G.AntiSeekArms = v
+end})
+game:GetService("Workspace").DescendantAdded:Connect(function()
+if not _G.AntiEyes then return end
+if _G.AntiEyes then 
+if workspace:FindFirstChild("Eyes") then 
+EntityFolder.MotorReplication:FireServer(0,(_G.AntiEyes and 120) or 0 ,0,false);
+end 
+end 
+end)
+AntiEntity:AddToggle("MyToggle",{
+Text = "Anti-Eyes",
+Default = false,
+Tooltip = "Blocked 'Eyes' Damage",
+Callback = function(v)
+_G.AntiEyes = v
+end})
+game:GetService("Workspace").DescendantAdded:Connect(function()
+if not _G.AntiLookman then return end
+if _G.AntiLookman then 
+if workspace:FindFirstChild("Lookman") then 
+EntityFolder.MotorReplication:FireServer(0,(_G.AntiLookman and 120) or 0 ,0,false);
+end 
+end 
+end)
+AntiEntity:AddToggle("MyToggle",{
+Text = "Anti-Lookman",
+Default = false,
+Tooltip = "Blocked 'Lookman' Damage",
+Callback = function(v)
+_G.AntiLookman = v
+end})
+game:GetService("RunService").RenderStepped:Connect(function()
+pcall(function()
+if _G.AntiGiggle then
+for _, room in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetChildren()) do
+if room.Name == "GiggleCeiling" then
+room.Hitbox.CanTouch = false
+end
+end
+end
+end)
+end)
+AntiEntity:AddToggle("MyToggle",{
+Text = "Anti-Giggle",
+Default = false,
+Tooltip = "Blocked 'Giggle' Damage",
+Callback = function(v)
+_G.AntiGiggle = v
+end})
+game:GetService("RunService").RenderStepped:Connect(function()
+pcall(function()
+if _G.AntiGloomEgg then
+for _, room in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetChildren()) do
+if room.Name == "GloomPile" then
+room.Egg.CanTouch = false
+end
+end
+end
+end)
+end)
+AntiEntity:AddToggle("MyToggle",{
+Text = "Anti-Gloom Egg",
+Default = false,
+Tooltip = "Blocked 'Gloom Egg' Damage",
+Callback = function(v)
+_G.AntiGloomEgg = v
+end})
+game:GetService("RunService").RenderStepped:Connect(function()
+pcall(function()
+if _G.AntiDam then
+local room = workspace.CurrentRooms:FindFirstChild("100")
+if room and room:FindFirstChild("_DamHandler") then
+local seekFlood = room._DamHandler:FindFirstChild("SeekFloodline")
+if _G.AntiDam then
+seekFlood.CanCollide = false
+seekFlood.CanTouch = false
+end
+end
+end
+end)
+end)
+AntiEntity:AddToggle("MyToggle",{
+Text = "Anti-Seek Flood",
+Default = false,
+Tooltip = "Blocked 'Seek Flood' Damage",
+Callback = function(v)
+_G.AntiDam = v
+end})
+local RemoveEntity = TabboxExploit:AddTab("Removal-Entity")
+RemoveEntity:AddToggle("MyToggle",{
+Text = "Removal-Screech",
+Default = false,
+Tooltip = "Remove 'Screech'",
+Callback = function(v)
+if v then
+EntityFolder.Screech.Name = "_Screech"
+else
+EntityFolder._Screech.Name = "Screech"
+end
+end})
+RemoveEntity:AddToggle("MyToggle",{
+Text = "Removal-A90",
+Default = false,
+Tooltip = "Remove 'A90'",
+Callback = function(v)
+if v then
+EntityFolder.A90.Name = "_A90"
+else
+EntityFolder._A90.Name = "A90"
+end
+end})
+RemoveEntity:AddToggle("MyToggle",{
+Text = "Removal-Dread",
+Default = false,
+Tooltip = "Remove 'Dread'",
+Callback = function(v)
+if v then
+EntityFolder.Dread.Name = "_Dread"
+else
+EntityFolder._Dread.Name = "Dread"
+end
+end})
+RemoveEntity:AddToggle("MyToggle",{
+Text = "Removal-Haste JC",
+Default = false,
+Tooltip = "Remove 'Haste Jumpcare'",
+Callback = function(v)
+if v then
+EntityFolder.Haste.Name = "_Haste"
+else
+EntityFolder._Haste.Name = "Haste"
+end
+end})
+RemoveEntity:AddToggle("MyToggle",{
+Text = "Removal-Halt",
+Default = false,
+Tooltip = "Remove 'Halt'",
+Callback = function(v)
+if v then
+game:GetService("ReplicatedStorage").ClientModules.EntityModules.Shade.Parent = game.Workspace
+else
+game.Workspace.Shade.Parent = game:GetService("ReplicatedStorage").ClientModules.EntityModules
+end
+end})
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.SeekChase then
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
+if v.Name == "TriggerEventCollision" then
+Alert("Seek Trigger Delete, The Chase is Easy")
+v:Destroy()
+end
+end
+end
+end)
+RemoveEntity:AddToggle("MyToggle",{
+Text = "Removal-Seek Trigger [FE]",
+Default = false,
+Tooltip = "Remove 'Seek Trigger'",
+Callback = function(v)
+_G.SeekChase = v
+end})
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.RemovalMinecart then
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
+if v.Name == "MinecartCollision" then
+v:Destroy()
+end
+end
+end
+end)
+RemoveEntity:AddToggle("MyToggle",{
+Text = "Removal-Scene Minecart [FE]",
+Default = false,
+Tooltip = "Remove 'Scene Minecart'",
+Callback = function(v)
+_G.RemovalMinecart = v
 end})
