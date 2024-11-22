@@ -41,6 +41,7 @@ Sound:Destroy()
 end
 end
 --// Script \\
+--// Tab Main \\
 local GamePlay = Tab.Main:AddLeftGroupbox("Game-Play")
 GamePlay:AddToggle("MyToggle",{
 Text = "Auto Revive",
@@ -604,6 +605,64 @@ repeat task.wait() until not _G.AutoLoot
 addconnect:Disconnect()
 end
 end})
-
-
-
+--// Tab Exploit \\
+local TabboxExploit = Tab.Exploit:AddLeftTabbox()
+local AntiEntity = TabboxExploit:AddTab("Anti-Entity")
+AntiEntity:AddToggle("MyToggle",{
+Text = "Anti-Snare",
+Default = false,
+Tooltip = "Blocked 'Snare' Damage",
+Callback = function(v)
+if v then
+for _,v in pairs(workspace:GetDescendants()) do
+if v.Name == "Snare" then
+v.Hitbox.CanTouch = false
+end
+end
+AntiSnare = workspace.ChildAdded:Connect(function(child)                       
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
+if v.Name == "Snare" then
+v.Hitbox.CanTouch = false
+end
+end                        
+end)
+else
+AntiSnare:Disconnect()
+end
+end})
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.AntiChandelier then 
+if game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets"):FindFirstChild("ChandelierObstruction") then 
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets"):GetChildren()) do 
+if v.Name == "ChandelierObstruction" then 
+v.HurtPart.CanTouch = false
+end 
+end 
+end 
+end 
+end)
+AntiEntity:AddToggle("MyToggle",{
+Text = "Anti-Chandelier",
+Default = false,
+Tooltip = "Blocked 'Fire' Damage",
+Callback = function(v)
+_G.AntiChandelier = v
+end})
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.AntiSeekArms then
+if game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets"):FindFirstChild("Seek_Arm") then
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets"):GetChildren()) do 
+if v.Name == "Seek_Arm" then 
+v.AnimatorPart.CanTouch = false
+end 
+end 
+end 
+end 
+end)
+AntiEntity:AddToggle("MyToggle",{
+Text = "Anti-Seek Arms",
+Default = false,
+Tooltip = "Blocked 'Seek Arms' Damage",
+Callback = function(v)
+_G.AntiSeekArms = v
+end})
