@@ -1255,3 +1255,15 @@ game:GetService("RunService").RenderStepped:Connect(function()
 workspace.CurrentCamera.MaxAxisFieldOfView = v or 140
 end)
 end})
+World:AddDivider()
+World:AddToggle("MyToggle",{
+Text = "No Shake Camera",
+Default = false,
+Tooltip = "Enabled 'No Shake Camera'",
+Callback = function(v)
+if v then
+EntityFolder.CamShake.Name = "_CamShake"
+else
+EntityFolder._CamShake.Name = "CamShake"
+end
+end})
