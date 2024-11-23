@@ -795,6 +795,7 @@ Default = false,
 Tooltip = "Remove 'Dread'",
 Callback = function(v)
 if v then
+game.Players.LocalPlayer.PlayerGui.MainUI.Jumpscare.Jumpscare_Dread.Parent = "Mèo Béo Không Thích Ăn Rau"
 EntityFolder.Dread.Name = "_Dread"
 else
 EntityFolder._Dread.Name = "Dread"
