@@ -769,8 +769,10 @@ Tooltip = "Remove 'A90'",
 Callback = function(v)
 if v then
 EntityFolder.A90.Name = "_A90"
+game.Players.LocalPlayer.PlayerGui:WaitForChild("MainUI"):WaitForChild("Jumpscare"):FindFirstChild("Jumpscare_A90").Parent = nil
 else
 EntityFolder._A90.Name = "A90"
+game.Players.LocalPlayer.PlayerGui:WaitForChild("MainUI"):WaitForChild("Jumpscare"):FindFirstChild("Jumpscare_A90").Parent = game.Players.LocalPlayers.PlayerGui.MainUI.Jumpscare
 end
 end})
 RemoveEntity:AddToggle("MyToggle",{
@@ -809,9 +811,13 @@ game.Workspace.Shade.Parent = game:GetService("ReplicatedStorage").ClientModules
 end
 end)
 end})
-game:GetService("RunService").RenderStepped:Connect(function()
-if _G.SeekChase then
-wait(1)
+RemoveEntity:AddToggle("MyToggle",{
+Text = "Removal-Seek Trigger [FE]",
+Default = false,
+Tooltip = "Remove 'Seek Trigger'",
+Callback = function(v)
+_G.SeekChase = v
+while _G.SeekChase do wait(1)
 for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
 if v.Name == "TriggerEventCollision" then
 Alert("Seek Trigger Delete, The Chase is Easy")
@@ -819,30 +825,20 @@ v:Destroy()
 end
 end
 end
-end)
-RemoveEntity:AddToggle("MyToggle",{
-Text = "Removal-Seek Trigger [FE]",
-Default = false,
-Tooltip = "Remove 'Seek Trigger'",
-Callback = function(v)
-_G.SeekChase = v
 end})
-game:GetService("RunService").RenderStepped:Connect(function()
-if _G.RemovalMinecart then
-wait(1)
-for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
-if v.Name == "MinecartCollision" then
-v:Destroy()
-end
-end
-end
-end)
 RemoveEntity:AddToggle("MyToggle",{
 Text = "Removal-Scene Minecart [FE]",
 Default = false,
 Tooltip = "Remove 'Scene Minecart'",
 Callback = function(v)
 _G.RemovalMinecart = v
+while _G.RemovalMinecart do wait(1)
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
+if v.Name == "MinecartCollision" then
+v:Destroy()
+end
+end
+end
 end})
 RemoveEntity:AddToggle("MyToggle",{
 Text = "Removal-Bat Hang",
@@ -855,7 +851,7 @@ if v:IsA("Model") and v.Name == "HangingHalloweenDecor" then
 v:Destroy()
 end
 end
-NoBat = workspace.ChildAdded:Connect(function(v)
+NoBat = workspace.CurrentRooms.ChildAdded:Connect(function(child)
 for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
 if v:IsA("Model") and v.Name == "HangingHalloweenDecor" then
 v:Destroy()
