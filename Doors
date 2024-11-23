@@ -681,7 +681,7 @@ end})
 game:GetService("Workspace").DescendantAdded:Connect(function()
 if not _G.AntiLookman then return end
 if _G.AntiLookman then 
-if workspace:FindFirstChild("Lookman") then 
+if workspace:FindFirstChild("BackdoorLookman") then 
 EntityFolder.MotorReplication:FireServer(0,(_G.AntiLookman and 120) or 0 ,0,false);
 end 
 end 
@@ -1225,7 +1225,7 @@ World:AddDropdown('MyDropdown',{
 	Default = 1,
 	Multi = false,
 	Text = 'Field Of View Mode',
-	Tooltip = 'Select 'Field Of View'',
+	Tooltip = "Select 'Field Of View'",
 	Callback = function(v)
 workspace.CurrentCamera.FieldOfViewMode = v
 end})
