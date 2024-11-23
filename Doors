@@ -750,9 +750,23 @@ Tooltip = "Blocked 'Seek Flood' Damage",
 Callback = function(v)
 _G.AntiDam = v
 end})
+AntiEntity:AddToggle("MyToggle",{
+Text = "Anti-Banana",
+Default = false,
+Tooltip = "Blocked Slip 'Banana-Peel'",
+Callback = function(v)
+_G.AntiBanana = v
+while _G.AntiBanana do wait(1)
+for _,v in pairs(workspace:GetDescendants()) do
+if v.Name == "BananaPeel" then
+v.CanTouch = false
+end
+end
+end
+end})
 local RemoveEntity = TabboxExploit:AddTab("Removal-Entity")
 RemoveEntity:AddToggle("MyToggle",{
-Text = "Removal-Screech",
+Text = "Removal-Screech [FE]",
 Default = false,
 Tooltip = "Remove 'Screech'",
 Callback = function(v)
