@@ -954,3 +954,35 @@ game.Players.LocalPlayer:SetAttribute("Greed", _G.MaxGreedCore)
 end
 end)
 end})
+local ControlEntityMove = Tab.Exploit:AddRightGroupbox("Control Entity Move")
+ControlEntityMove:AddToggle("MyToggle",{
+Text = "Jeff Flighting [FE]",
+Default = false,
+Tooltip = "Jeff can 'Fly'",
+Callback = function(v)
+_G.JeffFlighting = v
+while _G.JeffFlighting do wait()
+for _, v in pairs(workspace:GetChildren()) do
+if v.Name == "JeffTheKiller" then
+v:PivotTo(v:GetPivot() * CFrame.new(0, 2, 0) * CFrame.Angles(0, math.rad(10), 0))
+v.HumanoidRootPart.CanCollide = false
+end
+end
+end
+end})
+ControlEntityMove:AddToggle("MyToggle",{
+Text = "Figure Flighting [FE]",
+Default = false,
+Tooltip = "Now Figure can 'Fly'",
+Callback = function(v)
+_G.FigureFlighting = v
+while _G.FigureFlighting do wait()
+for _, v in pairs(workspace:GetDescendants()) do
+if v.Name == "FigureRig" then
+v:PivotTo(v:GetPivot() * CFrame.new(0, 5, 0) * CFrame.Angles(0, math.rad(10), 0))
+elseif v.Name == "FigureRagdoll" then
+v:PivotTo(v:GetPivot() * CFrame.new(0, 5, 0) * CFrame.Angles(0, math.rad(10), 0))
+end
+end
+end
+end})
