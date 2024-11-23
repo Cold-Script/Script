@@ -1329,3 +1329,13 @@ Text = "Removal Blur",
 Func = function()
 game.Lighting.Blur:Destroy()
 end})
+--// Configs Tab \\
+ThemeManager:SetLibrary(Library)
+SaveManager:SetLibrary(Library)
+SaveManager:IgnoreThemeSettings()
+SaveManager:SetIgnoreIndexes({ 'MenuKeybind' })
+ThemeManager:SetFolder('Default')
+SaveManager:SetFolder('Default/Door')
+SaveManager:BuildConfigSection(Tab.Configs)
+ThemeManager:ApplyToTab(Tab.Configs)
+SaveManager:LoadAutoloadConfig()
