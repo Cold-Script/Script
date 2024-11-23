@@ -876,6 +876,30 @@ else
 NoBat:Disconnect()
 end
 end})
+game:GetService("RunService").RenderStepped:Connect(function()
+pcall(function()
+if _G.RemovalLight then 
+if game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets"):FindFirstChild("Chandelier") then
+game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets").Chandelier:Destroy()
+end 
+end 
+end)
+end)
+game:GetService("RunService").RenderStepped:Connect(function()pcall(function()
+if _G.RemovalLight then 
+if game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets"):FindFirstChild("Light_Fixtures") then 
+game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets").Light_Fixtures:Destroy()
+end 
+end 
+end)
+end)
+RemoveEntity:AddToggle("MyToggle",{
+Text = "Removal-Light (FPS Booster)",
+Default = false,
+Tooltip = "Remove 'Light'",
+Callback = function(v)
+_G.RemovalLight = v
+end})
 local Bypass = Tab.Exploit:AddRightGroupbox("Bypass")
 local speedBoost, speedBoostFinished, speed = 30, false, false
 if bypass then
