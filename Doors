@@ -1170,6 +1170,20 @@ game.Players.LocalPlayer.Character.Collision.CanCollide = not _G.Noclip
 game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = not _G.Noclip
 end)
 end})
+Evole:AddToggle("MyToggle",{
+Text = "Godmode",
+Default = false,
+Tooltip = "You can 'No Died' by Rush and Ambush",
+Risky = true,
+Callback = function(v)
+if v then
+local Collison = game.Players.LocalPlayer.Character:FindFirstChild("Collision")
+Collison.Position = Collison.Position - Vector3.new(0,2.65,0)
+else
+local Collison = game.Players.LocalPlayer.Character:FindFirstChild("Collision")
+Collison.Position = Collison.Position - Vector3.new(0,-2.65,0)
+end
+end})
 Evole:AddDivider()
 Evole:AddToggle("MyToggle",{
 Text = "Can Jump",
