@@ -795,9 +795,10 @@ Default = false,
 Tooltip = "Remove 'Dread'",
 Callback = function(v)
 if v then
-game.Players.LocalPlayer.PlayerGui.MainUI.Jumpscare.Jumpscare_Dread.Parent = "Mèo Béo Không Thích Ăn Rau"
+game.Players.LocalPlayer.PlayerGui.MainUI.Jumpscare.Jumpscare_Dread.Parent = workspace
 EntityFolder.Dread.Name = "_Dread"
 else
+workspace.Jumpscare_Dread.Parent = game.Players.LocalPlayer.PlayerGui.MainUI.Jumpscare
 EntityFolder._Dread.Name = "Dread"
 end
 end})
@@ -1273,7 +1274,9 @@ Lighting:AddLabel("Ambient"):AddColorPicker('ColorPicker',{
 	Title = 'Ambient Color',
 	Transparency = 0,
 	Callback = function(v)
+game:GetService("RunService").RenderStepped:Connect(function()
 _G.ColorAmbient = v
+end)
 end})
 Lighting:AddToggle("MyToggle",{
 Text = "Fullbright",
@@ -1283,25 +1286,11 @@ Callback = function(v)
 if v then
 game.Lighting.Brightness = 1.5
 game.Lighting.GlobalShadows = false
-game.Lighting.OutdoorAmbient = Color3.new(1,1,1)
+game.Lighting.OutdoorAmbient = _G.ColorAmbient or Color3.new(1,1,1)
 else
 game.Lighting.Brightness = 1
 game.Lighting.GlobalShadows = true
 game.Lighting.OutdoorAmbient = Color3.new(0,0,0)
-end
-end})
-Lighting:AddToggle("MyToggle",{
-Text = "No Fog Floor",
-Default = false,
-Tooltip = "Enabled 'No Fog' in floor",
-Callback = function(v)
-if v then
-for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do if v.Name == "Parts" then v.Floor.ThickFog:Destroy() v.Floor.ThinFog:Destroy() end end
-NoFogFloor = workspace.CurrentRooms.ChildAdded:Connect(function(v)
-for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do if v.Name == "Parts" then v.Floor.ThickFog:Destroy() v.Floor.ThinFog:Destroy() end end
-end)
-else
-NoFogFloor:Disconnect()
 end
 end})
 Lighting:AddToggle("MyToggle",{
@@ -1320,4 +1309,23 @@ if not fog:GetAttribute("Density") then fog:SetAttribute("Density", fog.Density)
 fog.Density = value and 0 or fog:GetAttribute("Density")
 end
 end)
+end})
+Lighting:AddButton({
+Text = "Removal Skybox",
+Func = function()
+for _,v in pairs(workspace:GetDescendants()) do
+if v.Name == "SkyboxPart" then
+v:Destroy()
+end
+end
+end})
+Lighting:AddButton({
+Text = "Removal Sky",
+Func = function()
+game.Lighting.Sky:Destroy()
+end})
+Lighting:AddButton({
+Text = "Removal Blur",
+Func = function()
+game.Lighting.Blur:Destroy()
 end})
