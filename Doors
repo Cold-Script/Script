@@ -1158,6 +1158,17 @@ game.Players.LocalPlayer.Character.RightUpperLeg.Massless = not _G.NoSlow;
 game.Players.LocalPlayer.Character.UpperTorso.Massless = not _G.NoSlow;
 end)
 end})
+Evole:AddToggle("MyToggle",{
+Text = "Noclip",
+Default = false,
+Tooltip = "You can 'Noclip Wall'",
+Callback = function(v)
+_G.Noclip = v
+game:GetService("RunService").RenderStepped:Connect(function()
+game.Players.LocalPlayer.Character.Collision.CanCollide = not _G.Noclip
+game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = not _G.Noclip
+end)
+end})
 Evole:AddDivider()
 Evole:AddToggle("MyToggle",{
 Text = "Can Jump",
@@ -1179,5 +1190,68 @@ game:GetService("RunService").RenderStepped:Connect(function()
 if _G.AutoJump then
 game.Players.LocalPlayer.Character.Humanoid.Jump = true
 end
+end)
+end})
+--// Visual Tab \\
+local World = Tab.Visual:AddLeftGroupbox("World")
+World:AddSlider("MyToggle",{
+Text = "Select Field Of View",
+Default = 70,
+Min = 70,
+Max = 120,
+Tooltip = "Select 'Field Of View' for you",
+Compact = true,
+Rounding = 1,
+Callback = function(v)
+_G.FieldOfView = v
+end})
+World:AddToggle("MyToggle",{
+Text = "Field Of View",
+Default = false,
+Tooltip = "Enabled 'Field Of View'",
+Callback = function(v)
+_G.Field = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.Field then
+workspace.CurrentCamera.FieldOfView = _G.FieldOfView or 70
+else
+workspace.CurrentCamera.FieldOfView = 70
+end
+end)
+end})
+World:AddDivider()
+World:AddDropdown('MyDropdown',{
+	Values = {"Diagonal", "MaxAxis", "Vertical"},
+	Default = 1,
+	Multi = false,
+	Text = 'Field Of View Mode',
+	Tooltip = 'Select 'Field Of View'',
+	Callback = function(v)
+workspace.CurrentCamera.FieldOfViewMode = v
+end})
+World:AddSlider("MyToggle",{
+Text = "Select Diagonal",
+Default = 170,
+Min = 170,
+Max = 300,
+Tooltip = "Select 'Diagonal' for you",
+Compact = true,
+Rounding = 1,
+Callback = function(v)
+game:GetService("RunService").RenderStepped:Connect(function()
+workspace.CurrentCamera.DiagonalFieldOfView = v or 170
+end)
+end})
+World:AddSlider("MyToggle",{
+Text = "Select Max Axis",
+Default = 140,
+Min = 140,
+Max = 300,
+Tooltip = "Select 'Max Axis' for you",
+Compact = true,
+Rounding = 1,
+Callback = function(v)
+game:GetService("RunService").RenderStepped:Connect(function()
+workspace.CurrentCamera.MaxAxisFieldOfView = v or 140
 end)
 end})
