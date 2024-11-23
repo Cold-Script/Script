@@ -1093,3 +1093,66 @@ end
 RangeInteraction:Disconnect()
 end
 end})
+local Evole = Tab.Players:AddRightGroupbox("Evole")
+Evole:AddToggle("MyToggle",{
+Text = "Reduce Gravity",
+Default = false,
+Tooltip = "Reduce 'Gravity'",
+Callback = function(v)
+_G.SlowJump = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.SlowJump then
+workspace.Gravity = 50
+else
+workspace.Gravity = 90
+end
+end)
+end})
+Evole:AddToggle("MyToggle",{
+Text = "No Acceleration",
+Default = false,
+Tooltip = "No 'Acceleration'",
+Callback = function(v)
+_G.NoSlow = v
+game:GetService("RunService").RenderStepped:Connect(function()
+game.Players.LocalPlayer.Character.Head.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.LeftFoot.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.LeftHand.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.LeftLowerArm.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.LeftLowerLeg.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.LeftUpperArm.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.LeftUpperLeg.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.LowerTorso.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.RightFoot.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.RightFoot.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.RightHand.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.RightLowerArm.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.RightLowerLeg.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.RightUpperArm.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.RightUpperLeg.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.UpperTorso.Massless = not _G.NoSlow;
+end)
+end})
+Evole:AddDivider()
+Evole:AddToggle("MyToggle",{
+Text = "Can Jump",
+Default = false,
+Tooltip = "Can 'Jump'",
+Callback = function(v)
+_G.Jump = v
+game:GetService("RunService").RenderStepped:Connect(function()
+game.Players.LocalPlayer.Character:SetAttribute("CanJump", _G.Jump)
+end)
+end})
+Evole:AddToggle("MyToggle",{
+Text = "Auto Jump",
+Default = false,
+Tooltip = "Auto 'Jump'",
+Callback = function(v)
+_G.AutoJump = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.AutoJump then
+game.Players.LocalPlayer.Character.Humanoid.Jump = true
+end
+end)
+end})
