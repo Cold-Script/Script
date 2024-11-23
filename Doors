@@ -1267,3 +1267,57 @@ else
 EntityFolder._CamShake.Name = "CamShake"
 end
 end})
+local Lighting = Tab.Visual:AddRightGroupbox("Lighting")
+Lighting:AddLabel("Ambient"):AddColorPicker('ColorPicker',{
+	Default = Color3.new(1, 1, 1),
+	Title = 'Ambient Color',
+	Transparency = 0,
+	Callback = function(v)
+_G.ColorAmbient = v
+end})
+Lighting:AddToggle("MyToggle",{
+Text = "Fullbright",
+Default = false,
+Tooltip = "Enabled 'Brightness'",
+Callback = function(v)
+if v then
+game.Lighting.Brightness = 1.5
+game.Lighting.GlobalShadows = false
+game.Lighting.OutdoorAmbient = Color3.new(1,1,1)
+else
+game.Lighting.Brightness = 1
+game.Lighting.GlobalShadows = true
+game.Lighting.OutdoorAmbient = Color3.new(0,0,0)
+end
+end})
+Lighting:AddToggle("MyToggle",{
+Text = "No Fog Floor",
+Default = false,
+Tooltip = "Enabled 'No Fog' in floor",
+Callback = function(v)
+if v then
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do if v.Name == "Parts" then v.Floor.ThickFog:Destroy() v.Floor.ThinFog:Destroy() end end
+NoFogFloor = workspace.CurrentRooms.ChildAdded:Connect(function(v)
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do if v.Name == "Parts" then v.Floor.ThickFog:Destroy() v.Floor.ThinFog:Destroy() end end
+end)
+else
+NoFogFloor:Disconnect()
+end
+end})
+Lighting:AddToggle("MyToggle",{
+Text = "No Fog",
+Default = false,
+Tooltip = "Enabled 'No Fog'",
+Callback = function(v)
+pcall(function()
+if not game.Lighting:GetAttribute("FogStart") then game.Lighting:SetAttribute("FogStart", game.Lighting.FogStart) end
+if not game.Lighting:GetAttribute("FogEnd") then game.Lighting:SetAttribute("FogEnd", game.Lighting.FogEnd) end
+game.Lighting.FogStart = value and 0 or game.Lighting:GetAttribute("FogStart")
+game.Lighting.FogEnd = value and math.huge or game.Lighting:GetAttribute("FogEnd")
+local fog = game.Lighting:FindFirstChildOfClass("Atmosphere")
+if fog then
+if not fog:GetAttribute("Density") then fog:SetAttribute("Density", fog.Density) end
+fog.Density = value and 0 or fog:GetAttribute("Density")
+end
+end)
+end})
