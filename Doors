@@ -986,3 +986,110 @@ end
 end
 end
 end})
+--// Players Tab \\
+local Players = Tab.Players:AddLeftGroupbox("Players")
+Players:AddSlider("MyToggle",{
+Text = "Select Speed",
+Default = 15,
+Min = 15,
+Max = 50,
+Tooltip = "Select 'Speed' for you",
+Compact = true,
+Rounding = 1,
+Callback = function(v)
+_G.Speed = v
+end})
+Players:AddToggle("MyToggle",{
+Text = "Enabled Speed",
+Default = false,
+Tooltip = "Enabled 'Speed' for you",
+Callback = function(v)
+_G.EnabledSpeed = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.EnabledSpeed then
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = _G.Speed or 15
+else
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 15
+end
+end)
+end})
+Players:AddDivider()
+Players:AddToggle("MyToggle",{
+Text = "Instance Interact",
+Default = false,
+Tooltip = "No 'Hold'",
+Callback = function(v)
+_G.InstanceInteract = v
+if _G.InstanceInteract then
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+v.HoldDuration = 0
+end
+end
+InstanceInteract = workspace.ChildAdded:Connect(function(v)
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+v.HoldDuration = 0
+end
+end
+end)
+else
+InstanceInteract:Disconnect()
+end
+end})
+Players:AddToggle("MyToggle",{
+Text = "Through Interact",
+Default = false,
+Tooltip = "Interact 'Through'",
+Callback = function(v)
+_G.CrossInteraction = v
+if _G.CrossInteraction then
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+v.RequiresLineOfSight = false
+end
+end
+CrossInteraction = workspace.ChildAdded:Connect(function(v)
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+v.RequiresLineOfSight = false
+end
+end
+end)
+else
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+v.RequiresLineOfSight = true
+end
+end
+CrossInteraction:Disconnect()
+end
+end})
+Players:AddToggle("MyToggle",{
+Text = "Reach Interact",
+Default = false,
+Tooltip = "Interact 'Far'",
+Callback = function(v)
+_G.RangeInteraction = v
+if _G.RangeInteraction then
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+v.MaxActivationDistance = 15
+end
+end
+RangeInteraction = workspace.ChildAdded:Connect(function(v)
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+v.MaxActivationDistance = 15
+end
+end
+end)
+else
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+v.MaxActivationDistance = 5
+end
+end
+RangeInteraction:Disconnect()
+end
+end})
