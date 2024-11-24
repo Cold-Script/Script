@@ -1051,7 +1051,7 @@ if v:IsA("ProximityPrompt") then
 v.HoldDuration = 0
 end
 end
-InstanceInteract = workspace.ChildAdded:Connect(function(v)
+InstanceInteract = workspace.CurrentRooms.ChildAdded:Connect(function(v)
 for _,v in pairs(workspace:GetDescendants()) do
 if v:IsA("ProximityPrompt") then
 v.HoldDuration = 0
@@ -1074,7 +1074,7 @@ if v:IsA("ProximityPrompt") then
 v.RequiresLineOfSight = false
 end
 end
-CrossInteraction = workspace.ChildAdded:Connect(function(v)
+CrossInteraction = workspace.CurrentRooms.ChildAdded:Connect(function(v)
 for _,v in pairs(workspace:GetDescendants()) do
 if v:IsA("ProximityPrompt") then
 v.RequiresLineOfSight = false
@@ -1102,7 +1102,7 @@ if v:IsA("ProximityPrompt") then
 v.MaxActivationDistance = 15
 end
 end
-RangeInteraction = workspace.ChildAdded:Connect(function(v)
+RangeInteraction = workspace.CurrentRooms.ChildAdded:Connect(function(v)
 for _,v in pairs(workspace:GetDescendants()) do
 if v:IsA("ProximityPrompt") then
 v.MaxActivationDistance = 15
@@ -1307,9 +1307,7 @@ Lighting:AddLabel("Ambient"):AddColorPicker('ColorPicker',{
 	Title = 'Ambient Color',
 	Transparency = 0,
 	Callback = function(v)
-game:GetService("RunService").RenderStepped:Connect(function()
 _G.ColorAmbient = v
-end)
 end})
 Lighting:AddToggle("MyToggle",{
 Text = "Fullbright",
