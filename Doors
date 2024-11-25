@@ -997,22 +997,6 @@ end
 end
 end
 end})
-ControlEntityMove:AddToggle("MyToggle",{
-Text = "Figure Flighting [FE]",
-Default = false,
-Tooltip = "Now Figure can 'Fly'",
-Callback = function(v)
-_G.FigureFlighting = v
-while _G.FigureFlighting do wait(0.01)
-for _, v in pairs(workspace:GetDescendants()) do
-if v.Name == "FigureRig" then
-v:PivotTo(v:GetPivot() * CFrame.new(0, 5, 0) * CFrame.Angles(0, math.rad(10), 0))
-elseif v.Name == "FigureRagdoll" then
-v:PivotTo(v:GetPivot() * CFrame.new(0, 5, 0) * CFrame.Angles(0, math.rad(10), 0))
-end
-end
-end
-end})
 --// Players Tab \\
 local Players = Tab.Players:AddLeftGroupbox("Players")
 Players:AddSlider("MyToggle",{
@@ -1172,7 +1156,7 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = not _G.Noclip
 end)
 end})
 Evole:AddToggle("MyToggle",{
-Text = "Avoid Rush/Ambush (Speed Bypass Only)",
+Text = "Avoid Rush/Ambush (Bypass Only)",
 Default = false,
 Tooltip = "You can 'No Died' by Rush and Ambush",
 Risky = true,
@@ -1292,16 +1276,12 @@ workspace.CurrentCamera.MaxAxisFieldOfView = v or 140
 end)
 end})
 World:AddDivider()
-World:AddToggle("MyToggle",{
+World:AddButton({
 Text = "No Shake Camera",
-Default = false,
 Tooltip = "Enabled 'No Shake Camera'",
-Callback = function(v)
-if v then
-EntityFolder.CamShake.Name = "_CamShake"
-else
-EntityFolder._CamShake.Name = "CamShake"
-end
+DoubleClick = true,
+Func = function()
+EntityFolder.CamShake:Destroy()
 end})
 local Lighting = Tab.Visual:AddRightGroupbox("Lighting")
 Lighting:AddLabel("Ambient"):AddColorPicker('ColorPicker',{
@@ -1376,10 +1356,10 @@ task.wait(0.1)
 local DoorESP = LibraryESP:AddESP(Door,"Door",Color3.fromRGB(80, 255, 175),15,"Door")
 table.insert({},DoorESP)
 Door:WaitForChild("Open").Played:Connect(function()
-DoorESP.delete()
+DoorESP:Destroy()
 end)
 Door.AncestryChanged:Connect(function()
-DoorESP.delete()
+DoorESP:Destroy()
 end)
 end
 DoorINF = workspace.CurrentRooms.ChildAdded:Connect(function(room)
@@ -1393,7 +1373,7 @@ end
 repeat task.wait() until not _G.ESPDoor
 DoorINF:Disconnect()
 for i,v in pairs({}) do
-v.delete()
+v:Destroy()
 end 
 end
 end})
