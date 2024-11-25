@@ -5,6 +5,8 @@ local SaveManager = loadstring(game:HttpGet(repo .. 'addons/SaveManager.lua'))()
 local Options = getgenv().Linoria.Options
 local Toggles = getgenv().Linoria.Toggles
 
+local LibraryESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/Cold-Script/ESPBETA/refs/heads/main/Esp.lua"))()
+
 local Window = Library:CreateWindow({
 	Title = '🎃 YOUHUB - Halloween | Doors Version : 5.0.2',
 	Center = true,
@@ -986,7 +988,7 @@ Default = false,
 Tooltip = "Jeff can 'Fly'",
 Callback = function(v)
 _G.JeffFlighting = v
-while _G.JeffFlighting do wait()
+while _G.JeffFlighting do wait(0.1)
 for _, v in pairs(workspace:GetChildren()) do
 if v.Name == "JeffTheKiller" then
 v:PivotTo(v:GetPivot() * CFrame.new(0, 2, 0) * CFrame.Angles(0, math.rad(10), 0))
@@ -1001,7 +1003,7 @@ Default = false,
 Tooltip = "Now Figure can 'Fly'",
 Callback = function(v)
 _G.FigureFlighting = v
-while _G.FigureFlighting do wait()
+while _G.FigureFlighting do wait(0.01)
 for _, v in pairs(workspace:GetDescendants()) do
 if v.Name == "FigureRig" then
 v:PivotTo(v:GetPivot() * CFrame.new(0, 5, 0) * CFrame.Angles(0, math.rad(10), 0))
@@ -1170,7 +1172,7 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = not _G.Noclip
 end)
 end})
 Evole:AddToggle("MyToggle",{
-Text = "Avoid Rush/Ambush",
+Text = "Avoid Rush/Ambush (Speed Bypass Only)",
 Default = false,
 Tooltip = "You can 'No Died' by Rush and Ambush",
 Risky = true,
@@ -1183,7 +1185,7 @@ if v:IsDescendantOf(workspace) then
 if v.Name == "RushMoving" then
 local OldPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
 local AvoidRush = game:GetService("RunService").Heartbeat:Connect(function()
-game.Players.LocalPlayer.Character:MoveTo(OldPos + Vector3.new(0,20,0))
+game.Players.LocalPlayer.Character:MoveTo(OldPos + Vector3.new(0,50,0))
 end)
 v.Destroying:Wait()
 AvoidRush:Disconnect()
@@ -1191,7 +1193,7 @@ game.Players.LocalPlayer.Character:MoveTo(OldPos)
 elseif v.Name == "AmbushMoving" then
 local OldPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
 local AvoidAmbush = game:GetService("RunService").Heartbeat:Connect(function()
-game.Players.LocalPlayer.Character:MoveTo(OldPos + Vector3.new(0,20,0))
+game.Players.LocalPlayer.Character:MoveTo(OldPos + Vector3.new(0,50,0))
 end)
 v.Destroying:Wait()
 AvoidAmbush:Disconnect()
@@ -1359,6 +1361,41 @@ Lighting:AddButton({
 Text = "Removal Blur",
 Func = function()
 game.Lighting.Blur:Destroy()
+end})
+local ESP = Tab.Visual:AddRightGroupbox("ESP")
+ESP:AddToggle("MyToggle",{
+Text = "ESP Door",
+Default = false,
+Tooltip = "ESP 'Doors'",
+Callback = function(v)
+_G.ESPDoor = v
+if v then
+local function setup(room)
+local Door = room:WaitForChild("Door"):WaitForChild("Door")
+task.wait(0.1)
+local DoorESP = LibraryESP:AddESP(Door,"Door",Color3.fromRGB(80, 255, 175),15,"Door")
+table.insert({},DoorESP)
+Door:WaitForChild("Open").Played:Connect(function()
+DoorESP.delete()
+end)
+Door.AncestryChanged:Connect(function()
+DoorESP.delete()
+end)
+end
+DoorINF = workspace.CurrentRooms.ChildAdded:Connect(function(room)
+setup(room)
+end)
+for i,room in pairs(workspace.CurrentRooms:GetChildren()) do
+if room:FindFirstChild("Assets") then
+setup(room) 
+end
+end
+repeat task.wait() until not _G.ESPDoor
+DoorINF:Disconnect()
+for i,v in pairs({}) do
+v.delete()
+end 
+end
 end})
 --// Configs Tab \\
 ThemeManager:SetLibrary(Library)
