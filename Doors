@@ -15,7 +15,7 @@ local Window = Library:Window("• Lonestar | Phiên bản : " .. Verson .. " | 
 local Tab = {
 Main = Window:Tab("Chính",UDim2.new(0, 240, 0, 300)),
 Players = Window:Tab("Người Chơi",UDim2.new(0, 240, 0, 300)),
-Exploits = Window:Tab("Gian luận",UDim2.new(0, 240, 0, 300)),
+Utilities = Window:Tab("Gian luận",UDim2.new(0, 240, 0, 300)),
 Visual = Window:Tab("Thị giác",UDim2.new(0, 240, 0, 300))
 }
 local Misc = Tab.Main:CraftPage(1)
@@ -258,3 +258,170 @@ Rooms:Button("Hoàn Thành Điện",function()
 RemotesFolder.EBF:FireServer()
 end)
 
+local Players = Tab.Players:CraftPage(1)
+Players:Seperator("Người Chời")
+Players:Dropdown("Tốc Độ",{"20","25","30","35","40","45","50"},"",function(v)
+_G.Speed = v
+end)
+Players:Toggle("Nhận Tốc Độ",false,function(v)
+_G.EnabledSpeed = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.EnabledSpeed then
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = _G.Speed or 15
+else
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 15
+end
+end)
+end)
+Players:Seperator("Thêm")
+Players:Toggle("Ăn Kẹo",false,function(v)
+_G.EatCandy = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if game.Players.LocalPlayer.Character:FindFirstChild("Candy",true) and _G.EatCandy then
+if not game.Players.LocalPlayer.Character:FindFirstChild("Meshes/DOORS_EvilCandy_Cube", true) then
+game.Players.LocalPlayer.Character.Candy.Remote:FireServer()
+end
+end
+end)
+end)
+Players:Toggle("Đi Xuyên",false,function(v)
+_G.Noclip = v
+game:GetService("RunService").RenderStepped:Connect(function()
+game.Players.LocalPlayer.Character.Collision.CanCollide = not _G.Noclip
+game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = not _G.Noclip
+end)
+end)
+Players:Toggle("Không Trơn",false,function(v)
+_G.NoSlow = v
+game:GetService("RunService").RenderStepped:Connect(function()
+game.Players.LocalPlayer.Character.Head.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.LeftFoot.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.LeftHand.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.LeftLowerArm.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.LeftLowerLeg.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.LeftUpperArm.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.LeftUpperLeg.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.LowerTorso.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.RightFoot.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.RightFoot.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.RightHand.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.RightLowerArm.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.RightLowerLeg.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.RightUpperArm.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.RightUpperLeg.Massless = not _G.NoSlow;
+game.Players.LocalPlayer.Character.UpperTorso.Massless = not _G.NoSlow;
+end)
+end)
+Players:Toggle("Nhảy",false,function(v)
+_G.Jump = v
+game:GetService("RunService").RenderStepped:Connect(function()
+game.Players.LocalPlayer.Character:SetAttribute("CanJump", _G.Jump)
+end)
+end)
+Players:Toggle("Tự Nhảy",false,function(v)
+_G.AutoJump = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.AutoJump then
+game.Players.LocalPlayer.Character.Humanoid.Jump = true
+end
+end)
+end)
+
+local Bypass = Tab.Players:CraftPage(2)
+Bypass:Seperator("Thắc Chế")
+local speedBoost, speedBoostFinished, speed = 30, false, false
+if bypass then
+if collisionClone then collisionClone:Destroy() end
+speed = true       
+local originalSpeed = SpeedBypass
+repeat task.wait()
+if not SpeedBypass then
+SpeedBypass:SetValue(true)
+end
+until speedBoostFinished
+SpeedBypass:SetValue(originalSpeed)
+else
+task.spawn(function()  
+while not collisionClone do
+collisionClone = game.Players.LocalPlayer.Character.Collision:Clone() do
+collisionClone.CanCollide = false
+collisionClone.Massless = true
+collisionClone.Name = "CollisionClone"
+if collisionClone:FindFirstChild("CollisionCrouch") then
+collisionClone.CollisionCrouch:Destroy()
+end   
+collisionClone.Parent = game.Players.LocalPlayer.Character    
+end
+end
+end)
+task.spawn(function()  
+while not speedBoostFinished do
+collisionClone.Massless = not collisionClone.Massless
+task.wait(_G.SpeedBypass or 1.25)
+end           
+collisionClone.Massless = true                  
+end)
+end
+Bypass:Toggle("Thắc Chế Tốc Độ",false,function(v)
+if v then
+_G.SpeedBypass = 0.217
+else
+_G.SpeedBypass = 1.25
+end
+end)
+Bypass:Toggle("Thắc Chế Thang",false,function(v)
+_G.LadderBypass = v
+task.spawn(function()
+while _G.LadderBypass do wait(1)
+if v and not workspace:FindFirstChild("progressPart") then
+local progressPart = Instance.new("Part", workspace) do
+progressPart.Anchored = true
+progressPart.CanCollide = false
+progressPart.Name = "Ladder_Bypass"
+progressPart.Transparency = 1
+end
+if _G.LadderBypass and game.Players.LocalPlayer.Character:GetAttribute("Climbing") then
+task.wait(1)
+game.Players.LocalPlayer.Character:SetAttribute("Climbing", false)
+end
+else
+if workspace:FindFirstChild("Ladder_Bypass") then 
+workspace:FindFirstChild("Ladder_Bypass"):Destroy() 
+end
+end
+end
+end)
+end)
+Bypass:Toggle("Ngồi Giả Tạo",false,function(v)
+_G.CrouchSpoof = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.CrouchSpoof then
+game:GetService("ReplicatedStorage").RemotesFolder.Crouch:FireServer(true)
+else
+game:GetService("ReplicatedStorage").RemotesFolder.Crouch:FireServer(false)
+end
+end)
+end)
+Bypass:Seperator("Máy Ảnh")
+Bypass:Dropdown("Độ Rộng Màn Hình",{"80","90","100","110","120"},"",function(v)
+_G.FieldOfView = v
+end)
+Bypass:Toggle("Nhận Độ Rộng Màn Hình",false,function(v)
+_G.Field = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.Field then
+workspace.CurrentCamera.FieldOfView = _G.FieldOfView or 70
+else
+workspace.CurrentCamera.FieldOfView = 70
+end
+end)
+end)
+Bypass:Toggle("Không Xem Bob",false,function(v)
+_G.NoBobCam = v
+game:GetService("RunService").RenderStepped:Connect(function()
+game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game.spring.Speed = _G.NoBobCam and 9e9 or 5
+end)
+end)
+Bypass:Toggle("Không Lắc Màn Hình",false,function(v)
+RemotesFolder.CamShake:FireServer(not v)
+end)
