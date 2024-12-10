@@ -3,11 +3,6 @@ if game.ReplicatedStorage.GameData.Floor.Value == "Fools" and game:GetService("R
 game:GetService("ReplicatedStorage").EntityInfo.Name = "RemotesFolder"
 end
 local RemotesFolder = game:GetService("ReplicatedStorage").RemotesFolder
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local Character = LocalPlayer.Character
-local Camera = game:GetService("Workspace").Camera
-local Gravity = game:GetService("Workspace").Gravity
 local Verson = "1.2"
 --[[ Script ]]--
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Cold-Script/Library/refs/heads/main/Library.txt"))()
@@ -341,8 +336,7 @@ end
 until speedBoostFinished
 SpeedBypass:SetValue(originalSpeed)
 else
-task.spawn(function()  
-while not collisionClone do
+if not collisionClone then
 collisionClone = game.Players.LocalPlayer.Character.Collision:Clone() do
 collisionClone.CanCollide = false
 collisionClone.Massless = true
@@ -353,20 +347,19 @@ end
 collisionClone.Parent = game.Players.LocalPlayer.Character    
 end
 end
-end)
 task.spawn(function()  
 while not speedBoostFinished do
 collisionClone.Massless = not collisionClone.Massless
-task.wait(_G.SpeedBypass or 1.25)
+task.wait(_G.SpeedBypass or 1)
 end           
 collisionClone.Massless = true                  
 end)
 end
 Bypass:Toggle("Thắc Chế Tốc Độ",false,function(v)
 if v then
-_G.SpeedBypass = 0.217
+_G.SpeedBypass = 0.20304050607080910
 else
-_G.SpeedBypass = 1.25
+_G.SpeedBypass = 1
 end
 end)
 Bypass:Toggle("Thắc Chế Thang",false,function(v)
