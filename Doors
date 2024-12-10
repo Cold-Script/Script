@@ -2,7 +2,12 @@
 if game:GetService("ReplicatedStorage").EntityInfo.Name == "EntityInfo" then
 game:GetService("ReplicatedStorage").EntityInfo.Name = "RemotesFolder"
 end
-
+local RemotesFolder = game:GetService("ReplicatedStorage").RemotesFolder
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character
+local Camera = game:GetService("Workspace").Camera
+local Gravity = game:GetService("Workspace").Gravity
 --[[ Script ]]--
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Cold-Script/Library/refs/heads/main/Library.txt"))()
 local Window = Library:Window("Lonestar",UDim2.new(0, 520, 0, 400))
