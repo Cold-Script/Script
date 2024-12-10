@@ -11,10 +11,29 @@ local Gravity = game:GetService("Workspace").Gravity
 local Verson = "1.2"
 --[[ Script ]]--
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Cold-Script/Library/refs/heads/main/Library.txt"))()
-local Window = Library:Window("Lonestar | Verson : " .. Verson .. " | Tysm : " .. LocalPlayer.Name,UDim2.new(0, 520, 0, 400))
+local Window = Library:Window("• Lonestar | Verson : " .. Verson .. " | Tysm : " .. LocalPlayer.Name .. " •",UDim2.new(0, 520, 0, 400))
 local Tab = {
 Main = Window:Tab("Main",UDim2.new(0, 240, 0, 300)),
 Players = Window:Tab("Players",UDim2.new(0, 240, 0, 300)),
 Exploits = Window:Tab("Exploit",UDim2.new(0, 240, 0, 300)),
 Visual = Window:Tab("Visual",UDim2.new(0, 240, 0, 300))
 }
+local Misc = Tab.Main:CraftPage(1)
+Misc:Seperator("Lặt vặt")
+Misc:Dropdown("Chọn khi chết",{"Sảnh","Thoát","Hồi Sinh"},"",function(v)
+_G.SelectMisc = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.EnabledOnDeath then
+if game:GetService("Players").LocalPlayer.Character.Humanoid.Health == 0 and _G.SelectMisc == "Sảnh" then
+RemotesFolder.Lobby:FireServer()
+elseif game:GetService("Players").LocalPlayer.Character.Humanoid.Health == 0 and _G.SelectMisc == "Thoát" then
+game:Shutdown()
+elseif game:GetService("Players").LocalPlayer.Character.Humanoid.Health == 0 and _G.SelectMisc == "Hồi Sinh" then
+RemotesFolder.Revive:FireServer()
+end
+end
+end)
+end)
+Misc:Toggle("Nhận chọn khi chết",false,function(v)
+_G.EnabledOnDeath = v
+end)
