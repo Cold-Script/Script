@@ -1,5 +1,5 @@
 --[[ Data ]]--
-if game:GetService("ReplicatedStorage").EntityInfo.Name == "EntityInfo" then
+if game.ReplicatedStorage.GameData.Floor.Value == "Fools" and game:GetService("ReplicatedStorage").EntityInfo.Name == "EntityInfo" then
 game:GetService("ReplicatedStorage").EntityInfo.Name = "RemotesFolder"
 end
 local RemotesFolder = game:GetService("ReplicatedStorage").RemotesFolder
@@ -34,23 +34,23 @@ end
 end
 end)
 end)
-Misc:Toggle("Nhận chọn khi chết",false,function(v)
+Misc:Toggle("Nhận Chọn Khi Chết",false,function(v)
 _G.EnabledOnDeath = v
 end)
 Misc:Button("Chơi Tiếp",function()
 RemotesFolder.PlayAgain:FireServer()
 end)
-Misc:Button("Hồi sinh",function()
+Misc:Button("Hồi Sinh",function()
 RemotesFolder.Revive:FireServer()
 end)
 Misc:Button("Thoát",function()
 game:Shutdown()
 end)
-Misc:Button("Đặt lại nhân vật",function()
+Misc:Button("Đặt Lại Nhân Vật",function()
 Character.Humanoid.Health = 0
 end)
-Misc:Seperator("Nhấn và tương tác")
-Misc:Toggle("Tương tác nhanh",false,function(v)
+Misc:Seperator("Nhấn Và Tương Tác")
+Misc:Toggle("Tương Tác Nhanh",false,function(v)
 _G.InstanceInteract = v
 if _G.InstanceInteract then
 for _,v in pairs(workspace:GetDescendants()) do
@@ -69,7 +69,7 @@ else
 InstanceInteract:Disconnect()
 end
 end)
-Misc:Toggle("Tương tác xuyên",false,function(v)
+Misc:Toggle("Tương Tác Xuyên",false,function(v)
 _G.ThroughInteract = v
 if _G.ThroughInteract then
 for _,v in pairs(workspace:GetDescendants()) do
@@ -93,7 +93,7 @@ end
 ThroughInteract:Disconnect()
 end
 end)
-Misc:Toggle("Tương tác xa",false,function(v)
+Misc:Toggle("Tương Tác Xa",false,function(v)
 _G.RemoteInteract = v
 if _G.RemoteInteract then
 for _,v in pairs(workspace:GetDescendants()) do
@@ -126,7 +126,7 @@ if _G.RemoteDoors then game.workspace.CurrentRooms[tostring(game:GetService("Rep
 end 
 end)
 end)
-Rooms:Toggle("Cửa xa",false,function(v)
+Rooms:Toggle("Cửa Xa",false,function(v)
 _G.RemoteDoors = v
 end)
 game:GetService("RunService").RenderStepped:Connect(function()
@@ -135,7 +135,7 @@ if _G.FastDoors then game.workspace.CurrentRooms[tostring(game:GetService("Repli
 end 
 end)
 end)
-Rooms:Toggle("Cửa nhanh",false,function(v)
+Rooms:Toggle("Cửa Nhanh",false,function(v)
 _G.FastDoors = v
 end)
 game.Players.LocalPlayer.Character.Humanoid:GetPropertyChangedSignal("MoveDirection"):Connect(function()
@@ -143,7 +143,7 @@ if _G.ClosetsExitFix and game.Players.LocalPlayer.Character:GetAttribute("Hiding
 game:GetService("ReplicatedStorage").EntityInfo.CamLock:FireServer()
 end 
 end)
-Rooms:Toggle("Thoát trốn sửa lỗi",false,function(v)
+Rooms:Toggle("Thoát Trốn Sửa Lỗi",false,function(v)
 _G.ClosetsExitFix = v
 end)
 Rooms:Seperator("World")
@@ -164,7 +164,7 @@ else
 workspace.FallenPartsDestroyHeight = -50000
 end
 end)
-Rooms:Toggle("Không hợp bầu trời",false,function(v)
+Rooms:Toggle("Không Hộp Bầu Trời",false,function(v)
 if v then
 workspace.Camera.SkyboxPart.Transparency = 1
 else
@@ -172,15 +172,15 @@ workspace.Camera.SkyboxPart.Transparency = 0
 end
 end)
 Rooms:Seperator("50")
-Rooms:Toggle("Tự động giải thư viện",false,function(v)
+Rooms:Toggle("Tự Động Giải Thư Viện",false,function(v)
 _G.AutoLibrary = v
 game:GetService("RunService").RenderStepped:Connect(function()
 if workspace:FindFirstChild("LibraryHintPaper",true) or workspace:FindFirstChild("LibraryHintPaperHard",true) and _G.AutoLibrary then
-game:GetService("ReplicatedStorage").RemotesFolder.PL:FireServer()
+RemotesFolder.PL:FireServer()
 end
 end)
 end)
-Rooms:Button("Giải thư viện",function()
+Rooms:Button("Giải Thư Viện",function()
 local Floor = game:GetService("ReplicatedStorage").GameData.Floor
 local Paper = workspace:FindFirstChild("LibraryHintPaper",true) or workspace:FindFirstChild("LibraryHintPaperHard",true) or Players:FindFirstChild("LibraryHintPaper",true) or Players:FindFirstChild("LibraryHintPaperHard",true)
 if not Paper then
@@ -230,14 +230,14 @@ for seven=0,t[7]==-1 and 9 or 0 do
 for eight=0,t[8]==-1 and 9 or 0 do
 for nine=0,t[9]==-1 and 9 or 0 do
 for ten=0,t[10]==-1 and 9 or 0 do
-game:GetService("ReplicatedStorage").RemotesFolder.PL:FireServer((t[1]==-1 and one or t[1])..(t[2]==-1 and two or t[2])..(t[3]==-1 and three or t[3])..(t[4]==-1 and four or t[4])..(t[5]==-1 and five or t[5])..(t[6]==-1 and six or t[6])..(t[7]==-1 and seven or t[7])..(t[8]==-1 and eight or t[8])..(t[9]==-1 and nine or t[9])..(t[10]==-1 and ten or t[10]))
+RemotesFolder.PL:FireServer((t[1]==-1 and one or t[1])..(t[2]==-1 and two or t[2])..(t[3]==-1 and three or t[3])..(t[4]==-1 and four or t[4])..(t[5]==-1 and five or t[5])..(t[6]==-1 and six or t[6])..(t[7]==-1 and seven or t[7])..(t[8]==-1 and eight or t[8])..(t[9]==-1 and nine or t[9])..(t[10]==-1 and ten or t[10]))
 end
 end
 end
 end
 end
 else
-game:GetService("ReplicatedStorage").RemotesFolder.PL:FireServer((t[1]==-1 and one or t[1])..(t[2]==-1 and two or t[2])..(t[3]==-1 and three or t[3])..(t[4]==-1 and four or t[4])..(t[5]==-1 and five or t[5]))
+RemotesFolder.PL:FireServer((t[1]==-1 and one or t[1])..(t[2]==-1 and two or t[2])..(t[3]==-1 and three or t[3])..(t[4]==-1 and four or t[4])..(t[5]==-1 and five or t[5]))
 end
 end
 end
@@ -246,15 +246,15 @@ end
 end
 end)
 Rooms:Seperator("100")
-Rooms:Toggle("Tự động điện",false,function(v)
+Rooms:Toggle("Tự Động Điện",false,function(v)
 _G.AutoBreaker = v
 game:GetService("RunService").RenderStepped:Connect(function()
 if _G.AutoBreaker then
-game:GetService("ReplicatedStorage").RemotesFolder.EBF:FireServer()
+RemotesFolder.EBF:FireServer()
 end
 end)
 end)
-Rooms:Button("Hoàn thành điện",function()
-game:GetService("ReplicatedStorage").RemotesFolder.EBF:FireServer()
+Rooms:Button("Hoàn Thành Điện",function()
+RemotesFolder.EBF:FireServer()
 end)
 
