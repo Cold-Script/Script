@@ -591,7 +591,7 @@ Default = false,
 Callback = function(v)
 getgenv().NoBobCam = v
 game:GetService("RunService").RenderStepped:Connect(function()
-game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game.spring.Speed = getgenv().NoBobCam and 9e9 or 5
+require(game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game).spring.Speed = getgenv().NoBobCam and 9e9 or 5
 end)
 end})
 Tabs.Players:AddToggle("NoCameraShake",{
@@ -600,4 +600,110 @@ Description = "Không Màn Hình Lắc",
 Default = false,
 Callback = function(v)
 RemotesFolder.CamShake:FireServer(not v)
+end})
+
+Tabs.Exploits:AddSection("Anti Entity")
+game:GetService("RunService").RenderStepped:Connect(function()
+if getgenv().AntiSnare then
+if game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets"):FindFirstChild("Snare") then
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets"):GetChildren()) do 
+if v.Name == "Snare" then 
+v.Hitbox.CanTouch = false
+end 
+end 
+end 
+end 
+end)
+Tabs.Exploits:AddToggle("AntiSnare",{
+Title = "Anti-Snare",
+Description = "Không Thể Chạm Bẫy",
+Default = false,
+Callback = function(v)
+getgenv().AntiSnare = v
+end})
+Tabs.Exploits:AddToggle("AntiDupe",{
+Title = "Anti-Dupe",
+Description = "Không Thể Chạm Dupe (Cửa Sai)",
+Default = false,
+Callback = function(v)
+getgenv().AntiDupe = v
+while getgenv().AntiDupe do wait(1)
+for _, v in (workspace:GetDescendants()) do
+if v.Name == "DoorFake" and v:IsA("Model") then
+v.Hidden.CanTouch = not getgenv().AntiDupe
+if v:FindFirstChild("LockPart") and v.LockPart:FindFirstChild("UnlockPrompt") then
+v.LockPart.UnlockPrompt.Enabled = not true
+end
+end
+end
+end
+end})
+game:GetService("RunService").RenderStepped:Connect(function()
+if getgenv().AntiChandelier then 
+if game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets"):FindFirstChild("ChandelierObstruction") then 
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets"):GetChildren()) do 
+if v.Name == "ChandelierObstruction" then 
+v.HurtPart.CanTouch = false
+end 
+end 
+end 
+end 
+end)
+Tabs.Exploits:AddToggle("AntiChandelier",{
+Title = "Anti-Chandelier",
+Description = "Không Thể Chạm Đèn Dầu",
+Default = false,
+Callback = function(v)
+getgenv().AntiChandelier = v
+end})
+game:GetService("RunService").RenderStepped:Connect(function()
+if getgenv().AntiSeekArms then
+if game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets"):FindFirstChild("Seek_Arm") then
+for _,v in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Assets"):GetChildren()) do 
+if v.Name == "Seek_Arm" then 
+v.AnimatorPart.CanTouch = false
+end 
+end 
+end 
+end 
+end)
+Tabs.Exploits:AddToggle("AntiSeekArms",{
+Title = "Anti-Seek Arms",
+Description = "Không Thể Chạm Tay Seek",
+Default = false,
+Callback = function(v)
+getgenv().AntiSeekArms = v
+end})
+game:GetService("RunService").RenderStepped:Connect(function()
+if not (game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and game.Players.LocalPlayer.Character:FindFirstChild("Collision")) then return end
+if workspace:FindFirstChild("Eyes") and getgenv().AntiEyes then
+for _, v in workspace:GetChildren() do
+if v.Name == "Eyes" and v:FindFirstChild("Core") and v.Core:FindFirstChild("Ambience") and v.Core.Ambience.Playing then
+game.ReplicatedStorage.RemotesFolder.MotorReplication:FireServer(-650)
+break
+end
+end
+end
+if workspace:FindFirstChild("BackdoorLookman") and getgenv().AntiLookman then
+for _, v in workspace:GetChildren() do
+if v.Name == "BackdoorLookman" and v:FindFirstChild("Core") and v.Core:FindFirstChild("Ambience") and v.Core.Ambience.Playing then
+game.ReplicatedStorage.RemotesFolder.MotorReplication:FireServer(-650)
+break
+end
+end
+end
+end)
+Tabs.Exploits:AddToggle("AntiEyes",{
+Title = "Anti-Eyes",
+Description = "Không Thể Mất Máu Từ Eyes",
+Default = false,
+Callback = function(v)
+getgenv().AntiEyes = v
+end})
+Tabs.Exploits:AddToggle("AntiLookman",{
+Title = "Anti-Lookman",
+Description = "Không Thể Mất Máu Từ Lookman",
+Default = false,
+Callback = function(v)
+getgenv().AntiLookman = v
 end})
