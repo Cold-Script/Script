@@ -178,7 +178,141 @@ Default = false,
 Callback = function(v)
 getgenv().ClosetsExitFix = v
 end})
+Tabs.Main:AddToggle("Low",{
+Title = "Low Mode",
+Description = "Chế Độ Chậm",
+Default = false,
+Callback = function(v)
+if v then
+for _, object in pairs(workspace:GetDescendants()) do
+if object:IsA("BasePart") then
+if not object:GetAttribute("Material") then object:SetAttribute("Material", object.Material) end
+if not object:GetAttribute("Reflectance") then object:SetAttribute("Reflectance", object.Reflectance) end
+object.Material = true and Enum.Material.Plastic or object:GetAttribute("Material")
+object.Reflectance = true and 0 or object:GetAttribute("Reflectance")
+elseif object:IsA("Decal") then
+if not object:GetAttribute("Transparency") then object:SetAttribute("Transparency", object.Transparency) end
+end
+end
+workspace.Terrain.WaterReflectance = true and 0 or 1
+workspace.Terrain.WaterTransparency = true and 0 or 1
+workspace.Terrain.WaterWaveSize = true and 0 or 0.05
+workspace.Terrain.WaterWaveSpeed = true and 0 or 8
+LowQuality = workspace.CurrentRooms.ChildAdded:Connect(function(child)
+for _, object in pairs(workspace:GetDescendants()) do
+if object:IsA("BasePart") then
+if not object:GetAttribute("Material") then object:SetAttribute("Material", object.Material) end
+if not object:GetAttribute("Reflectance") then object:SetAttribute("Reflectance", object.Reflectance) end
+object.Material = true and Enum.Material.Plastic or object:GetAttribute("Material")
+object.Reflectance = true and 0 or object:GetAttribute("Reflectance")
+elseif object:IsA("Decal") then
+if not object:GetAttribute("Transparency") then object:SetAttribute("Transparency", object.Transparency) end
+end
+end
+workspace.Terrain.WaterReflectance = true and 0 or 1
+workspace.Terrain.WaterTransparency = true and 0 or 1
+workspace.Terrain.WaterWaveSize = true and 0 or 0.05
+workspace.Terrain.WaterWaveSpeed = true and 0 or 8
+end)
+else
+LowQuality:Disconnect()
+for _, object in pairs(workspace:GetDescendants()) do
+if object:IsA("BasePart") then
+if not object:GetAttribute("Material") then object:SetAttribute("Material", object.Material) end
+if not object:GetAttribute("Reflectance") then object:SetAttribute("Reflectance", object.Reflectance) end
+object.Material = false and Enum.Material.Plastic or object:GetAttribute("Material")
+object.Reflectance = false and 0 or object:GetAttribute("Reflectance")
+elseif object:IsA("Decal") then
+if not object:GetAttribute("Transparency") then object:SetAttribute("Transparency", object.Transparency) end
+end
+end
+workspace.Terrain.WaterReflectance = false and 0 or 1
+workspace.Terrain.WaterTransparency = false and 0 or 1
+workspace.Terrain.WaterWaveSize = false and 0 or 0.05
+workspace.Terrain.WaterWaveSpeed = false and 0 or 8
+end
+end})
+Tabs.Main:AddToggle("NoLight",{
+Title = "Delete Light",
+Description = "Xoá Đèn",
+Default = false,
+Callback = function(v)
+if v then
+for _,v in pairs(workspace.CurrentRooms:GetDescendants()) do
+if v.Name == "Chandelier" then
+v:Destroy()
+elseif v.Name == "Light_Fixtures" then
+v:Destroy()
+end
+end
+RemovalsLight = workspace.CurrentRooms.ChildAdded:Connect(function(child)
+for _,v in pairs(workspace.CurrentRooms:GetDescendants()) do
+if v.Name == "Chandelier" then
+v:Destroy()
+elseif v.Name == "Light_Fixtures" then
+v:Destroy()
+end
+end
+end)
+else
+RemovalsLight:Disconnect()
+end
+end})
+Tabs.Main:AddToggle("NoBat",{
+Title = "Delete Bat",
+Description = "Không Dơi",
+Default = false,
+Callback = function(v)
+if v then
+for _,v in pairs(game.workspace.CurrentRooms:GetDescendants()) do
+if v:IsA("Model") and v.Name == "HangingHalloweenDecor" then
+v:Destroy()
+end
+end
+NoBat = workspace.CurrentRooms.ChildAdded:Connect(function(child)
+for _,v in pairs(game.workspace.CurrentRooms:GetDescendants()) do
+if v:IsA("Model") and v.Name == "HangingHalloweenDecor" then
+v:Destroy()
+end
+end
+end)
+else
+NoBat:Disconnect()
+end
+end})
 Tabs.Main:AddSection("World - Thế Giới")
+Tabs.Main:AddToggle("ClosetExitFix",{
+Title = "No Darkness Effect",
+Description = "Không Hiệu Ứng Bóng Tối",
+Default = false,
+Callback = function(v)
+if v then
+game.Lighting.Brightness = 1.5
+game.Lighting.GlobalShadows = false
+game.Lighting.OutdoorAmbient = Color3.new(1,1,1)
+else
+game.Lighting.Brightness = 1
+game.Lighting.GlobalShadows = true
+game.Lighting.OutdoorAmbient = Color3.new(0,0,0)
+end
+end})
+Tabs.Main:AddToggle("NoFog",{
+Title = "Delete Fog",
+Description = "Không Sương Mù",
+Default = false,
+Callback = function(v)
+pcall(function()
+if not game.Lighting:GetAttribute("FogStart") then game.Lighting:SetAttribute("FogStart", game.Lighting.FogStart) end
+if not game.Lighting:GetAttribute("FogEnd") then game.Lighting:SetAttribute("FogEnd", game.Lighting.FogEnd) end
+game.Lighting.FogStart = v and 0 or game.Lighting:GetAttribute("FogStart")
+game.Lighting.FogEnd = v and math.huge or game.Lighting:GetAttribute("FogEnd")
+local fog = game.Lighting:FindFirstChildOfClass("Atmosphere")
+if fog then
+if not fog:GetAttribute("Density") then fog:SetAttribute("Density", fog.Density) end
+fog.Density = v and 0 or fog:GetAttribute("Density")
+end
+end)
+end})
 Tabs.Main:AddToggle("NoLiveSanityEffect",{
 Title = "No Live Sanity Effect",
 Description = "Không Hiệu Ứng Sọc Đỏ Nhiễu",
