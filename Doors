@@ -356,7 +356,7 @@ Description = "Tự Giải Mã Thư Viện 50",
 Callback = function()
 local Floor = game:GetService("ReplicatedStorage").GameData.Floor
 local Paper = workspace:FindFirstChild("LibraryHintPaper",true) or workspace:FindFirstChild("LibraryHintPaperHard",true) or Players:FindFirstChild("LibraryHintPaper",true) or Players:FindFirstChild("LibraryHintPaperHard",true)
-if not Paper and workspace.CurrentRooms["50"] then
+if not Paper then
 print("Needed Paper")
 return
 end
