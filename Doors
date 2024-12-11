@@ -16,7 +16,7 @@ local Window = Fluent:CreateWindow({
     Theme = "Dark",
     MinimizeKey = Enum.KeyCode.LeftControl
 })
-local Tab = {
+local Tabs = {
     Main = Window:AddTab({ Title = "Main", Icon = "layers" }),
     Players = Window:AddTab({ Title = "Players", Icon = "circle-user" }),
     Exploits = Window:AddTab({ Title = "Exploits", Icon = "book-check" }),
