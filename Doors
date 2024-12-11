@@ -281,7 +281,7 @@ NoBat:Disconnect()
 end
 end})
 Tabs.Main:AddSection("World - Thế Giới")
-Tabs.Main:AddToggle("ClosetExitFix",{
+Tabs.Main:AddToggle("NoDarknessEffect",{
 Title = "No Darkness Effect",
 Description = "Không Hiệu Ứng Bóng Tối",
 Default = false,
@@ -437,7 +437,7 @@ Title = "Select Speed",
 Description = "Chọn Tốc Độ",
 Default = 15,
 Min = 15,
-Max = 22,
+Max = 21,
 Rounding = 1,
 Callback = function(v)
 getgenv().Speed = v
