@@ -246,7 +246,7 @@ v:Destroy()
 end
 end
 RemovalsLight = workspace.CurrentRooms.ChildAdded:Connect(function(child)
-for _,v in pairs(workspace.CurrentRooms:GetDescendants()) do
+for _,v in pairs(workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
 if v.Name == "Chandelier" then
 v:Destroy()
 elseif v.Name == "Light_Fixtures" then
@@ -270,7 +270,7 @@ v:Destroy()
 end
 end
 NoBat = workspace.CurrentRooms.ChildAdded:Connect(function(child)
-for _,v in pairs(game.workspace.CurrentRooms:GetDescendants()) do
+for _,v in pairs(workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
 if v:IsA("Model") and v.Name == "HangingHalloweenDecor" then
 v:Destroy()
 end
@@ -560,7 +560,7 @@ end
 end)
 end})
 Tabs.Players:AddSection("Camera - Màn Hình")
-Tabs.Players:AddSlider("FOV", {
+Tabs.Players:AddSlider("FOV",{
 Title = "Select Field Of View",
 Description = "Chọn Độ Rộng Màn Hình",
 Default = 70,
