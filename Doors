@@ -383,3 +383,70 @@ game:GetService("RunService").RenderStepped:Connect(function()
 game.Players.LocalPlayer.Character:SetAttribute("CanJump", getgenv().Jump)
 end)
 end})
+Tabs.Players:AddSection("Bypass")
+Tabs.Players:AddToggle("LadderBypass",{
+Title = "Ladder Bypass",
+Description = "Nhấn Cầu Thang Để Bypass",
+Default = false,
+Callback = function(v)
+getgenv().LadderBypass = v
+task.spawn(function()
+while getgenv().LadderBypass do wait(1)
+if v and not workspace:FindFirstChild("progressPart") then
+local progressPart = Instance.new("Part", workspace) do
+progressPart.Anchored = true
+progressPart.CanCollide = false
+progressPart.Name = "Ladder_Bypass"
+progressPart.Transparency = 1
+end
+if getgenv().LadderBypass and game.Players.LocalPlayer.Character:GetAttribute("Climbing") then
+task.wait(1)
+game.Players.LocalPlayer.Character:SetAttribute("Climbing", false)
+end
+else
+if workspace:FindFirstChild("Ladder_Bypass") then 
+workspace:FindFirstChild("Ladder_Bypass"):Destroy() 
+end
+end
+end
+end)
+end})
+Tabs.Players:AddToggle("LadderBypass",{
+Title = "Crouch Spoof",
+Description = "Ngồi Trong Tư Thế Đứng",
+Default = false,
+Callback = function(v)
+getgenv().CrouchSpoof = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if getgenv().CrouchSpoof then
+game:GetService("ReplicatedStorage").RemotesFolder.Crouch:FireServer(true)
+else
+game:GetService("ReplicatedStorage").RemotesFolder.Crouch:FireServer(false)
+end
+end)
+end})
+Tabs.Players:AddSection("Camera - Màn Hình")
+Tabs.Players:AddSlider("FOV", {
+Title = "Select Field Of View",
+Description = "Chọn Độ Rộng Màn Hình",
+Default = 70,
+Min = 70,
+Max = 120,
+Rounding = 1,
+Callback = function(v)
+getgenv().FieldOfView = v
+end})
+Tabs.Players:AddToggle("EnabledFOV",{
+Title = "Field Of View",
+Description = "Lấy Độ Rộng Màn Hình",
+Default = false,
+Callback = function(v)
+getgenv().Field = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if getgenv().Field then
+workspace.CurrentCamera.FieldOfView = getgenv().FieldOfView or 70
+else
+workspace.CurrentCamera.FieldOfView = 70
+end
+end)
+end})
