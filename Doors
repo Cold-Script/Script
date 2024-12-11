@@ -437,7 +437,7 @@ Title = "Select Speed",
 Description = "Chọn Tốc Độ",
 Default = 15,
 Min = 15,
-Max = 21,
+Max = 50,
 Rounding = 1,
 Callback = function(v)
 getgenv().Speed = v
@@ -455,6 +455,52 @@ else
 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 15
 end
 end)
+end})
+Tabs.Players:AddButton({
+Title = "Speed Bypass",
+Description = "Tốc Độ Bypass",
+Callback = function()
+local speedBoost, speedBoostFinished, speed = 30, false, false
+if bypass then
+if collisionClone then collisionClone:Destroy() end
+speed = true       
+local originalSpeed = SpeedBypass
+repeat task.wait()
+if not SpeedBypass then
+SpeedBypass:SetValue(true)
+end
+until speedBoostFinished
+SpeedBypass:SetValue(originalSpeed)
+else
+task.spawn(function()  
+while not collisionClone do
+collisionClone = game.Players.LocalPlayer.Character.Collision:Clone() do
+collisionClone.CanCollide = false
+collisionClone.Massless = true
+collisionClone.Name = "CollisionClone"
+if collisionClone:FindFirstChild("CollisionCrouch") then
+collisionClone.CollisionCrouch:Destroy()
+end   
+collisionClone.Parent = game.Players.LocalPlayer.Character    
+end
+end
+end)
+task.spawn(function()  
+while not speedBoostFinished do
+collisionClone.Massless = not collisionClone.Massless
+task.wait(0.2024)
+end           
+collisionClone.Massless = true                  
+end)
+end
+end})
+Tabs.Players:AddButton({
+Title = "Delete Speed Bypass",
+Description = "Xoá Tốc Độ Bypass",
+Callback = function()
+if game.Players.LocalPlayer.Character:FindFirstChild("CollisionClone") then
+game.Players.LocalPlayer.Character.CollisionClone:Destroy()
+end
 end})
 Tabs.Players:AddSection("Added - Thêm")
 Tabs.Players:AddToggle("AutoEatCandy",{
@@ -797,5 +843,115 @@ end
 end)
 else
 AntiBanana:Disconnect()
+end
+end})
+Tabs.Exploits:AddToggle("AntiJeff",{
+Title = "Anti-Jeff The Killer",
+Description = "Không Thể Gặp Jeff The Killer",
+Default = false,
+Callback = function(v)
+if v then
+for _,v in pairs(game.workspace:GetChildren()) do 
+if v.Name == "JeffTheKiller" then 
+v.Knife.CanTouch = false 
+v.Knife.CanCollide = false
+end 
+end 
+for _,v in pairs(game.workspace:GetChildren()) do 
+if v.Name == "JeffTheKiller" then 
+v.Head.CanTouch = false 
+v.Head.CanCollide = false
+end 
+end 
+for _,v in pairs(game.workspace:GetChildren()) do 
+if v.Name == "JeffTheKiller" then 
+v.HumanoidRootPart.CanTouch = false 
+v.HumanoidRootPart.CanCollide = false
+end 
+end 
+for _,v in pairs(game.workspace:GetChildren()) do 
+if v.Name == "JeffTheKiller" then 
+v["Left Arm"].CanTouch = false 
+v["Left Arm"].CanCollide = false
+end 
+end
+for _,v in pairs(game.workspace:GetChildren()) do 
+if v.Name == "JeffTheKiller" then 
+v["Left Leg"].CanTouch = false 
+v["Left Leg"].CanCollide = false
+end 
+end 
+for _,v in pairs(game.workspace:GetChildren()) do 
+if v.Name == "JeffTheKiller" then 
+v["Right Arm"].CanTouch = false 
+v["Right Arm"].CanCollide = false
+end 
+end 
+for _,v in pairs(game.workspace:GetChildren()) do 
+if v.Name == "JeffTheKiller" then 
+v["Right Leg"].CanTouch = false 
+v["Right Leg"].CanCollide = false
+end 
+end 
+for _,v in pairs(game.workspace:GetChildren()) do
+if v.Name == "JeffTheKiller" then 
+v.Torso.CanTouch = false 
+v.Torso.CanCollide = false
+v:Destroy()
+end 
+end 
+AntiJeff = workspace.ChildAdded:Connect(function(child)
+for _,v in pairs(game.workspace:GetChildren()) do 
+if v.Name == "JeffTheKiller" then 
+v.Knife.CanTouch = false 
+v.Knife.CanCollide = false
+end 
+end 
+for _,v in pairs(game.workspace:GetChildren()) do 
+if v.Name == "JeffTheKiller" then 
+v.Head.CanTouch = false 
+v.Head.CanCollide = false
+end 
+end 
+for _,v in pairs(game.workspace:GetChildren()) do 
+if v.Name == "JeffTheKiller" then 
+v.HumanoidRootPart.CanTouch = false 
+v.HumanoidRootPart.CanCollide = false
+end 
+end 
+for _,v in pairs(game.workspace:GetChildren()) do 
+if v.Name == "JeffTheKiller" then 
+v["Left Arm"].CanTouch = false 
+v["Left Arm"].CanCollide = false
+end 
+end
+for _,v in pairs(game.workspace:GetChildren()) do 
+if v.Name == "JeffTheKiller" then 
+v["Left Leg"].CanTouch = false 
+v["Left Leg"].CanCollide = false
+end 
+end 
+for _,v in pairs(game.workspace:GetChildren()) do 
+if v.Name == "JeffTheKiller" then 
+v["Right Arm"].CanTouch = false 
+v["Right Arm"].CanCollide = false
+end 
+end 
+for _,v in pairs(game.workspace:GetChildren()) do 
+if v.Name == "JeffTheKiller" then 
+v["Right Leg"].CanTouch = false 
+v["Right Leg"].CanCollide = false
+end 
+end 
+for _,v in pairs(game.workspace:GetChildren()) do
+if v.Name == "JeffTheKiller" then 
+v.Torso.CanTouch = false 
+v.Torso.CanCollide = false
+v:Destroy()
+end 
+end 
+end)
+else
+AntiJeff:Disconnect()
 end
 end})
