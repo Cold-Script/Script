@@ -222,7 +222,7 @@ Description = "Tự Giải Mã Thư Viện 50",
 Callback = function()
 local Floor = game:GetService("ReplicatedStorage").GameData.Floor
 local Paper = workspace:FindFirstChild("LibraryHintPaper",true) or workspace:FindFirstChild("LibraryHintPaperHard",true) or Players:FindFirstChild("LibraryHintPaper",true) or Players:FindFirstChild("LibraryHintPaperHard",true)
-if not Paper then
+if not Paper and workspace.CurrentRooms["50"] then
 print("Needed Paper")
 return
 end
@@ -293,6 +293,47 @@ getgenv().AutoBreaker = v
 game:GetService("RunService").RenderStepped:Connect(function()
 if getgenv().AutoBreaker then
 game:GetService("ReplicatedStorage").RemotesFolder.EBF:FireServer()
+end
+end)
+end})
+
+Tabs.Players:AddSection("Players - Người Chơi")
+Tabs.Players:AddSlider("Speed", {
+Title = "Select Speed",
+Description = "Chọn Tốc Độ",
+Default = 15,
+Min = 15,
+Max = 21,
+Rounding = 1,
+Callback = function(v)
+getgenv().Speed = v
+end})
+Tabs.Players:AddToggle("EnabledSpeed",{
+Title = "Speed",
+Description = "Lấy Tốc Độ",
+Default = false,
+Callback = function(v)
+getgenv().EnabledSpeed = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if getgenv().EnabledSpeed then
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = getgenv().Speed or 15
+else
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 15
+end
+end)
+end})
+Tabs.Players:AddSection("Added - Thêm")
+Tabs.Players:AddToggle("AutoEatCandy",{
+Title = "Auto Eat Candy",
+Description = "Tự Động Ăn Kẹo",
+Default = false,
+Callback = function(v)
+getgenv().EatCandy = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if game.Players.LocalPlayer.Character:FindFirstChild("Candy",true) and getgenv().EatCandy then
+if not game.Players.LocalPlayer.Character:FindFirstChild("Meshes/DOORS_EvilCandy_Cube", true) then
+game.Players.LocalPlayer.Character.Candy.Remote:FireServer()
+end
 end
 end)
 end})
