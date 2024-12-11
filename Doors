@@ -303,7 +303,7 @@ Title = "Select Speed",
 Description = "Chọn Tốc Độ",
 Default = 15,
 Min = 15,
-Max = 21,
+Max = 22,
 Rounding = 1,
 Callback = function(v)
 getgenv().Speed = v
@@ -449,4 +449,21 @@ else
 workspace.CurrentCamera.FieldOfView = 70
 end
 end)
+end})
+Tabs.Players:AddToggle("NoCameraBob",{
+Title = "No Camera Bob",
+Description = "Không Màn Hình Bob",
+Default = false,
+Callback = function(v)
+getgenv().NoBobCam = v
+game:GetService("RunService").RenderStepped:Connect(function()
+game.Players.LocalPlayer.PlayerGui.MainUI.Initiator.Main_Game.spring.Speed = getgenv().NoBobCam and 9e9 or 5
+end)
+end})
+Tabs.Players:AddToggle("NoCameraShake",{
+Title = "No Camera Shake",
+Description = "Không Màn Hình Lắc",
+Default = false,
+Callback = function(v)
+RemotesFolder.CamShake:FireServer(not v)
 end})
