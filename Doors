@@ -707,3 +707,95 @@ Default = false,
 Callback = function(v)
 getgenv().AntiLookman = v
 end})
+game:GetService("RunService").RenderStepped:Connect(function()
+pcall(function()
+if getgenv().AntiGiggle then
+for _, room in pairs(game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetChildren()) do
+if room.Name == "GiggleCeiling" then
+room.Hitbox.CanTouch = false
+end
+end
+end
+end)
+end)
+Tabs.Exploits:AddToggle("AntiGiggle",{
+Title = "Anti-Giggle",
+Description = "Không Thể Chạm Giggle",
+Default = false,
+Callback = function(v)
+getgenv().AntiGiggle = v
+end})
+Tabs.Exploits:AddToggle("AntiScreech",{
+Title = "Anti-Screech",
+Description = "Không Thể Mất Máu Từ Screech",
+Default = false,
+Callback = function(v)
+getgenv().AntiScreech = v
+while getgenv().AntiScreech do wait(1)
+if getgenv().AntiScreech then
+RemotesFolder.Screech.Name = "_Screech"
+else
+RemotesFolder._Screech.Name = "Screech"
+end
+end
+end})
+Tabs.Exploits:AddToggle("AntiA90",{
+Title = "Anti-A90",
+Description = "Không Thể Chạm A90",
+Default = false,
+Callback = function(v)
+if v then
+game:GetService("ReplicatedStorage").RemotesFolder.A90.Name = "_A90"
+game.Players.LocalPlayer.PlayerGui:WaitForChild("MainUI"):WaitForChild("Jumpscare"):FindFirstChild("Jumpscare_A90").Parent = nil
+else
+game:GetService("ReplicatedStorage").RemotesFolder._A90.Name = "A90"
+game.Players.LocalPlayer.PlayerGui:WaitForChild("MainUI"):WaitForChild("Jumpscare"):FindFirstChild("Jumpscare_A90").Parent = game.Players.LocalPlayers.PlayerGui.MainUI.Jumpscare
+end
+end})
+Tabs.Exploits:AddToggle("AntiDread",{
+Title = "Anti-Dread",
+Description = "Không Thể Chạm Dread",
+Default = false,
+Callback = function(v)
+if v then
+game.Players.LocalPlayer.PlayerGui:WaitForChild("MainUI"):WaitForChild("Jumpscare"):FindFirstChild("Jumpscare_Dread").Parent = nil
+game:GetService("ReplicatedStorage").RemotesFolder.Dread.Name = "_Dread"
+else
+game.Players.LocalPlayer.PlayerGui:WaitForChild("MainUI"):WaitForChild("Jumpscare"):FindFirstChild("Jumpscare_Dread").Parent = game.Players.LocalPlayers.PlayerGui.MainUI.Jumpscare
+game:GetService("ReplicatedStorage").RemotesFolder._Dread.Name = "Dread"
+end
+end})
+Tabs.Exploits:AddToggle("AntiHalt",{
+Title = "Anti-Halt",
+Description = "Không Gặp Halt",
+Default = false,
+Callback = function(v)
+getgenv().AntiHalt = v
+while getgenv().AntiHalt do wait(0.1)
+game:GetService("ReplicatedStorage").ClientModules.EntityModules.Shade.Parent = game.Workspace
+end
+end})
+Tabs.Exploits:AddToggle("AntiLookman",{
+Title = "Anti-Banana",
+Description = "Không Thể Chạm Chuối",
+Default = false,
+Callback = function(v)
+if v then
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("Part") and v.Name == "BananaPeel" then
+v.CanTouch = false
+v:Destroy()
+end
+end
+AntiBanana = workspace.ChildAdded:Connect(function(child)
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("Part") and v.Name == "BananaPeel" then
+v.CanTouch = false
+v:Destroy()
+end
+end
+end)
+else
+AntiBanana:Disconnect()
+end
+end})
