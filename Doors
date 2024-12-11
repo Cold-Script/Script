@@ -337,3 +337,49 @@ end
 end
 end)
 end})
+Tabs.Players:AddToggle("Noclip",{
+Title = "Noclip",
+Description = "Đi Xuyên Tường",
+Default = false,
+Callback = function(v)
+getgenv().Noclip = v
+game:GetService("RunService").RenderStepped:Connect(function()
+game.Players.LocalPlayer.Character.Collision.CanCollide = not getgenv().Noclip
+game.Players.LocalPlayer.Character.HumanoidRootPart.CanCollide = not getgenv().Noclip
+end)
+end})
+Tabs.Players:AddToggle("NoWet",{
+Title = "No Wet Floor",
+Description = "Không Sàn Trơn",
+Default = false,
+Callback = function(v)
+getgenv().NoSlow = v
+game:GetService("RunService").RenderStepped:Connect(function()
+game.Players.LocalPlayer.Character.Head.Massless = not getgenv().NoSlow
+game.Players.LocalPlayer.Character.LeftFoot.Massless = not getgenv().NoSlow
+game.Players.LocalPlayer.Character.LeftHand.Massless = not getgenv().NoSlow
+game.Players.LocalPlayer.Character.LeftLowerArm.Massless = not getgenv().NoSlow
+game.Players.LocalPlayer.Character.LeftLowerLeg.Massless = not getgenv().NoSlow
+game.Players.LocalPlayer.Character.LeftUpperArm.Massless = not getgenv().NoSlow
+game.Players.LocalPlayer.Character.LeftUpperLeg.Massless = not getgenv().NoSlow
+game.Players.LocalPlayer.Character.LowerTorso.Massless = not getgenv().NoSlow
+game.Players.LocalPlayer.Character.RightFoot.Massless = not getgenv().NoSlow
+game.Players.LocalPlayer.Character.RightFoot.Massless = not getgenv().NoSlow
+game.Players.LocalPlayer.Character.RightHand.Massless = not getgenv().NoSlow
+game.Players.LocalPlayer.Character.RightLowerArm.Massless = not getgenv().NoSlow
+game.Players.LocalPlayer.Character.RightLowerLeg.Massless = not getgenv().NoSlow
+game.Players.LocalPlayer.Character.RightUpperArm.Massless = not getgenv().NoSlow
+game.Players.LocalPlayer.Character.RightUpperLeg.Massless = not getgenv().NoSlow
+game.Players.LocalPlayer.Character.UpperTorso.Massless = not getgenv().NoSlow
+end)
+end})
+Tabs.Players:AddToggle("CanJump",{
+Title = "Can Jump",
+Description = "Có Thể Nhảy",
+Default = false,
+Callback = function(v)
+getgenv().Jump = v
+game:GetService("RunService").RenderStepped:Connect(function()
+game.Players.LocalPlayer.Character:SetAttribute("CanJump", getgenv().Jump)
+end)
+end})
