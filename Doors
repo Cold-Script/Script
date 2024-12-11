@@ -1,18 +1,145 @@
+--[[ DATA LOADING ]] --
 if game:GetService("ReplicatedStorage").GameData.Floor.Value == "Fools" and game:GetService("ReplicatedStorage").EntityInfo.Name == "EntityInfo" then
 game:GetService("ReplicatedStorage").EntityInfo.Name = "RemotesFolder"
 end
 local RemotesFolder = game:GetService("ReplicatedStorage").RemotesFolder
-
+--[[ SCRIPT ]]--
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
-
 local Window = Fluent:CreateWindow({
-    Title = "WinterClaws",
-    SubTitle = "By rechedmcvn",
+    Title = "• WinterClaws •",
+    SubTitle = "",
     TabWidth = 160,
-    Size = UDim2.fromOffset(580, 460),
+    Size = UDim2.fromOffset(500, 370),
     Acrylic = true,
     Theme = "Dark",
     MinimizeKey = Enum.KeyCode.LeftControl
 })
+local Tab = {
+    Main = Window:AddTab({ Title = "Main", Icon = "layers" }),
+    Players = Window:AddTab({ Title = "Players", Icon = "circle-user" }),
+    Exploits = Window:AddTab({ Title = "Exploits", Icon = "book-check" }),
+    Visual = Window:AddTab({ Title = "Visual", Icon = "camera" }),
+}
+Tabs.Main:AddSection("Misc")
+Tabs.Main:AddDropdown("WhenDeath",{
+Title = "When Death :",
+Values = {"Lobby", "Leave", "Revive"},
+Description = "Khi Chết Bạn Sẽ 'Thứ Bạn Chọn'",
+Multi = false,
+Default = 1,
+Callback = function(v)
+getgenv().WhenDeath = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if getgenv().EnabledWhenDeath then
+if game:GetService("Players").LocalPlayer.Character.Humanoid.Health == 0 and getgenv().WhenDeath == "Lobby" then
+RemotesFolder.Lobby:FireServer()
+elseif game:GetService("Players").LocalPlayer.Character.Humanoid.Health == 0 and getgenv().WhenDeath == "Leave" then
+game:Shutdown()
+elseif game:GetService("Players").LocalPlayer.Character.Humanoid.Health == 0 and getgenv().WhenDeath == "Revive" then
+RemotesFolder.Revive:FireServer()
+end
+end
+end)
+end})
+Tabs.Main:AddToggle("EnabledWhenDeath",{
+Title = "Enabled When Death",
+Description = "Nhận Khi Chết",
+Default = false,
+Callback = function(v)
+getgenv().EnabledWhenDeath = v
+end})
+Tabs.Main:AddButton({
+Title = "Reset Character",
+Description = "Chết",
+Callback = function()
+game:GetService("Players").LocalPlayer.Character.Humanoid.Health = 0
+end})
+Tabs.Main:AddButton({
+Title = "Play Again",
+Description = "Chơi Tiếp",
+Callback = function()
+RemotesFolder.PlayAgain:FireServer()
+end})
+Tabs.Main:AddSection("Proximity Prompts")
+Tabs.Main:AddToggle("InstanceInteract",{
+Title = "Instance Interact",
+Description = "Tương Tác Nhanh",
+Default = false,
+Callback = function(v)
+if v then
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+v.HoldDuration = 0
+end
+end
+InstanceInteract = workspace.CurrentRooms.ChildAdded:Connect(function(v)
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+v.HoldDuration = 0
+end
+end
+end)
+else
+InstanceInteract:Disconnect()
+end
+end})
+Tabs.Main:AddToggle("ThroughInteract",{
+Title = "Through Interact",
+Description = "Tương Tác Xuyên",
+Default = false,
+Callback = function(v)
+if v then
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+v.RequiresLineOfSight = false
+end
+end
+ThroughInteract = workspace.CurrentRooms.ChildAdded:Connect(function(v)
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+v.RequiresLineOfSight = false
+end
+end
+end)
+else
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+v.RequiresLineOfSight = true
+end
+end
+ThroughInteract:Disconnect()
+end
+end})
+Tabs.Main:AddToggle("InstanceInteract",{
+Title = "Remote Interact",
+Description = "Tương Tác Xa",
+Default = false,
+Callback = function(v)
+if v then
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+v.MaxActivationDistance = 20
+end
+end
+RemoteInteract = workspace.CurrentRooms.ChildAdded:Connect(function(v)
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+v.MaxActivationDistance = 20
+end
+end
+end)
+else
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+v.MaxActivationDistance = 7.5
+end
+end
+RemoteInteract:Disconnect()
+end
+end})
+
+
+
+
