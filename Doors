@@ -940,3 +940,37 @@ else
 AntiJeff:Disconnect()
 end
 end})
+
+Tabs.Visual:AddSection("ESP")
+Tabs.Exploits:AddToggle("ESPDoors",{
+Title = "Doors ESP",
+Description = "Trực Quang Cửa",
+Default = false,
+Callback = function(v)
+getgenv().ESPDoor = v
+if v then
+local function setup(room)
+local Door = room:WaitForChild("Door"):WaitForChild("Door")
+task.wait(0.1)
+local DoorESP = LibraryESP:AddESP(Door,"Door",Color3.fromRGB(80, 255, 175),25,"DoorESP")
+table.insert({},DoorESP)
+Door:WaitForChild("Open").Played:Connect(function()
+DoorESP:Destroy()
+end)
+Door.AncestryChanged:Connect(function()
+DoorESP:Destroy()
+end)
+end
+DoorINF = workspace.CurrentRooms.ChildAdded:Connect(function(room)
+setup(room)
+end)
+for i,room in pairs(workspace.CurrentRooms:GetChildren()) do
+if room:FindFirstChild("Assets") then
+setup(room) 
+end
+end
+repeat task.wait() until not getgenv().ESPDoor
+DoorINF:Disconnect()
+LibraryESP:Delete("DoorESP")
+end
+end})
