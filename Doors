@@ -4,11 +4,13 @@ game:GetService("ReplicatedStorage").EntityInfo.Name = "RemotesFolder"
 end
 local RemotesFolder = game:GetService("ReplicatedStorage").RemotesFolder
 --[[ SCRIPT ]]--
+local LibraryESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/Cold-Script/ESPBETA/refs/heads/main/Esp.lua"))()
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
+local Verson = "1.0 •"
 local Window = Fluent:CreateWindow({
-    Title = "• WinterClaws •",
+    Title = "• WinterClaws | Verson : " .. Verson,
     SubTitle = "",
     TabWidth = 160,
     Size = UDim2.fromOffset(500, 370),
@@ -941,7 +943,7 @@ AntiJeff:Disconnect()
 end
 end})
 
-Tabs.Visual:AddSection("ESP")
+Tabs.Visual:AddSection("ESP - Trực Quang")
 Tabs.Visual:AddToggle("ESPDoors",{
 Title = "Doors ESP",
 Description = "Trực Quang Cửa",
@@ -1190,6 +1192,33 @@ end
 end
 end
 end})
+Tabs.Visual:AddToggle("ESPWaterPump",{
+Title = "TimerLever ESP",
+Description = "Trực Quang Gạt Thời Gian",
+Default = false,
+Callback = function(v)
+if v then               
+for _,v in pairs(workspace:GetDescendants()) do
+if v.Name == "TimerLever" then
+LibraryESP:AddESP(v,"TimerLever - Gạt Thời Gian",Color3.fromRGB(100, 100, 100),25,"TimerLeverESP")
+end		
+end					                
+TimerLeverESP = workspace.CurrentRooms.ChildAdded:Connect(function(child)                       
+for _,v in pairs(workspace:GetDescendants()) do
+if v.Name == "TimerLever" then
+LibraryESP:AddESP(v,"TimerLever - Gạt Thời Gian",Color3.fromRGB(100, 100, 100),25,"TimerLeverESP")
+end		
+end	
+end)
+else
+TimerLeverESP:Disconnect()
+for _, v in pairs(workspace:GetDescendants()) do
+if v.Name == "TimerLeverESP" then
+v:Destroy()
+end
+end
+end
+end})
 Tabs.Visual:AddToggle("ESPRoomsLocker",{
 Title = "Rooms Locker ESP",
 Description = "Trực Quang Tủ Trong 'The Rooms'",
@@ -1364,4 +1393,60 @@ LibraryESP:Delete("A120ESP")
 LibraryESP:Delete("DreadESP")
 LibraryESP:Delete("JeffESP")
 end
+end})
+Tabs.Visual:AddToggle("ESPGold",{
+Title = "Gold ESP",
+Description = "Trực Quang Vàng",
+Default = false,
+Callback = function(v)
+getgenv().GoldESP = v
+if v then
+local function check(v)
+if v:IsA("Model") and v.Name == "GoldPile" then
+task.wait(0.1)
+local Hitbox = v:WaitForChild("Hitbox")
+local DoorESP = LibraryESP:AddESP(v,"Gold (".. tostring(v:GetAttribute("GoldValue")).."$)",Color3.fromRGB(255,255,0),25,"GoldESP")
+table.insert({},DoorESP)
+end
+end
+local function setup(room)
+local assets = room:WaitForChild("Assets")
+GoldESP = assets.DescendantAdded:Connect(function(v)
+check(v) 
+end)
+for i,v in pairs(assets:GetDescendants()) do
+check(v)
+end         
+task.spawn(function()
+repeat task.wait() until not getgenv().GoldESP
+GoldESP:Disconnect()  
+end)  
+end       
+GoldESP = workspace.CurrentRooms.ChildAdded:Connect(function(room)
+setup(room)
+end)
+for i,room in pairs(workspace.CurrentRooms:GetChildren()) do
+if room:FindFirstChild("Assets") then
+setup(room) 
+end
+end       
+repeat task.wait() until not getgenv().GoldESP
+GoldESP:Disconnect()
+LibraryESP:Delete("GoldESP")
+end
+end})
+Tabs.Visual:AddSection("Setting ESP - Cài Đặt Trực Quang")
+Tabs.Visual:AddToggle("ESPRainbow",{
+Title = "Rainbow ESP",
+Description = "Trực Quang Bảy Màu",
+Default = false,
+Callback = function(v)
+getgenv().RainbowESP = v
+end})
+Tabs.Visual:AddToggle("ESPDistance",{
+Title = "Distance ESP",
+Description = "Trực Quang Khoảng Cách",
+Default = false,
+Callback = function(v)
+getgenv().DistanceESP = v
 end})
