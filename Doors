@@ -760,10 +760,9 @@ Callback = function(v)
 RemotesFolder.CamShake:FireServer(not v)
 end})
 Tabs.Exploits:AddSection("Removal")
-local collision = game.Players.LocalPlayer.Character.Collision
 local rootPart = game.Players.LocalPlayer.Character.HumanoidRootPart
-function DeleteSeek(collision)
 local fireTouch = firetouchinterest or firetouchtransmitter
+function DeleteSeek(collision)
     if not rootPart then return end
 
     task.spawn(function()
@@ -771,7 +770,7 @@ local fireTouch = firetouchinterest or firetouchtransmitter
         repeat task.wait() attemps += 1 until collision.Parent or attemps > 200
         
         if collision:IsDescendantOf(workspace) and (collision.Parent and collision.Parent.Name == "TriggerEventCollision") then
-            Library:Notify("DELETE SEEK..")
+            Library:Notify("Delete Seek..")
 
             task.delay(4, function()
                 if collision:IsDescendantOf(workspace) then
@@ -796,7 +795,7 @@ local fireTouch = firetouchinterest or firetouchtransmitter
                 rootPart.Anchored = false
             end
 if not collision:IsDescendantOf(workspace) then
-Library:Notify("DELETE SEEK COMPLETE")
+Library:Notify("Complete Delete Seek")
 end
 end
 end)
@@ -807,7 +806,7 @@ Description = "Không Chạy Seek",
 Default = false,
 Callback = function(v)
 getgenv().DeleteSeek = v
-    for _, child in pairs(workspace:GetDescendants()) do
+    for _, child in pairs(workspace.CurrentRooms:GetDescendants()) do
         task.spawn(function()
             if getgenv().DeleteSeek and rootPart and child.Name == "Collision" then
                 DeleteSeek(child)
@@ -815,7 +814,7 @@ getgenv().DeleteSeek = v
         end)
     end
 
-     DeleteSeek = workspace.ChildAdded:Connect(function(child)
+     DeleteSeek = workspace.CurrentRooms.ChildAdded:Connect(function(child)
         task.spawn(function()
             if getgenv().DeleteSeek and rootPart and child.Name == "Collision" then
                 DeleteSeek(child)
