@@ -762,7 +762,7 @@ end})
 Tabs.Exploits:AddSection("Removal")
 local rootPart = game.Players.LocalPlayer.Character.HumanoidRootPart
 local fireTouch = firetouchinterest or firetouchtransmitter
-function DeleteSeek(collision)
+local function DeleteSeek(collision)
     if not rootPart then return end
 
     task.spawn(function()
@@ -806,6 +806,7 @@ Description = "Không Chạy Seek",
 Default = false,
 Callback = function(v)
 getgenv().DeleteSeek = v
+if v then
     for _, child in pairs(workspace.CurrentRooms:GetDescendants()) do
         task.spawn(function()
             if getgenv().DeleteSeek and rootPart and child.Name == "Collision" then
@@ -821,6 +822,9 @@ getgenv().DeleteSeek = v
             end
         end)
     end)
+else
+DeleteSeek:Disconnect()
+end
 end})
 Tabs.Exploits:AddSection("Anti Entity")
 game:GetService("RunService").RenderStepped:Connect(function()
