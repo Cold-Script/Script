@@ -5,6 +5,7 @@ end
 local RemotesFolder = game:GetService("ReplicatedStorage").RemotesFolder
 --[[ SCRIPT ]]--
 local LibraryESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/Cold-Script/ESPBETA/refs/heads/main/Esp.lua"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Cold-Script/Warning/refs/heads/main/Warning.lua"))()
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
@@ -432,7 +433,161 @@ game:GetService("ReplicatedStorage").RemotesFolder.EBF:FireServer()
 end
 end)
 end})
-
+Tabs.Main:AddSection("Notification")
+getgenv().AlertVolume = 5
+Tabs.Main:AddToggle("NotifyEntity",{
+Title = "Notification Entity",
+Description = "Thông Báo Thực Thể",
+Default = false,
+Callback = function(v)
+if v then
+local Entity = {"SeekNewCloneMoving","SeekMoving","BackdoorLookman","BackdoorRush","GloombatSwarm","Eyes","JeffTheKiller","RushMoving","AmbushMoving","Snare","A60","A120"}
+NotificationEntity = workspace.ChildAdded:Connect(function(v)
+if table.find(Entity,v.Name) then
+repeat task.wait() until game.Players.LocalPlayer:DistanceFromCharacter(v:GetPivot().Position) < 1000 or not v:IsDescendantOf(workspace)
+if v:IsDescendantOf(workspace) then
+if v.Name == "RushMoving" then
+Library:Notify("Entity 'Rush' has spawn,\nhide in closets now!")
+if getgenv().SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = getgenv().AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+elseif v.Name == "AmbushMoving" then
+Library:Notify("Entity 'Ambush' has spawn,\nhide in closets now!")
+if getgenv().SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = getgenv().AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+elseif v.Name == "A60" then
+Library:Notify("Entity 'A60' has spawn,\nhide in a locker!")
+if getgenv().SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = getgenv().AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+elseif v.Name == "A120" then
+Library:Notify("Entity 'A120' has spawn,\nhide in a locker!")
+if getgenv().SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = getgenv().AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+elseif v.Name == "JeffTheKiller" then
+Library:Notify("Entity 'JeffTheKiller' has spawn,\ncareful with it!")
+if getgenv().SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = getgenv().AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+elseif v.Name == "Eyes" then
+Library:Notify("Entity 'Eyes' has spawn,\ndont look at it!")
+if getgenv().SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = getgenv().AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+elseif v.Name == "GloombatSwarm" then
+Library:Notify("Entity 'Gloombat Swarm' has spawn,\noff light to survival!")
+if getgenv().SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = getgenv().AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+elseif v.Name == "BackdoorRush" then
+Library:Notify("Entity 'Blitz' has spawn,\nhide in closets now!")
+if getgenv().SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = getgenv().AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+elseif v.Name == "BackdoorLookman" then
+Library:Notify("Entity 'Lookman' has spawn,\nlook under side!")
+if getgenv().SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = getgenv().AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+elseif v.Name == "SeekMoving" then
+Library:Notify("Seek Chase,\ngoodluck for you in chase!")
+if getgenv().SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = getgenv().AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+elseif v.Name == "SeekNewCloneMoving" then
+Library:Notify("Seek Chase,\ngoodluck for you in chase!")
+if getgenv().SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = getgenv().AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+end
+end
+end
+end)
+else
+NotificationEntity:Disconnect()
+end
+end})
+Tabs.Main:AddToggle("RainbowNotify",{
+Title = "Rainbow Notify",
+Description = "Thông Báo Bảy Màu",
+Default = false,
+Callback = function(v)
+getgenv().NotifyRainbow = v
+end})
+Tabs.Main:AddToggle("Sound",{
+Title = "Play Sound",
+Description = "Chơi Nhạc",
+Default = false,
+Callback = function(v)
+getgenv().SoundAlert = v
+end})
+Tabs.Main:AddSlider("Volume", {
+Title = "Volume :",
+Description = "Chọn Âm Lượng",
+Default = 5,
+Min = 0,
+Max = 10,
+Rounding = 1,
+Callback = function(v)
+getgenv().AlertVolume = v
+end})
 Tabs.Players:AddSection("Players - Người Chơi")
 Tabs.Players:AddSlider("Speed", {
 Title = "Select Speed",
@@ -462,6 +617,7 @@ Tabs.Players:AddButton({
 Title = "Speed Bypass",
 Description = "Tốc Độ Bypass",
 Callback = function()
+getgenv().SpeedBypass = true
 if not collisionClone then
 collisionClone = game.Players.LocalPlayer.Character.Collision:Clone() do
 collisionClone.CanCollide = false
@@ -474,20 +630,12 @@ collisionClone.Parent = game.Players.LocalPlayer.Character
 end
 end
 task.spawn(function()  
-while not true do
+while not getgenv().SpeedBypass do
 collisionClone.Massless = not collisionClone.Massless
 task.wait(0.2024)
 end           
 collisionClone.Massless = true                  
 end)
-end})
-Tabs.Players:AddButton({
-Title = "Delete Speed Bypass",
-Description = "Xoá Tốc Độ Bypass",
-Callback = function()
-if game.Players.LocalPlayer.Character:FindFirstChild("CollisionClone") then
-game.Players.LocalPlayer.Character.CollisionClone:Destroy()
-end
 end})
 Tabs.Players:AddSection("Added - Thêm")
 Tabs.Players:AddToggle("AutoEatCandy",{
