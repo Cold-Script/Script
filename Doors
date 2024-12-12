@@ -613,30 +613,7 @@ game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 15
 end
 end)
 end})
-Tabs.Players:AddButton({
-Title = "Speed Bypass",
-Description = "Tốc Độ Bypass",
-Callback = function()
-getgenv().SpeedBypass = true
-if not collisionClone then
-collisionClone = game.Players.LocalPlayer.Character.Collision:Clone() do
-collisionClone.CanCollide = false
-collisionClone.Massless = true
-collisionClone.Name = "CollisionClone"
-if collisionClone:FindFirstChild("CollisionCrouch") then
-collisionClone.CollisionCrouch:Destroy()
-end   
-collisionClone.Parent = game.Players.LocalPlayer.Character    
-end
-end
-task.spawn(function()  
-while not getgenv().SpeedBypass do
-collisionClone.Massless = not collisionClone.Massless
-task.wait(0.2024)
-end           
-collisionClone.Massless = true                  
-end)
-end})
+
 Tabs.Players:AddSection("Added - Thêm")
 Tabs.Players:AddToggle("AutoEatCandy",{
 Title = "Auto Eat Candy",
