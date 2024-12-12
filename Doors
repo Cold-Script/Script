@@ -246,7 +246,7 @@ v:Destroy()
 end
 end
 RemovalsLight = workspace.CurrentRooms.ChildAdded:Connect(function(child)
-for _,v in pairs(workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:GetDescendants()) do
+for _,v in pairs(workspace.CurrentRooms:GetDescendants()) do
 if v.Name == "Chandelier" then
 v:Destroy()
 elseif v.Name == "Light_Fixtures" then
@@ -460,18 +460,6 @@ Tabs.Players:AddButton({
 Title = "Speed Bypass",
 Description = "Tốc Độ Bypass",
 Callback = function()
-local speedBoost, speedBoostFinished, speed = 30, false, false
-if bypass then
-if collisionClone then collisionClone:Destroy() end
-speed = true       
-local originalSpeed = SpeedBypass
-repeat task.wait()
-if not SpeedBypass then
-SpeedBypass:SetValue(true)
-end
-until speedBoostFinished
-SpeedBypass:SetValue(originalSpeed)
-else
 if not collisionClone then
 collisionClone = game.Players.LocalPlayer.Character.Collision:Clone() do
 collisionClone.CanCollide = false
@@ -484,13 +472,12 @@ collisionClone.Parent = game.Players.LocalPlayer.Character
 end
 end
 task.spawn(function()  
-while not speedBoostFinished do
+while not true do
 collisionClone.Massless = not collisionClone.Massless
 task.wait(0.2024)
 end           
 collisionClone.Massless = true                  
 end)
-end
 end})
 Tabs.Players:AddButton({
 Title = "Delete Speed Bypass",
