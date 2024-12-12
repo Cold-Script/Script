@@ -759,7 +759,70 @@ Default = false,
 Callback = function(v)
 RemotesFolder.CamShake:FireServer(not v)
 end})
+Tabs.Exploits:AddSection("Removal")
+local collision = game.Players.LocalPlayer.Character.Collision
+local rootPart = game.Players.LocalPlayer.Character.HumanoidRootPart
+function DeleteSeek(collision)
+local fireTouch = firetouchinterest or firetouchtransmitter
+    if not rootPart then return end
 
+    task.spawn(function()
+        local attemps = 0
+        repeat task.wait() attemps += 1 until collision.Parent or attemps > 200
+        
+        if collision:IsDescendantOf(workspace) and (collision.Parent and collision.Parent.Name == "TriggerEventCollision") then
+            Library:Notify("DELETE SEEK..")
+
+            task.delay(4, function()
+                if collision:IsDescendantOf(workspace) then
+                    Library:Notify("Delete Error")
+                end
+            end)
+            
+            if fireTouch then
+                rootPart.Anchored = true
+                task.delay(0.25, function() rootPart.Anchored = false end)
+
+                repeat
+                    if collision:IsDescendantOf(workspace) then fireTouch(collision, rootPart, 1) end
+                    task.wait()
+                    if collision:IsDescendantOf(workspace) then fireTouch(collision, rootPart, 0) end
+                    task.wait()
+                until not collision:IsDescendantOf(workspace) or not getgenv().DeleteSeek
+            else
+                collision:PivotTo(CFrame.new(rootPart.Position))
+                rootPart.Anchored = true
+                repeat task.wait() until not collision:IsDescendantOf(workspace) or not getgenv().DeleteSeek
+                rootPart.Anchored = false
+            end
+if not collision:IsDescendantOf(workspace) then
+Library:Notify("DELETE SEEK COMPLETE")
+end
+end
+end)
+end
+Tabs.Exploits:AddToggle("DeleteSeek",{
+Title = "Delete Seek [ FE ]",
+Description = "Không Chạy Seek",
+Default = false,
+Callback = function(v)
+getgenv().DeleteSeek = v
+    for _, child in pairs(workspace:GetDescendants()) do
+        task.spawn(function()
+            if getgenv().DeleteSeek and rootPart and child.Name == "Collision" then
+                DeleteSeek(child)
+            end
+        end)
+    end
+
+     DeleteSeek = workspace.ChildAdded:Connect(function(child)
+        task.spawn(function()
+            if getgenv().DeleteSeek and rootPart and child.Name == "Collision" then
+                DeleteSeek(child)
+            end
+        end)
+    end)
+end})
 Tabs.Exploits:AddSection("Anti Entity")
 game:GetService("RunService").RenderStepped:Connect(function()
 if getgenv().AntiSnare then
