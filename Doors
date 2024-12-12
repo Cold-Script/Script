@@ -290,7 +290,7 @@ Description = "Không Hiệu Ứng Bóng Tối",
 Default = false,
 Callback = function(v)
 if v then
-game.Lighting.Brightness = 1.5
+game.Lighting.Brightness = 0
 game.Lighting.GlobalShadows = false
 game.Lighting.OutdoorAmbient = Color3.new(1,1,1)
 else
@@ -783,6 +783,49 @@ Callback = function(v)
 RemotesFolder.CamShake:FireServer(not v)
 end})
 
+Tabs.Exploits:AddSection("Removal")
+Tabs.Exploits:AddToggle("NoSeek",{
+Title = "Removal Seek Chase",
+Description = "Không Thể Chạy Có Cuộc Chạy Seek",
+Default = false,
+Callback = function(v)
+getgenv().DeleteSeek = v
+function DeleteSeek(child)
+if not game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then return end
+task.spawn(function()
+local attemps = 0
+repeat task.wait() attemps += 1 until child.Parent or attemps > 200
+if child:IsDescendantOf(workspace) and (child.Parent and child.Parent.Name == "TriggerEventCollision") then
+Library:Notify("Delete Seek Chase - Xoá Chạy Seek...")
+task.delay(4, function()
+if child:IsDescendantOf(workspace) then
+if child:IsDescendantOf(workspace) and (child.Parent and child.Parent.Name == "TriggerEventCollision") then
+Library:Notify("Delete Seek Chase Failed - Xoá Chạy Seek Lỗi...")
+end
+end)   
+local fireTouch = firetouchinterest or firetouchtransmitter
+if fireTouch then
+game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = true
+task.delay(0.25, function() game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = false end)
+repeat
+if collision:IsDescendantOf(workspace) then fireTouch(child, game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart"), 1) end
+task.wait()
+if child:IsDescendantOf(workspace) then fireTouch(child, game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart"), 0) end
+task.wait()
+until not child:IsDescendantOf(workspace) or not getgenv().DeleteSeek
+else
+child:PivotTo(CFrame.new(game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Position))
+game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = true
+repeat task.wait() until not child:IsDescendantOf(workspace) or not getgenv().DeleteSeek
+game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").Anchored = false
+end            
+if not child:IsDescendantOf(workspace) then
+Library:Notify("Complete Delete Seek - Hoàn Thành Xoá Chạy Seek")
+end
+end
+end)
+end
+end})
 Tabs.Exploits:AddSection("Anti Entity")
 game:GetService("RunService").RenderStepped:Connect(function()
 if getgenv().AntiSnare then
