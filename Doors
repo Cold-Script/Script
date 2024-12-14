@@ -678,10 +678,10 @@ game.Players.LocalPlayer.Character:SetAttribute("CanJump", getgenv().Jump)
 end)
 end})
 Tabs.Players:AddSection("Bypass")
-local ClonedCollision = game.Players.LocalPlayer.Character.Collision:Clone()
+local ClonedCollision = game:GetService("Players").LocalPlayer.Character.Collision:Clone()
 ClonedCollision.Name = "_CollisionClone"
 ClonedCollision.Massless = true
-ClonedCollision.Parent = game.Players.LocalPlayer.Character
+ClonedCollision.Parent = game:GetService("Players").LocalPlayer.Character
 ClonedCollision.CanCollide = false
 ClonedCollision.CanQuery = false
 ClonedCollision.CustomPhysicalProperties = PhysicalProperties.new(0.01, 0.7, 0, 1, 1)
@@ -694,7 +694,7 @@ if getgenv().SpeedBypass then
 if ClonedCollision then
 ClonedCollision.Massless = false
 task.wait(0.23)
-if game.LocalPlayer.Character.HumanoidRootPart.Anchored then
+if game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored then
 ClonedCollision.Massless = true
 task.wait(1)
 end
