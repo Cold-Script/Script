@@ -676,7 +676,31 @@ game.Players.LocalPlayer.Character:SetAttribute("CanJump", getgenv().Jump)
 end)
 end})
 Tabs.Players:AddSection("Bypass")
-
+local ClonedCollision = game.Players.LocalPlayer.Character.Collision:Clone()
+ClonedCollision.Name = "_CollisionClone"
+ClonedCollision.Massless = true
+ClonedCollision.Parent = game.Players.LocalPlayer.Character
+ClonedCollision.CanCollide = false
+ClonedCollision.CanQuery = false
+ClonedCollision.CustomPhysicalProperties = PhysicalProperties.new(0.01, 0.7, 0, 1, 1)
+if ClonedCollision:FindFirstChild("CollisionCrouch") then
+ClonedCollision.CollisionCrouch:Destroy()
+end
+task.spawn(function()
+while task.wait(0.2024) do
+if getgenv().SpeedBypass then
+if ClonedCollision then
+ClonedCollision.Massless = false
+task.wait(0.2024)
+if game.LocalPlayer.Character.HumanoidRootPart.Anchored then
+ClonedCollision.Massless = true
+task.wait(1)
+end
+ClonedCollision.Massless = true
+end
+end
+end
+end)
 Tabs.Players:AddToggle("SpeedBypass",{
 Title = "Speed Bypass",
 Description = "Tốc Độ Bypass",
@@ -768,61 +792,30 @@ Callback = function(v)
 RemotesFolder.CamShake:FireServer(not v)
 end})
 Tabs.Exploits:AddSection("Removal")
-function DeleteSeek(collision)
-if not game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart") then return end
-task.spawn(function()
-local attemps = 0
-repeat task.wait() attemps += 1 until collision.Parent or attemps > 200
-if collision:IsDescendantOf(workspace) and (collision.Parent and collision.Parent.Name == "TriggerEventCollision") then
-Library:Notify("Delete Seek - Xoá Chạy Seek..")
-task.delay(4, function()
-if collision:IsDescendantOf(workspace) then
-Library:Notify("Error Delete - Lỗi Xoá Seek")
-end
-end)
-local fireTouch = firetouchinterest or firetouchtransmitter   
-if fireTouch then
-game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Anchored = true
-task.delay(0.25, function() game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Anchored = false end)
-repeat
-if collision:IsDescendantOf(workspace) then fireTouch(collision, game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart"), 1) end
-task.wait()
-if collision:IsDescendantOf(workspace) then fireTouch(collision, game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart"), 0) end
-task.wait()
-until not collision:IsDescendantOf(workspace) or not getgenv().DeleteSeek
-else
-collision:PivotTo(CFrame.new(game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position))
-game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Anchored = true
-repeat task.wait() until not collision:IsDescendantOf(workspace) or not getgenv().DeleteSeek
-game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Anchored = false end 
-if not collision:IsDescendantOf(workspace) then
-Library:Notify("Delete Seek Complete - Xoá Chạy Seek Hoàn Thành")
-end
-end
-end)
-end
 Tabs.Exploits:AddToggle("Delete",{
 Title = "Delete Seek FE",
 Description = "Xoá Chạy Seek",
 Default = false,
 Callback = function(v)
 if v then
-for _, child in pairs(workspace.CurrentRooms:GetDescendants()) do
-task.spawn(function()
-if getgenv().DeleteSeek and game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart") and child.Name == "TriggerEventCollision" then
-DeleteSeek(child)
-child:Destroy()
+for _, v in pairs(workspace.CurrentRooms:GetDescendants()) do
+if v.Name == "TriggerEventCollision" then
+local Part = v:FindFirstChildWhichIsA("BasePart")
+if Part and v then
+firetouchinterest(game.Players.LocalPlayer.Character.Collision, Part, false)
+v:Destroy()
 end
-end)
 end
-DeleteSeek = workspace.CurrentRooms.ChildAdded:Connect(function()
-for _, child in pairs(workspace.CurrentRooms:GetDescendants()) do
-task.spawn(function()
-if getgenv().DeleteSeek and game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart") and child.Name == "TriggerEventCollision" then
-DeleteSeek(child)
-child:Destroy()
 end
-end)
+DeleteSeek = workspace.CurrentRooms.ChildAdded:Connect(function(v)
+for _, v in pairs(workspace.CurrentRooms:GetDescendants()) do
+if v.Name == "TriggerEventCollision" then
+local Part = v:FindFirstChildWhichIsA("BasePart")
+if Part and v then
+firetouchinterest(game.Players.LocalPlayer.Character.Collision, Part, false)
+v:Destroy()
+end
+end
 end
 end)
 else
