@@ -291,11 +291,13 @@ Default = false,
 Callback = function(v)
 if v then
 game.Lighting.Brightness = 0
+game.Lighting.FogEnd = 9e9
 game.Lighting.GlobalShadows = false
 game.Lighting.OutdoorAmbient = Color3.new(1,1,1)
 else
 game.Lighting.Brightness = 1
 game.Lighting.GlobalShadows = true
+game.Lighting.FogEnd = 250
 game.Lighting.OutdoorAmbient = Color3.new(0,0,0)
 end
 end})
@@ -687,11 +689,11 @@ if ClonedCollision:FindFirstChild("CollisionCrouch") then
 ClonedCollision.CollisionCrouch:Destroy()
 end
 task.spawn(function()
-while task.wait(0.2024) do
+while task.wait(0.22) do
 if getgenv().SpeedBypass then
 if ClonedCollision then
 ClonedCollision.Massless = false
-task.wait(0.2024)
+task.wait(0.22)
 if game.LocalPlayer.Character.HumanoidRootPart.Anchored then
 ClonedCollision.Massless = true
 task.wait(1)
