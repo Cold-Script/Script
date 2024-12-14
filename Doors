@@ -322,7 +322,7 @@ Description = "Không Hiệu Ứng Sọc Đỏ Nhiễu",
 Default = false,
 Callback = function(v)
 getgenv().NoLiveSanity = v
-while getgenv().NoLiveSanity do wait(1)
+while wait(1) and getgenv().NoLiveSanity do
 for _,v in workspace.CurrentCamera:GetChildren() do
 if v.Name == "LiveSanity" and workspace:FindFirstChild("EntityModel") then
 v.Enabled = not _G.NoLiveSanity
@@ -676,6 +676,14 @@ game.Players.LocalPlayer.Character:SetAttribute("CanJump", getgenv().Jump)
 end)
 end})
 Tabs.Players:AddSection("Bypass")
+
+Tabs.Players:AddToggle("SpeedBypass",{
+Title = "Speed Bypass",
+Description = "Tốc Độ Bypass",
+Default = false,
+Callback = function(v)
+getgenv().SpeedBypass = v
+end})
 Tabs.Players:AddToggle("LadderBypass",{
 Title = "Ladder Bypass",
 Description = "Nhấn Cầu Thang Để Bypass",
@@ -684,7 +692,7 @@ Callback = function(v)
 getgenv().LadderBypass = v
 task.spawn(function()
 while getgenv().LadderBypass do wait(1)
-if v and not workspace:FindFirstChild("progressPart") then
+if v and not progressPart then
 local progressPart = Instance.new("Part", workspace) do
 progressPart.Anchored = true
 progressPart.CanCollide = false
