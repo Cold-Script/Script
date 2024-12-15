@@ -26,7 +26,6 @@ local Tabs = {
     Visual = Window:AddTab({ Title = "Visual", Icon = "camera" }),
 }
 Tabs.Main:AddSection("Misc - Hỗ Trợ")
-if not game:GetService("ReplicatedStorage").GameData.Floor.Value == "Fools" then
 Tabs.Main:AddDropdown("WhenDeath",{
 Title = "When Death :",
 Values = {"Lobby", "Leave", "Revive"},
@@ -54,7 +53,6 @@ Default = false,
 Callback = function(v)
 getgenv().EnabledWhenDeath = v
 end})
-end
 Tabs.Main:AddButton({
 Title = "Reset Character",
 Description = "Chết",
@@ -619,6 +617,7 @@ end)
 end})
 
 Tabs.Players:AddSection("Added - Thêm")
+if not game:GetService("ReplicatedStorage").GameData.Floor.Value == ("Fools" or "Mines" or "Rooms") then
 Tabs.Players:AddToggle("AutoEatCandy",{
 Title = "Auto Eat Candy",
 Description = "Tự Động Ăn Kẹo",
@@ -633,6 +632,7 @@ end
 end
 end)
 end})
+end
 Tabs.Players:AddToggle("Noclip",{
 Title = "Noclip",
 Description = "Đi Xuyên Tường",
@@ -669,6 +669,7 @@ game.Players.LocalPlayer.Character.RightUpperLeg.Massless = not getgenv().NoSlow
 game.Players.LocalPlayer.Character.UpperTorso.Massless = not getgenv().NoSlow
 end)
 end})
+if not game:GetService("ReplicatedStorage").GameData.Floor.Value == "Fools" then
 Tabs.Players:AddToggle("CanJump",{
 Title = "Can Jump",
 Description = "Có Thể Nhảy",
@@ -679,7 +680,9 @@ game:GetService("RunService").RenderStepped:Connect(function()
 game.Players.LocalPlayer.Character:SetAttribute("CanJump", getgenv().Jump)
 end)
 end})
+end
 Tabs.Players:AddSection("Bypass")
+if not game:GetService("ReplicatedStorage").GameData.Floor.Value == "Fools" then
 local ClonedCollision = game:GetService("Players").LocalPlayer.Character.Collision:Clone()
 ClonedCollision.Name = "_CollisionClone"
 ClonedCollision.Massless = true
@@ -712,6 +715,8 @@ Default = false,
 Callback = function(v)
 getgenv().SpeedBypass = v
 end})
+end
+if game:GetService("ReplicatedStorage").GameData.Floor.Value == "Mines" then
 Tabs.Players:AddToggle("LadderBypass",{
 Title = "Ladder Bypass",
 Description = "Nhấn Cầu Thang Để Bypass",
@@ -739,6 +744,7 @@ end
 end
 end)
 end})
+end
 Tabs.Players:AddToggle("LadderBypass",{
 Title = "Crouch Spoof",
 Description = "Ngồi Trong Tư Thế Đứng",
@@ -922,6 +928,7 @@ Default = false,
 Callback = function(v)
 getgenv().AntiLookman = v
 end})
+if game:GetService("ReplicatedStorage").GameData.Floor.Value == "Mines" then
 game:GetService("RunService").RenderStepped:Connect(function()
 pcall(function()
 if getgenv().AntiGiggle then
@@ -940,6 +947,7 @@ Default = false,
 Callback = function(v)
 getgenv().AntiGiggle = v
 end})
+end
 Tabs.Exploits:AddToggle("AntiScreech",{
 Title = "Anti-Screech",
 Description = "Không Thể Mất Máu Từ Screech",
@@ -990,6 +998,7 @@ while getgenv().AntiHalt do wait(0.1)
 game:GetService("ReplicatedStorage").ClientModules.EntityModules.Shade.Parent = game.Workspace
 end
 end})
+if game:GetService("ReplicatedStorage").GameData.Floor.Value == "Fools" then
 Tabs.Exploits:AddToggle("AntiLookman",{
 Title = "Anti-Banana",
 Description = "Không Thể Chạm Chuối",
@@ -1124,7 +1133,7 @@ else
 AntiJeff:Disconnect()
 end
 end})
-
+end
 Tabs.Visual:AddSection("ESP - Trực Quang")
 Tabs.Visual:AddToggle("ESPDoors",{
 Title = "Doors ESP",
