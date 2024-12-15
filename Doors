@@ -26,6 +26,7 @@ local Tabs = {
     Visual = Window:AddTab({ Title = "Visual", Icon = "camera" }),
 }
 Tabs.Main:AddSection("Misc - Hỗ Trợ")
+if not game:GetService("ReplicatedStorage").GameData.Floor.Value == "Fools" then
 Tabs.Main:AddDropdown("WhenDeath",{
 Title = "When Death :",
 Values = {"Lobby", "Leave", "Revive"},
@@ -53,6 +54,7 @@ Default = false,
 Callback = function(v)
 getgenv().EnabledWhenDeath = v
 end})
+end
 Tabs.Main:AddButton({
 Title = "Reset Character",
 Description = "Chết",
