@@ -803,12 +803,10 @@ if v.Name == "TriggerEventCollision" then
 v:Destroy()
 end
 end
-end
 DeleteSeek = workspace.CurrentRooms.ChildAdded:Connect(function(v)
 for _, v in pairs(workspace.CurrentRooms:GetDescendants()) do
 if v.Name == "TriggerEventCollision" then
 v:Destroy()
-end
 end
 end
 end)
