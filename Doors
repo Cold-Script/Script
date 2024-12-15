@@ -783,6 +783,7 @@ Default = false,
 Callback = function(v)
 RemotesFolder.CamShake:FireServer(not v)
 end})
+if game:GetService("ReplicatedStorage").GameData.Floor.Value == "Fools" then
 Tabs.Exploits:AddSection("Removal")
 Tabs.Exploits:AddToggle("Delete",{
 Title = "Delete Seek FE",
@@ -792,9 +793,6 @@ Callback = function(v)
 if v then
 for _, v in pairs(workspace.CurrentRooms:GetDescendants()) do
 if v.Name == "TriggerEventCollision" then
-local Part = v:FindFirstChildWhichIsA("BasePart")
-if Part and v then
-firetouchinterest(game.Players.LocalPlayer.Character.Collision, Part, false)
 v:Destroy()
 end
 end
@@ -802,9 +800,6 @@ end
 DeleteSeek = workspace.CurrentRooms.ChildAdded:Connect(function(v)
 for _, v in pairs(workspace.CurrentRooms:GetDescendants()) do
 if v.Name == "TriggerEventCollision" then
-local Part = v:FindFirstChildWhichIsA("BasePart")
-if Part and v then
-firetouchinterest(game.Players.LocalPlayer.Character.Collision, Part, false)
 v:Destroy()
 end
 end
@@ -814,6 +809,7 @@ else
 DeleteSeek:Disconnect()
 end
 end})
+end
 Tabs.Exploits:AddSection("Anti Entity")
 game:GetService("RunService").RenderStepped:Connect(function()
 if getgenv().AntiSnare then
