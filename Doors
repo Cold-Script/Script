@@ -781,7 +781,14 @@ Title = "No Camera Shake",
 Description = "Không Màn Hình Lắc",
 Default = false,
 Callback = function(v)
-RemotesFolder.CamShake:FireServer(not v)
+getgenv().NoShakeCam = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if getgenv().NoShakeCam then
+RemotesFolder.CamShake:FireServer(false)
+else
+RemotesFolder.CamShake:FireServer(true)
+end
+end)
 end})
 if game:GetService("ReplicatedStorage").GameData.Floor.Value == "Fools" then
 Tabs.Exploits:AddSection("Removal")
