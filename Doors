@@ -617,7 +617,7 @@ end)
 end})
 
 Tabs.Players:AddSection("Added - Thêm")
-if not game:GetService("ReplicatedStorage").GameData.Floor.Value == ("Fools" or "Mines" or "Rooms") then
+if game:GetService("ReplicatedStorage").GameData.Floor.Value == "Hotel" then
 Tabs.Players:AddToggle("AutoEatCandy",{
 Title = "Auto Eat Candy",
 Description = "Tự Động Ăn Kẹo",
