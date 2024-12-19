@@ -669,7 +669,6 @@ game.Players.LocalPlayer.Character.RightUpperLeg.Massless = not getgenv().NoSlow
 game.Players.LocalPlayer.Character.UpperTorso.Massless = not getgenv().NoSlow
 end)
 end})
-if not game:GetService("ReplicatedStorage").GameData.Floor.Value == "Fools" then
 Tabs.Players:AddToggle("CanJump",{
 Title = "Can Jump",
 Description = "Có Thể Nhảy",
@@ -680,9 +679,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
 game.Players.LocalPlayer.Character:SetAttribute("CanJump", getgenv().Jump)
 end)
 end})
-end
 Tabs.Players:AddSection("Bypass")
-if not game:GetService("ReplicatedStorage").GameData.Floor.Value == "Fools" then
 local ClonedCollision = game:GetService("Players").LocalPlayer.Character.Collision:Clone()
 ClonedCollision.Name = "_CollisionClone"
 ClonedCollision.Massless = true
@@ -715,8 +712,6 @@ Default = false,
 Callback = function(v)
 getgenv().SpeedBypass = v
 end})
-end
-if game:GetService("ReplicatedStorage").GameData.Floor.Value == "Mines" then
 Tabs.Players:AddToggle("LadderBypass",{
 Title = "Ladder Bypass",
 Description = "Nhấn Cầu Thang Để Bypass",
@@ -744,7 +739,6 @@ end
 end
 end)
 end})
-end
 Tabs.Players:AddToggle("LadderBypass",{
 Title = "Crouch Spoof",
 Description = "Ngồi Trong Tư Thế Đứng",
