@@ -1,11 +1,8 @@
 if game:GetService("ReplicatedStorage").GameData.Floor.Value == "Fools" then
 local RemotesFolder = game:GetService("ReplicatedStorage").EntityInfo
 end
-if not game:GetService("ReplicatedStorage").GameData.Floor.Value == "Fools" and not game:GetService("ReplicatedStorage").Bricks.Name == "Bricks" then
+if not game:GetService("ReplicatedStorage").GameData.Floor.Value == "Fools" then
 local RemotesFolder = game:GetService("ReplicatedStorage").RemotesFolder
-end
-if game:GetService("ReplicatedStorage").Bricks.Name == "Bricks" then
-local RemotesFolder = game:GetService("ReplicatedStorage").Bricks
 end
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Cold-Script/LinoriaLib/refs/heads/patch-3/Library.lua"))()
 local ThemeManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/Cold-Script/LinoriaLib/refs/heads/Library/addons/ThemeManager.lua"))()
@@ -165,7 +162,7 @@ Text = "Auto Padlock Unlock",
 Default = false,
 Callback = function(v)
 _G.AutoPadlock = v
-while _G.AutoPadlock then wait(1)
+while _G.AutoPadlock do wait(1)
 local Floor = game:GetService("ReplicatedStorage").GameData.Floor
 local Paper = workspace:FindFirstChild("LibraryHintPaper",true) or workspace:FindFirstChild("LibraryHintPaperHard",true) or Players:FindFirstChild("LibraryHintPaper",true) or Players:FindFirstChild("LibraryHintPaperHard",true)
 if not Paper then
