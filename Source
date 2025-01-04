@@ -1,30 +1,32 @@
 if game:GetService("ReplicatedStorage").GameData.Floor.Value == "Fools" then
 local RemotesFolder = game:GetService("ReplicatedStorage").EntityInfo
 end
-if not game:GetService("ReplicatedStorage").GameData.Floor.Value == "Fools" and not game:GetService("ReplicatedStorage").Bricks then
+if not game:GetService("ReplicatedStorage").GameData.Floor.Value == "Fools" and not game:GetService("ReplicatedStorage").Bricks.Name == "Bricks" then
 local RemotesFolder = game:GetService("ReplicatedStorage").RemotesFolder
 end
-if game:GetService("ReplicatedStorage").Bricks then
+if game:GetService("ReplicatedStorage").Bricks.Name == "Bricks" then
 local RemotesFolder = game:GetService("ReplicatedStorage").Bricks
 end
-local Library = loadstring(game:HttpGet("https://github.com/realredz/RedzLibV5/blob/main/Source.lua?raw=true"))()
-local Window = Library:MakeWindow({"Exoticserect", "Version 1.2", "testando-redzLibv5.json"})
-Window:AddMinimizeButton({
-Button = { Image = "rbxassetid://496077816", Size = UDim2.new(0, 50, 0, 50), BackgroundColor3 = Color3.fromRGB(0,0,0), BackgroundTransparency = 0.25 },
-Corner = { CornerRadius = UDim.new(0, 5) }
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Cold-Script/LinoriaLib/refs/heads/patch-3/Library.lua"))()
+local ThemeManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/Cold-Script/LinoriaLib/refs/heads/Library/addons/ThemeManager.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/Cold-Script/LinoriaLib/refs/heads/patch-3/addons/SaveManager.lua"))()
+local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/Cold-Script/Warning/refs/heads/main/Warning.lua"))()
+local LibraryESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/Cold-Script/ESPBETA/refs/heads/main/Esp"))()
+Notification:Notify("Loading...")
+wait(0.5)
+local Window = Library:CreateWindow({
+    Title = "YOUHUB | " .. game.Players.LocalPlayer.Name,
+    Center = true,
+    AutoShow = true,
+    Resizable = true,
+    ShowCustomCursor = true,
+    TabPadding = 2,
+    MenuFadeTime = 0
 })
 local Tabs = {
-Main = Window:MakeTab({"Main", "Home"}),
-Players = Window:MakeTab({"Players", "User"}),
-Visual = Window:MakeTab({"Visual", "Camera"}),
-Entities = Window:MakeTab({"Entities", "Book"})
+  Main = Window:AddTab("Main"),
+  Players = Window:AddTab("Players"),
+  Exploits = Window:AddTab("Exploits"),
+  Visual = Window:AddTab("Visual"),
+  Config = Window:AddTab("Configs")
 }
-Tabs.Main:AddSection({"Rooms"})
-game:GetService("RunService").RenderStepped:Connect(function()
-pcall(function()
-if _G.FastDoors then 
-game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Door"):SetAttribute("FastOpen", true)
-end 
-end)
-end)
-Tabs.Main:AddToggle({
