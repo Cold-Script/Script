@@ -5,14 +5,14 @@ if not game:GetService("ReplicatedStorage").GameData.Floor.Value == "Fools" then
 local RemotesFolder = game:GetService("ReplicatedStorage").RemotesFolder
 end
 local Library = loadstring(game:HttpGet("https://github.com/realredz/RedzLibV5/blob/main/Source.lua?raw=true"))()
-local Window = Library:MakeWindow({"Exotic-Neon", "Version 1.2", "testando-redzLibv5.json"})
+local Window = Library:MakeWindow({"Exoticserect", "Version 1.2", "testando-redzLibv5.json"})
 Window:AddMinimizeButton({
-Button = { Image = "rbxassetid://496077816", Size = UDim2.new(BackgroundColor3 = Color3.fromRGB(0,0,0), BackgroundTransparency = 0.25 },
+Button = { Image = "rbxassetid://496077816", Size = UDim2.new(0, 50, 0, 50), BackgroundColor3 = Color3.fromRGB(0,0,0), BackgroundTransparency = 0.25 },
 Corner = { CornerRadius = UDim.new(0, 5) }
 })
 local Tabs = {
 Main = Window:MakeTab({"Main", "Home"}),
-Players = Window:MakeTab({"Players", "User"})
+Players = Window:MakeTab({"Players", "User"}),
 Visual = Window:MakeTab({"Visual", "Camera"}),
 Entities = Window:MakeTab({"Entities", "Book"})
 }
