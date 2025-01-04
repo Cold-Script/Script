@@ -19,3 +19,12 @@ Players = Window:MakeTab({"Players", "User"}),
 Visual = Window:MakeTab({"Visual", "Camera"}),
 Entities = Window:MakeTab({"Entities", "Book"})
 }
+Tabs.Main:AddSection({"Rooms"})
+game:GetService("RunService").RenderStepped:Connect(function()
+pcall(function()
+if _G.FastDoors then 
+game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Door"):SetAttribute("FastOpen", true)
+end 
+end)
+end)
+Tabs.Main:AddToggle({
