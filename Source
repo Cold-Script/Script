@@ -30,3 +30,476 @@ local Tabs = {
   Visual = Window:AddTab("Visual"),
   Config = Window:AddTab("Configs")
 }
+local MainI = Tabs.Main:AddLeftTabbox()
+local Misc = MainI:AddTab("-Misc-")
+Misc:AddDropdown("MyDropdown",{
+	Values = {"Lobby","Leave","Revive"},
+	Default = "", 
+	Multi = false,
+	Text = 'Select On Death',
+	Callback = function(v)
+_G.SelectMisc = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.EnabledOnDeath then
+if game:GetService("Players").LocalPlayer.Character.Humanoid.Health == 0 and _G.SelectMisc == "Lobby" then
+RemotesFolder.Lobby:FireServer()
+elseif game:GetService("Players").LocalPlayer.Character.Humanoid.Health == 0 and _G.SelectMisc == "Leave" then
+game:Shutdown()
+elseif game:GetService("Players").LocalPlayer.Character.Humanoid.Health == 0 and _G.SelectMisc == "Revive" then
+RemotesFolder.Revive:FireServer()
+end
+end
+end)
+end})
+Misc:AddToggle("MyToggle",{
+Text = "Death",
+Default = false,
+Callback = function(v)
+_G.EnabledOnDeath = v
+end})
+Misc:AddDivider()
+game:GetService("RunService").RenderStepped:Connect(function()
+pcall(function()
+if _G.FastDoors then game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Door"):SetAttribute("FastOpen", true)
+end 
+end)
+end)
+Misc:AddToggle("MyToggle",{
+Text = "Doors Fast",
+Default = false,
+Callback = function(v)
+_G.FastDoors = v
+end})
+game:GetService("RunService").RenderStepped:Connect(function()
+pcall(function()
+if _G.RemoteDoors then game.workspace.CurrentRooms[tostring(game:GetService("ReplicatedStorage").GameData.LatestRoom.Value)]:WaitForChild("Door").ClientOpen:FireServer()
+end 
+end)
+end)
+Misc:AddToggle("MyToggle",{
+Text = "Doors Reach",
+Default = false,
+Callback = function(v)
+_G.RemoteDoors = v
+end})
+Misc:AddDivider()
+Misc:AddToggle("MyToggle",{
+Text = "Through Interact",
+Default = false,
+Callback = function(v)
+_G.ThroughInteract = v
+if _G.ThroughInteract then
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+v.RequiresLineOfSight = false
+end
+end
+ThroughInteract = workspace.CurrentRooms.ChildAdded:Connect(function(v)
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+v.RequiresLineOfSight = false
+end
+end
+end)
+else
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+v.RequiresLineOfSight = true
+end
+end
+ThroughInteract:Disconnect()
+end
+end})
+Misc:AddToggle("MyToggle",{
+Text = "Reach",
+Default = false,
+Callback = function(v)
+_G.RemoteInteract = v
+if _G.RemoteInteract then
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+v.MaxActivationDistance = _G.MaxReach or 7.5
+end
+end
+RemoteInteract = workspace.CurrentRooms.ChildAdded:Connect(function(v)
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+v.MaxActivationDistance = _G.MaxReach or 7.5
+end
+end
+end)
+else
+for _,v in pairs(workspace:GetDescendants()) do
+if v:IsA("ProximityPrompt") then
+v.MaxActivationDistance = 7.5
+end
+end
+RemoteInteract:Disconnect()
+end
+end})
+Misc:AddSlider("MySlider",{
+Text = "Max Reach",
+Min = 7.5,
+Default = 7.5,
+Max = 15,
+Rounding = 1,
+Compact = true,
+Callback = function(v)
+_G.MaxReach = v
+end})
+local Automation = MainI:AddTab("-Automation-")
+Automation:AddToggle("MyToggle",{
+Text = "Auto Breaker",
+Default = false,
+Callback = function(v)
+_G.AutoBreaker = v
+game:GetService("RunService").RenderStepped:Connect(function()
+if _G.AutoBreaker then
+game:GetService("ReplicatedStorage").RemotesFolder.EBF:FireServer()
+end
+end)
+end})
+Automation:AddDivider()
+Automation:AddToggle("MyToggle",{
+Text = "Auto Padlock Unlock",
+Default = false,
+Callback = function(v)
+_G.AutoPadlock = v
+while _G.AutoPadlock then wait(1)
+local Floor = game:GetService("ReplicatedStorage").GameData.Floor
+local Paper = workspace:FindFirstChild("LibraryHintPaper",true) or workspace:FindFirstChild("LibraryHintPaperHard",true) or Players:FindFirstChild("LibraryHintPaper",true) or Players:FindFirstChild("LibraryHintPaperHard",true)
+if not Paper then
+print("Needed Paper")
+return
+end
+local HintsNeeded = Floor.Value == "Fools" and 8 or 3
+local Hints = 0
+for _,Collected in pairs(game.Players.LocalPlayer.PlayerGui.PermUI.Hints:GetChildren()) do
+if Collected.Name == "Icon" then
+if Collected:IsA("ImageLabel") then
+for _,Icon in pairs(Paper.UI:GetChildren()) do
+if tonumber(Icon.Name) then
+if Icon.ImageRectOffset == Collected.ImageRectOffset then
+Hints += 1
+end
+end
+end
+end
+end
+end
+if Hints < HintsNeeded then
+print("Need Books")
+return
+end
+local t = {}
+for i = 1, Floor.Value == "Hotel" and 5 or 10 do
+local Icon = Paper.UI[i]
+local Number = -1
+for _,Collected in pairs(game.Players.LocalPlayer.PlayerGui.PermUI.Hints:GetChildren()) do
+if Collected.Name == "Icon" then
+if Collected.ImageRectOffset == Icon.ImageRectOffset then
+Number = tonumber(Collected.TextLabel.Text)
+end
+end
+end
+table.insert(t,Number)
+end
+for one=0,t[1]==-1 and 9 or 0 do
+for two=0,t[2]==-1 and 9 or 0 do
+for three=0,t[3]==-1 and 9 or 0 do
+for four=0,t[4]==-1 and 9 or 0 do
+for five=0,t[5]==-1 and 9 or 0 do
+if Floor.Value == "Fools" then
+for six=0,t[6]==-1 and 9 or 0 do
+for seven=0,t[7]==-1 and 9 or 0 do
+for eight=0,t[8]==-1 and 9 or 0 do
+for nine=0,t[9]==-1 and 9 or 0 do
+for ten=0,t[10]==-1 and 9 or 0 do
+RemotesFolder.PL:FireServer((t[1]==-1 and one or t[1])..(t[2]==-1 and two or t[2])..(t[3]==-1 and three or t[3])..(t[4]==-1 and four or t[4])..(t[5]==-1 and five or t[5])..(t[6]==-1 and six or t[6])..(t[7]==-1 and seven or t[7])..(t[8]==-1 and eight or t[8])..(t[9]==-1 and nine or t[9])..(t[10]==-1 and ten or t[10]))
+end
+end
+end
+end
+end
+else
+RemotesFolder.PL:FireServer((t[1]==-1 and one or t[1])..(t[2]==-1 and two or t[2])..(t[3]==-1 and three or t[3])..(t[4]==-1 and four or t[4])..(t[5]==-1 and five or t[5]))
+end
+end
+end
+end
+end
+end
+end
+end})
+Automation:AddDivider()
+Automation:AddButton({
+Text = "Return to Lobby",
+DoubleClick = true,
+Func = function(v)
+RemotesFolder.Lobby:FireServer()
+end})
+Automation:AddButton({
+Text = "Play Again",
+DoubleClick = true,
+Func = function(v)
+RemotesFolder.PlayAgain:FireServer()
+end})
+Automation:AddButton({
+Text = "Revive",
+DoubleClick = true,
+Func = function(v)
+RemotesFolder.Revive:FireServer()
+end})
+Automation:AddButton({
+Text = "Instance Leave",
+DoubleClick = true,
+Func = function(v)
+game:Shutdown()
+end})
+local MainII = Tabs.Main:AddRightTabbox()
+local World = MainII:AddTab("-World-")
+game.Players.LocalPlayer.Character.Humanoid:GetPropertyChangedSignal("MoveDirection"):Connect(function()
+if _G.ClosetsExitFix and game.Players.LocalPlayer.Character:GetAttribute("Hiding")==true then 
+RemotesFolder.CamLock:FireServer()
+end 
+end)
+World:AddToggle("MyToggle",{
+Text = "Closets Exit Fix",
+Default = false,
+Callback = function(v)
+_G.ClosetsExitFix = v
+end})
+World:AddToggle("MyToggle",{
+Text = "Blur Fake Brigde",
+Default = false,
+Callback = function(v)
+_G.BlurFakeBridge = v
+if _G.BlurFakeBridge then
+for _,v in pairs(workspace:GetDescendants()) do
+if v.Name == "Bridge" and not v.CanCollide == true then
+v.Transparency = 0.9
+end
+end
+BlurFakeBridge = workspace.CurrentRooms.ChildAdded:Connect(function(v)
+for _,v in pairs(workspace:GetDescendants()) do
+if v.Name == "Bridge" and not v.CanCollide == true then
+v.Transparency = 0.75
+end
+end
+end)
+else
+BlurFakeBridge:Disconnect()
+for _,v in pairs(workspace:GetDescendants()) do
+if v.Name == "Bridge" and not v.CanCollide == true then
+v.Transparency = 0
+end
+end
+end
+end})
+if not game:GetService("ReplicatedStorage").GameData.Floor.Value == "Retro" then
+World:AddToggle("MyToggle",{
+Text = "Blur Move Button",
+Default = false,
+Callback = function(v)
+_G.InvisMouseButton = v
+if _G.InvisMouseButton then
+game:GetService("Players").LocalPlayer.PlayerGui.TouchGui.TouchControlFrame.Visible = false
+InvisMouseButton = workspace.CurrentRooms.ChildAdded:Connect(function(v)
+game:GetService("Players").LocalPlayer.PlayerGui.TouchGui.TouchControlFrame.Visible = false
+end)
+else
+InvisMouseButton:Disconnect()
+game:GetService("Players").LocalPlayer.PlayerGui.TouchGui.TouchControlFrame.Visible = true
+end
+end})
+end
+World:AddDivider()
+World:AddToggle("MyToggle",{
+Text = "Delete Live Sanity",
+Default = false,
+Callback = function(v)
+_G.NoLiveSanity = v
+while _G.NoLiveSanity do wait(1)
+for _,v in workspace.CurrentCamera:GetChildren() do
+if v.Name == "LiveSanity" and workspace:FindFirstChild("EntityModel") then
+v.Enabled = not _G.NoLiveSanity
+end
+end
+end
+end})
+World:AddToggle("MyToggle",{
+Text = "Delete Void Roblox",
+Default = false,
+Callback = function(v)
+if v then
+workspace.FallenPartsDestroyHeight = 0 / 0
+else
+workspace.FallenPartsDestroyHeight = -50000
+end
+end})
+World:AddDivider()
+_G.AlertVolume = 5
+World:AddToggle("MyToggle",{
+Text = "Notification Entity",
+Default = false,
+Callback = function(v)
+if v then
+local Entity = {"SeekNewCloneMoving","SeekMoving","BackdoorLookman","BackdoorRush","GloombatSwarm","Eyes","JeffTheKiller","RushMoving","AmbushMoving","Snare","A60","A120"}
+NotificationEntity = workspace.ChildAdded:Connect(function(v)
+if table.find(Entity,v.Name) then
+repeat task.wait() until game.Players.LocalPlayer:DistanceFromCharacter(v:GetPivot().Position) < 750 or not v:IsDescendantOf(workspace)
+if v:IsDescendantOf(workspace) then
+if v.Name == "RushMoving" then
+Notification:Notify("Entity 'Rush' has spawn,\nhide in closets now!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+elseif v.Name == "AmbushMoving" then
+Notification:Notify("Entity 'Ambush' has spawn,\nhide in closets now!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+elseif v.Name == "A60" then
+Notification:Notify("Entity 'A60' has spawn,\nhide in a locker!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+elseif v.Name == "A120" then
+Notification:Notify("Entity 'A120' has spawn,\nhide in a locker!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+elseif v.Name == "JeffTheKiller" then
+Notification:Notify("Entity 'JeffTheKiller' has spawn,\ncareful with it!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+elseif v.Name == "Eyes" then
+Notification:Notify("Entity 'Eyes' has spawn,\ndont look at it!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+elseif v.Name == "GloombatSwarm" then
+Notification:Notify("Entity 'Gloombat Swarm' has spawn,\noff light to survival!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+elseif v.Name == "BackdoorRush" then
+Notification:Notify("Entity 'Blitz' has spawn,\nhide in closets now!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+elseif v.Name == "BackdoorLookman" then
+Notification:Notify("Entity 'Lookman' has spawn,\nlook under side!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+elseif v.Name == "GlitchRush" then
+Notification:Notify("Entity 'Glitch Rush' has spawn,\nfind the closets hiding!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+elseif v.Name == "GlitchAmbush" then
+Notification:Notify("Entity 'Glitch Ambush' has spawn,\nfind the closets hiding!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+elseif v.Name == "SeekMoving" then
+Notification:Notify("Seek Chase,\ngoodluck for you in chase!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+elseif v.Name == "SeekNewCloneMoving" then
+Notification:Notify("Seek Chase,\ngoodluck for you in chase!")
+if _G.SoundAlert then
+local Sound = Instance.new("Sound")
+Sound.Parent = game.SoundService
+Sound.SoundId = "rbxassetid://4590657391"
+Sound.Volume = _G.AlertVolume
+Sound.PlayOnRemove = true
+Sound:Destroy()
+end
+end
+end
+end
+end)
+else
+NotificationEntity:Disconnect()
+end
+end})
+World:AddToggle("MyToggle",{
+Text = "Play Sound",
+Default = false,
+Callback = function(v)
+_G.SoundAlert = v
+end})
+World:AddSlider("MySlider",{
+Text = "Volume Sound",
+Min = 0,
+Default = 5,
+Max = 10,
+Rounding = 1,
+Compact = true,
+Callback = function(v)
+_G.AlertVolume = v
+end})
