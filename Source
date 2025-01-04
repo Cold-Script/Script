@@ -1,8 +1,11 @@
 if game:GetService("ReplicatedStorage").GameData.Floor.Value == "Fools" then
 local RemotesFolder = game:GetService("ReplicatedStorage").EntityInfo
 end
-if not game:GetService("ReplicatedStorage").GameData.Floor.Value == "Fools" then
+if not game:GetService("ReplicatedStorage").GameData.Floor.Value == "Fools" and not game:GetService("ReplicatedStorage").Bricks then
 local RemotesFolder = game:GetService("ReplicatedStorage").RemotesFolder
+end
+if game:GetService("ReplicatedStorage").Bricks then
+local RemotesFolder = game:GetService("ReplicatedStorage").Bricks
 end
 local Library = loadstring(game:HttpGet("https://github.com/realredz/RedzLibV5/blob/main/Source.lua?raw=true"))()
 local Window = Library:MakeWindow({"Exoticserect", "Version 1.2", "testando-redzLibv5.json"})
